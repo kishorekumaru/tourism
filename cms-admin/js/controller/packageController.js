@@ -136,7 +136,6 @@ app.filter('getById', function() {
 					return array[i];
 				}
 		}
-        //console.log(polarity);
     };
     return returnArry;
 });
