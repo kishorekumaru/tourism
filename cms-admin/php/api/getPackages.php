@@ -16,6 +16,16 @@ function getAllHotels(){
 	echo $_GET['jsoncallback'] . $data ;
 }
 
+function getByOrder(){
+	$tablename="hotelmaster";
+	$param =json_decode(file_get_contents('php://input'));	
+	include_once('../core/class.managedatabase.php');
+	$init = new managedatabase;
+	$data = $init->getOrderData($tablename, $param->col);
+	$data = json_encode($data);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
 function deleteHotels(){
 	$table_name ='hotelmaster';
 	$param =json_decode(file_get_contents('php://input'));	

@@ -9,6 +9,27 @@
 		 return $this->link;
 	 }
 	 
+	 
+	 function getOrderData($table_name, $order_col){
+		$result = array();
+		$sqlQuery="";
+		$sqlQuery = "SELECT * FROM $table_name ORDER BY $order_col DESC";
+		$query = $this->link->query($sqlQuery);
+		
+		$rowCountVar = $query->num_rows;
+		if($rowCountVar > 0){
+			while ($row = $query->fetch_assoc()) {
+				array_push($result, $row);
+			}
+		}else{
+				array_push($result, 0);
+		}
+		
+	 	return $result;
+
+	 }
+	 
+	 
 	 function getData($table_name, $id=null, $sql=null){
 		$result = array();
 		$sqlQuery="";

@@ -30,14 +30,3 @@ app.factory("loginServices", function($http, $rootScope, sessionServices, $locat
 
 
 
-app.factory("hotelServices", function($http){
-	return{
-		getHotels:function(scope){
-			var getHotelDetails= $http.get("php/api/getPackages.php?method=getAllHotels&jsoncallback=");
-			getHotelDetails.then(function(data){
-				scope.$emit('loadDetails', [data]);
-				console.log(data.data);
-			});
-		}
-	}
-});

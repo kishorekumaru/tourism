@@ -1,4 +1,22 @@
 // JavaScript Document
+app.factory("hotelServices", function($http){
+	return{
+		getHotels:function(scope){
+			var getHotelDetails= $http.get("php/api/getPackages.php?method=getAllHotels&jsoncallback=");
+			getHotelDetails.then(function(data){
+				scope.$emit('loadDetails', [data]);
+			});
+		},
+		getHotelsByOrder:function(orderItem, scope){
+			var getHotelsByOrder= $http.post("php/api/getPackages.php?method=getByOrder&jsoncallback=", orderItem);
+			getHotelsByOrder.then(function(data){
+				scope.$emit('loadDetails', [data]);				
+			});
+		}
+	}
+});
+
+
 app.factory("hotelAddServices", function($http){
 	return{
 		addHotels:function(hotels, scope){

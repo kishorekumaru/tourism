@@ -4,6 +4,9 @@ app.controller("packageController", function($scope, $modal, $filter, hotelServi
 	$scope.hotelDetails = "";
 	$scope.itemsPerPage = 5;
 	
+	
+   
+  
 	hotelServices.getHotels($scope);
 	
 	$scope.$on('loadDetails',function(event, data){
@@ -18,13 +21,22 @@ app.controller("packageController", function($scope, $modal, $filter, hotelServi
 		$scope.currentPage = 1;
 	});
 	
+	
+	$scope.sortByName = function(){
+		hotelServices.getHotelsByOrder({'col':"hotel_name"},$scope);
+	};
+	
+	$scope.sortByRating = function(){
+		hotelServices.getHotelsByOrder({'col':"hotel_rating"},$scope);
+	};
+	
 	$scope.pageChanged = function(currentPage){
 		var start = (currentPage-1) * $scope.itemsPerPage;
 		var end = start + $scope.itemsPerPage;
 		$scope.hotelDetailsPage = $scope.hotelDetails.slice(start,end);
 	};
 	
-	$scope.editItem = function (id){
+	$scope.editHotelItem = function (id){
 		
 	var selectedDetails = $filter('getById')($scope.hotelDetails, id);
 	var editInstance = $modal.open({
