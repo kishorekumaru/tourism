@@ -21,9 +21,57 @@
                
                
                              
+               <div class="text-right">
+                <div ng-controller="popupController">
                 <button type="button" class="btn btn-primary btn-sm" ng-click="openWindow()">
                   <span class="glyphicon glyphicon-plus-sign"></span> ADD NEW
                 </button>
+   					 <script type="text/ng-template" id="myModalContent.html">
+            	<div class="modal-header">
+                	<button class="close" ng-click="cancel()">&times;</button>
+                    <h4> {{ headerName }} </h4>
+                </div>
+                
+                
+                <div class="modal-body">
+				
+				
+				<div class="alert alert-danger" role="alert" ng-model="data.errorMsg" ng-show="data.isMismatch">Password is not matching</div>
+                	<form name="userAddForm">
+                    	<table class="table table-bordered">
+                        <tr>
+                        	<td>Hotel name</td>
+                    		<td><input type="input" name="hotel_name" ng-model="hotel.hotel_name"></td>
+                         </tr>
+						 <tr>
+                        	<td>Overview</td>
+                    		<td><textarea ng-model="hotel.hotel_overview" name="hotel_overview"></textarea></td>
+                         </tr>
+						 <tr>
+                        	<td>Address</td>
+                    		<td><textarea ng-model="hotel.hotel_address" name="hotel_address"></textarea></td>
+                         </tr>
+						 <tr>
+                        	<td>Country</td>
+                    		<td><input type="input" name="hotel_country_id" ng-model="hotel.hotel_country_id"></td>
+                         </tr>
+                         <tr>
+                        	<td>Facilities</td>
+                    		<td><input type="input" name="hotel_facilities" ng-model="hotel.hotel_facilities"></td>
+                         </tr>
+						 <tr>
+                        	<td>Rating</td>
+                    		<td><input type="input" name="hotel_rating" ng-model="hotel.hotel_rating"></td>
+                         </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                	<button class="btn btn-default" ng-click="cancel()">Close</button>
+                    <button class="btn btn-primary" ng-click="saveChanges()">Save Changes</button>
+                </div>
+            </script>
+    </div>
    					 
     </div>
                 </div>
@@ -32,8 +80,7 @@
                 <div class="col-lg-12" style="margin-top:10px">
                     <table class="table table-bordered table-hover">
                         <tbody> <tr> 
-                            <td> #</td> 
-                            <td> Hotel</td>
+                             <td> Hotel</td>
                             <td> Overview</td> 
                             <td> Address</td> 
                             <td> Country</td> 
@@ -42,17 +89,16 @@
                             <td> Action </td>
                         </tr></tbody>
                         <tr ng-repeat="hotel in hotelDetailsPage | filter:hotelname">
-                            <td>{{ hotel.id }}</td>
-                            <td>{{ hotel.hotel_name }}</td>
+                             <td>{{ hotel.hotel_name }}</td>
                             <td>{{ hotel.hotel_overview }}</td>
                             <td>{{ hotel.hotel_address }}</td>
-                            <td>{{ hotel.hotel_country }} </td>
+                            <td>{{ hotel.hotel_country_id }} </td>
                             <td>{{ hotel.hotel_rating }} </td>
                             <td>{{ hotel.hotel_facilities }} </td>                            
                             <td class="col-lg-2"> <button type="button" class="btn btn-primary btn-sm" >
-                  					<span class="glyphicon glyphicon-pencil" ng-click="editUserItem( hotel.id )"></span>
+                  					<span class="glyphicon glyphicon-pencil" ng-click="editItem( hotel.id )"></span>
                 				</button>
-                				<button type="button" class="btn btn-danger btn-sm" ng-click="deleteUserItem(hotel.id)">
+                				<button type="button" class="btn btn-danger btn-sm" ng-click="deleteItem(hotel.id)">
                  					 <span class="glyphicon glyphicon-remove"></span>
               					  </button></td>
                        </tr>

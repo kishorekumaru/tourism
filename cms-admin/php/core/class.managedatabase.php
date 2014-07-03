@@ -71,14 +71,14 @@
 	 
 	 function deleteData($table_name, $id){
 		$sqlQuery ="DELETE FROM $table_name where id=$id";
-	 	$query = $this->link->query($sqlQuery) or die("0");
+	 	$query = $this->link->query($sqlQuery) or die($this->link->errno);
 		return "1";
 	 }
 	 
 	 
 	 function insertData($table_name, $field_name, $field_value){
 		$sqlQuery = "INSERT INTO $table_name ($field_name) VALUES ($field_value)";
-	 	$query = $this->link->query($sqlQuery) or die("0");	
+	 	$query = $this->link->query($sqlQuery) or die($this->link->errno);	
 		return "1";
 	 }
 	 
