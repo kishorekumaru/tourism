@@ -1,0 +1,32 @@
+ 
+<div class="container col-md-12" ng-controller="loginController">
+
+<div class="alert alert-success text-center" role="alert"><h4>Welcome to Glaceir Admin Page</h4>
+</div>
+<div class="col-md-4 col-md-offset-4">
+	  <div class="panel panel-default">
+        <div class="panel-heading"> Login Page </div>
+        <br>
+        <div class="col-md-4 col-md-offset-4 alert alert-danger text-center" ng-show="isInvalid" role="alert"> {{ invalidUser }} </div>
+         
+         <form name="loginForm">
+       
+          <table class="table table-responsive">
+          	<tr>
+            	<td>Username</td>
+                <td><input type="input" ng-model="admin_username" ng-blur="clearError()" required></td>
+            </tr>
+            <tr>
+            	<td>Password</td>
+                <td><input type="password" ng-model="admin_password"  ng-blur="clearError()" required></td>
+            </tr>
+          </table>
+          
+         <div class="panel-footer text-right">  
+       
+            <button class="btn btn-primary" ng-disabled="loginForm.$invalid" ng-click="login()">Login</button>
+         </div>
+        </form>
+       </div>
+</div>
+</div>

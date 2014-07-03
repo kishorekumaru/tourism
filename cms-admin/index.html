@@ -1,0 +1,54 @@
+<!doctype html>
+<html ng-app="glacierAdmin">
+<head>
+	<meta charset="utf-8">
+	<title>Glacier Admin Page</title>
+  	<meta name="viewport" content="width=content-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="headerController"
+ng-show="isNavBar">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span class="text-primary">GLACIER ADMIN</span> page</a>
+    </div>
+
+   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-class="{ active: isActive('/packages')}"><a ng-click="loadFiles('/packages')">PACKAGES</a></li>
+        <li ng-class="{ active: isActive('/reports')}"><a ng-click="loadFiles('/reports')">REPORTS</a></li>
+        <li ng-class="{ active: isActive('/changepassword')}"><a ng-click="loadFiles('/changepassword')">CHANGE PASSWORD</a></li>
+         <li class="label-info"><a ng-click="loadFiles('/')">LOGOUT</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+ <ng-view ng-animate="viewSlideAnimation"></ng-view>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/angular-resource.min.js"></script>
+<script src="js/angular-route.min.js"></script>
+<script src="js/angular-animate.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+<script src="js/glacierApp.js"></script>
+<script src="js/controller/loginController.js"></script>
+<script src="js/controller/packageController.js"></script>
+
+<script src="js/services/appServices.js"></script>
+<script src="js/services/sessionServices.js"></script>
+</body>
+</html>

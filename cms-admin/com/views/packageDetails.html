@@ -1,0 +1,68 @@
+<div ng-controller="packageController">
+
+
+  <tabset>
+    <tab heading="Package Details">
+      <div class="container">
+      </div> 
+    </tab>
+   
+   <tab heading="Hotel Details">
+   
+    <div class="panel panel-default">
+        <div class="panel-heading">HOTEL DETAILS</div>
+         <br> 
+    <div class="container">
+            <div class="col-lg-3 text-left">
+            	Search User: <input type="text" ng-model="hotelname">
+                             </div>
+        <div class="col-lg-9 text-right">
+                <div class="col-lg-4 text-left">sort by: <label>Name</label> | <label>Rating</label></div> 
+               
+               
+                             
+                <button type="button" class="btn btn-primary btn-sm" ng-click="openWindow()">
+                  <span class="glyphicon glyphicon-plus-sign"></span> ADD NEW
+                </button>
+   					 
+    </div>
+                </div>
+               <p></p>
+            <div class="container center-block"> 
+                <div class="col-lg-12" style="margin-top:10px">
+                    <table class="table table-bordered table-hover">
+                        <tbody> <tr> 
+                            <td> #</td> 
+                            <td> Hotel</td>
+                            <td> Overview</td> 
+                            <td> Address</td> 
+                            <td> Country</td> 
+                            <td> Rating</td> 
+                            <td> Facilities</td> 
+                            <td> Action </td>
+                        </tr></tbody>
+                        <tr ng-repeat="hotel in hotelDetailsPage | filter:hotelname">
+                            <td>{{ hotel.id }}</td>
+                            <td>{{ hotel.hotel_name }}</td>
+                            <td>{{ hotel.hotel_overview }}</td>
+                            <td>{{ hotel.hotel_address }}</td>
+                            <td>{{ hotel.hotel_country }} </td>
+                            <td>{{ hotel.hotel_rating }} </td>
+                            <td>{{ hotel.hotel_facilities }} </td>                            
+                            <td class="col-lg-2"> <button type="button" class="btn btn-primary btn-sm" >
+                  					<span class="glyphicon glyphicon-pencil" ng-click="editUserItem( hotel.id )"></span>
+                				</button>
+                				<button type="button" class="btn btn-danger btn-sm" ng-click="deleteUserItem(hotel.id)">
+                 					 <span class="glyphicon glyphicon-remove"></span>
+              					  </button></td>
+                       </tr>
+                        
+                    </table>
+                   <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
+                </div>
+            </div>  </div></div>
+   </tab>
+  </tabset>
+
+
+</div>
