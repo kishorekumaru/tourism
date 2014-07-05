@@ -13,6 +13,26 @@ app.config(function($routeProvider){
 				 	controller: "packageController", 
 					templateUrl: 'com/views/packageDetails.html' 
 			 })
+			 .when("/hotels", 
+			{ 
+				 	controller: "hotelController", 
+					templateUrl: 'com/views/hotelDetails.html' 
+			 })
+			 .when("/addPackages", 
+			{ 
+				 	controller: "hotelController", 
+					templateUrl: 'com/views/addPackages.html' 
+			 })
+			 .when("/packImages", 
+			{ 
+				 	controller: "packageController", 
+					templateUrl: 'com/views/packageImageDetails.html' 
+			 })
+			 .when("/hotelImages", 
+			{ 
+				 	controller: "packageController", 
+					templateUrl: 'com/views/hotelImageDetails.html' 
+			 })
 			.when("/reports", 
 			{ 
 				 	controller: "reportsController", 

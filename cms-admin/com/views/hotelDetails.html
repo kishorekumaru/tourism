@@ -1,0 +1,112 @@
+
+   
+    <div class="panel panel-default" style="margin-top:-20px">
+        <div class="panel-heading">  
+        <div ng-controller="popupController" class="text-right">
+                <div class="col-lg-3 text-left text-primary"><h5>HOTEL DETAILS</h5></div><div class="text-right"> <button type="button" class="btn btn-primary btn-sm" ng-click="openWindow()">
+                  <span class="glyphicon glyphicon-plus-sign"></span> ADD NEW
+                </button></div>
+   					 <script type="text/ng-template" id="myModalContent.html">
+            	<div class="modal-header">
+                	<button class="close" ng-click="cancel()">&times;</button>
+                    <h4> {{ headerName }} </h4>
+                </div>
+                
+                
+                <div class="modal-body">
+				
+				
+				<div class="alert alert-danger" role="alert" ng-model="data.errorMsg" ng-show="data.isMismatch">Password is not matching</div>
+                	<form name="userAddForm">
+                    	<table class="table table-bordered">
+                        <tr>
+                        	<td>Hotel name</td>
+                    		<td><input type="input" name="hotel_name" ng-model="hotel.hotel_name"></td>
+                         </tr>
+						 <tr>
+                        	<td>Overview</td>
+                    		<td><textarea ng-model="hotel.hotel_overview" name="hotel_overview"></textarea></td>
+                         </tr>
+						 <tr>
+                        	<td>Address</td>
+                    		<td><textarea ng-model="hotel.hotel_address" name="hotel_address"></textarea></td>
+                         </tr>
+						 <tr>
+                        	<td>Country</td>
+                    		<td><input type="input" name="hotel_country_id" ng-model="hotel.hotel_country_id"></td>
+                         </tr>
+                         <tr>
+                        	<td>Facilities</td>
+                    		<td><input type="input" name="hotel_facilities" ng-model="hotel.hotel_facilities"></td>
+                         </tr>
+						 <tr>
+                        	<td>Rating</td>
+                    		<td><div ><rating ng-model="hotel.hotel_rating" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> <b>(<i>Rate:</i> {{ hotel.hotel_rating }})</b></div></td>
+                         </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                	<button class="btn btn-default" ng-click="cancel()">Close</button>
+                    <button class="btn btn-primary" ng-click="saveChanges()">Save Changes</button>
+                </div>
+            </script>
+    </div>
+    
+    
+    
+   
+   					 
+
+    </div>
+         <br> 
+    <div class="container" ng-controller="hotelController">
+    
+            <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text" ng-model="hotelname" ng-keyup="getChar($event)" class="form-control"></div>
+                            
+        <div class="text-right">
+                sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Name</button> | <button type="button" class="btn btn-link" ng-click="sortByRating()">Rating</button> 
+               
+               
+                             
+              
+                </div>
+               <p></p>
+            <div class="container center-block"> 
+                <div class="col-lg-11 col-lg-offset-1" style="margin-top:5px">
+                
+                 <div class="col-lg-10" ng-repeat="hotel in hotelDetailsPage">
+                
+                <div class='panel panel-info'>
+                      <div class='panel-heading'>
+                      <div class="text-right">
+                        <button type='button' class='btn btn-primary' ng-click='manageImage()'><span class="glyphicon glyphicon-tasks"></span>&nbsp; Manage Images</button>  
+                            <button type='button' class='btn btn-primary' ng-click='editHotelItem( hotel.id )'><span class="glyphicon glyphicon-pencil"></span></button>
+                           <button type='button' class='btn btn-danger' ng-click='deleteItem(hotel.id)'><span class="glyphicon glyphicon-trash"></span></button>
+                      </div></div>
+                        <div class='panel-body'  style="padding:0px">
+                        
+                         <div class='col-md-2' style="padding:5px">
+                         <div class="text-center"><b>{{   hotel.hotel_name  }}</b></div>
+                             <div><a href="#" class="thumbnail"><img ng-src=''></a> </div>
+                           </div>
+                           <div class='col-md-10' style="padding:5px">
+                            
+                            <div><b>Address: </b>{{ hotel.hotel_address }}</div>
+                            <div><b>Country : </b>{{ hotel.hotel_country_id }}</div>
+                            <div><b>Overview :  </b>{{hotel.hotel_overview }}</div>
+                            <div ng-init="x = hotel.hotel_rating"><b>Rating : </b><rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div>
+                           <div><b>Facilities : </b>{{ hotel.hotel_facilities}}</div>
+                            
+                           </div>
+                          
+                           </div>
+                           
+                           
+                </div></div>
+                   
+                   <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
+                </div>
+            </div>  </div></div>
+   

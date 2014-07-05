@@ -1,46 +1,64 @@
-// JavaScript Document
-app.controller("packageController", function($scope, $modal, $filter, hotelServices, deleteServices, editServices){
-	$scope.headerName = "Employee Details";
-	$scope.hotelDetails = "";
-	$scope.itemsPerPage = 5;
+app.controller("packageController", function($scope, $modal, $filter, packServices, deleteServices, editServices){
+
 	
+	$scope.packages= "";
+	$scope.itemsPerPage = 5;
+	$scope.isNameASC = "ASC";
+	$scope.isCostASC = "ASC";
+	$scope.currentPage = 1;
 	
    
   
-	hotelServices.getHotels($scope);
+	packServices.getPackages($scope);
 	
-	$scope.$on('loadDetails',function(event, data){
-		$scope.hotelDetails  = data[0].data;
-		$scope.totalItems =  $scope.hotelDetails.length;
-		$scope.hotelDetailsPage = $scope.hotelDetails.slice(0, $scope.itemsPerPage);
+	$scope.$on('loadPackDetails',function(event, data){
+		$scope.packages  = data[0].data;
+		$scope.totalItems =  $scope.packages.length;
+		$scope.packPage = $scope.packages.slice(0, $scope.itemsPerPage);
 		$scope.currentPage = 1;
 	});
 	
-	$scope.$on('reloadDetails', function(event){
-		hotelServices.getHotels($scope);
+	$scope.$on('reloadPackDetails', function(event){
+		packServices.getPackages($scope);
 		$scope.currentPage = 1;
 	});
 	
 	
 	$scope.sortByName = function(){
-		hotelServices.getHotelsByOrder({'col':"hotel_name"},$scope);
+		//Toggle SORT Values
+		($scope.isNameASC == "ASC")?$scope.isNameASC="DESC":$scope.isNameASC="ASC";
+		packServices.getPackByOrder({'col':"package_name",'ORDER':$scope.isNameASC},$scope);
 	};
 	
-	$scope.sortByRating = function(){
-		hotelServices.getHotelsByOrder({'col':"hotel_rating"},$scope);
+	$scope.sortByCost = function(){
+		($scope.isCostASC == "ASC")?$scope.isCostASC="DESC":$scope.isCostASC="ASC";
+		packServices.getPackByOrder({'col':"package_cost",'ORDER':$scope.isCostASC},$scope);
+	};
+	
+	$scope.getChar = function($event){
+		var selectedDetails;
+		if($event.target.value != ""){
+			selectedDetails = $filter('filter')($scope.packages, $event.target.value)
+			$scope.totalItems =  selectedDetails.length;
+			$scope.packPage = selectedDetails.slice(0, $scope.itemsPerPage);
+		}else{				
+			$scope.totalItems =  $scope.packages.length;
+			$scope.packPage = $scope.packages.slice(0, $scope.itemsPerPage);
+		}
+		$scope.currentPage = 1;
 	};
 	
 	$scope.pageChanged = function(currentPage){
-		var start = (currentPage-1) * $scope.itemsPerPage;
+		var start = (currentPage-1) * $packages.itemsPerPage;
 		var end = start + $scope.itemsPerPage;
-		$scope.hotelDetailsPage = $scope.hotelDetails.slice(start,end);
+		$scope.packPage = $scope.packages.slice(start,end);
 	};
 	
-	$scope.editHotelItem = function (id){
+	$scope.editPackItem = function (id){
 		
-	var selectedDetails = $filter('getById')($scope.hotelDetails, id);
+	var selectedDetails = $filter('getById')($scope.packages, id);
 	var editInstance = $modal.open({
-	templateUrl: 'myModalContent.html',
+	templateUrl: 'myPackageContent.html',
 	controller: popupControllerIns,
 	resolve: {
 		headerName: function () {
@@ -52,31 +70,37 @@ app.controller("packageController", function($scope, $modal, $filter, hotelServi
 		}
 	});
 
+	
     editInstance.result.then(function (userItems) {
-		  editServices.editUser(userItems, $scope);
+		  editServices.editPack(userItems, $scope);
 	});
 		
 	};
 	
+
+	
 	$scope.deleteItem = function (id){
 		if (confirm('Are you sure you want to delete?')) {
-    		deleteServices.deleteHotel({'id':id},$scope);
+    		deleteServices.deletePack({'id':id},$scope);
 		} 
 	};
+
+
+
 
 });
 
 
-app.controller("popupController",function ($scope, $modal, hotelAddServices) {
+app.controller("packagePopUpController",function ($scope, $modal, hotelAddServices) {
 
   $scope.openWindow = function () {
 
     var modalInstance = $modal.open({
-      templateUrl: 'myModalContent.html',
-      controller: popupControllerIns,
+      templateUrl: 'myPackageContent.html',
+      controller: packPopUpControllerIns,
 	  resolve: {
         headerName: function () {
-          return "Add Hotel Details";
+          return "Add Package Details";
 			},
 		  selectedDetails: function(){
 		  	return "";
@@ -92,8 +116,7 @@ app.controller("popupController",function ($scope, $modal, hotelAddServices) {
 });
 
 
-
-var popupControllerIns = function ($scope, $modalInstance, headerName, selectedDetails) {
+var packPopUpControllerIns = function ($scope, $modalInstance, headerName, selectedDetails) {
   $scope.headerName = headerName;
   $scope.hotel = {};
   $scope.data = {};
@@ -101,13 +124,7 @@ var popupControllerIns = function ($scope, $modalInstance, headerName, selectedD
   var insertDate = new Date();
   
   if(selectedDetails != ""){
-	  $scope.hotel.hotel_name = selectedDetails.hotel_name;
-	  $scope.hotel.hotel_overview = selectedDetails.hotel_overview;
-	  $scope.hotel.hotel_address = selectedDetails.hotel_address;
-	  $scope.hotel.hotel_country_id = selectedDetails.hotel_country_id;
-	  $scope.hotel.hotel_rating = selectedDetails.hotel_rating;
-	  $scope.hotel.hotel_facilities = selectedDetails.hotel_facilities;
-	  $scope.hotel.id = selectedDetails.id;
+
 	  $scope.hotel.modified_date = insertDate.toJSON(); 
   }else{   
 	   $scope.hotel.insert_date = insertDate.toJSON();
@@ -127,15 +144,3 @@ var popupControllerIns = function ($scope, $modalInstance, headerName, selectedD
     $modalInstance.dismiss('cancel');
   };
 };
-
-app.filter('getById', function() {
-  return function(array, id) {
-	     var returnArry = [];
-			for(var i=0; i<array.length; i++) {
-				if (array[i].id == +id) {
-					return array[i];
-				}
-		}
-    };
-    return returnArry;
-});

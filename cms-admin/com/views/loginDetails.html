@@ -7,18 +7,18 @@
 	  <div class="panel panel-default">
         <div class="panel-heading"> Login Page </div>
         <br>
-        <div class="col-md-4 col-md-offset-4 alert alert-danger text-center" ng-show="isInvalid" role="alert"> {{ invalidUser }} </div>
+        <div class="col-md-3 col-md-offset-4 alert alert-danger text-center" ng-show="isInvalid" role="alert"> {{ invalidUser }} </div>
          
          <form name="loginForm">
        
-          <table class="table table-responsive">
+          <table class="table">
           	<tr>
-            	<td>Username</td>
-                <td><input type="input" ng-model="admin_username" ng-blur="clearError()" required></td>
+            	<td class="borderless">Username</td>
+                <td class="borderless"><input type="input" ng-model="admin_username" ng-blur="clearError()" class="form-control" required></td>
             </tr>
             <tr>
-            	<td>Password</td>
-                <td><input type="password" ng-model="admin_password"  ng-blur="clearError()" required></td>
+            	<td  class="borderless">Password</td>
+                <td  class="borderless"><input type="password" ng-model="admin_password"  ng-blur="clearError()" class="form-control"  required></td>
             </tr>
           </table>
           

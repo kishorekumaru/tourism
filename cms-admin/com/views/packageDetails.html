@@ -1,115 +1,55 @@
-<div ng-controller="packageController">
 
-
-  <tabset>
-    <tab heading="Package Details">
-      <div class="container">
-      </div> 
-    </tab>
    
-   <tab heading="Hotel Details">
-   
-    <div class="panel panel-default">
-        <div class="panel-heading">  <div ng-controller="popupController" class="text-right">
-                <div class="col-lg-3 text-left text-primary"><h4>HOTEL DETAILS</h4></div><div class="text-right"> <button type="button" class="btn btn-primary btn-sm" ng-click="openWindow()">
-                  <span class="glyphicon glyphicon-plus-sign"></span> ADD NEW
-                </button></div>
-   					 <script type="text/ng-template" id="myModalContent.html">
-            	<div class="modal-header">
-                	<button class="close" ng-click="cancel()">&times;</button>
-                    <h4> {{ headerName }} </h4>
-                </div>
-                
-                
-                <div class="modal-body">
-				
-				
-				<div class="alert alert-danger" role="alert" ng-model="data.errorMsg" ng-show="data.isMismatch">Password is not matching</div>
-                	<form name="userAddForm">
-                    	<table class="table table-bordered">
-                        <tr>
-                        	<td>Hotel name</td>
-                    		<td><input type="input" name="hotel_name" ng-model="hotel.hotel_name"></td>
-                         </tr>
-						 <tr>
-                        	<td>Overview</td>
-                    		<td><textarea ng-model="hotel.hotel_overview" name="hotel_overview"></textarea></td>
-                         </tr>
-						 <tr>
-                        	<td>Address</td>
-                    		<td><textarea ng-model="hotel.hotel_address" name="hotel_address"></textarea></td>
-                         </tr>
-						 <tr>
-                        	<td>Country</td>
-                    		<td><input type="input" name="hotel_country_id" ng-model="hotel.hotel_country_id"></td>
-                         </tr>
-                         <tr>
-                        	<td>Facilities</td>
-                    		<td><input type="input" name="hotel_facilities" ng-model="hotel.hotel_facilities"></td>
-                         </tr>
-						 <tr>
-                        	<td>Rating</td>
-                    		<td><div ><rating ng-model="hotel.hotel_rating" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> <b>(<i>Rate:</i> {{ hotel.hotel_rating }})</b></div></td>
-                         </tr>
-                        </table>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                	<button class="btn btn-default" ng-click="cancel()">Close</button>
-                    <button class="btn btn-primary" ng-click="saveChanges()">Save Changes</button>
-                </div>
-            </script>
-    </div>
-   					 
-
+    <div class="panel panel-default" style="margin-top:-20px">
+        <div class="panel-heading">  
+    		Packages View panel
     </div>
          <br> 
-    <div class="container">
+    <div class="container" >
     
-            <div class="col-lg-3 text-left"  style="margin-top:5px">
-            	Search User: <input type="text" ng-model="hotelname">
-                             </div>
+            <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text"  ng-keyup="getChar($event)" class="form-control"></div>
+                            
         <div class="text-right">
-                sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Name</button> | <button type="button" class="btn btn-link" ng-click="sortByRating()">Rating</button> 
-               
-               
-                             
-              
+                sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Name</button> | <button type="button" class="btn btn-link" ng-click="sortByCost()">Cost</button> 
+    
                 </div>
                <p></p>
             <div class="container center-block"> 
-                <div class="col-lg-12" style="margin-top:5px">
-                    <table class="table table-bordered table-hover">
-                        <tbody> <tr> 
-                             <td> Hotel</td>
-                            <td> Overview</td> 
-                            <td> Address</td> 
-                            <td> Country</td> 
-                            <td> Rating</td> 
-                            <td> Facilities</td> 
-                            <td> Action </td>
-                        </tr></tbody>
-                        <tr ng-repeat="hotel in hotelDetailsPage | filter:hotelname">
-                             <td class="col-lg-1">{{ hotel.hotel_name }}</td>
-                            <td>{{ hotel.hotel_overview }}</td>
-                            <td class="col-lg-1">{{ hotel.hotel_address }}</td>
-                            <td class="col-lg-1">{{ hotel.hotel_country_id }} </td>
-                            <td class="col-lg-1"><div ng-init="x = hotel.hotel_rating"><rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div> </td>
-                            <td>{{ hotel.hotel_facilities }} </td>                            
-                            <td class="col-lg-1"> <button type="button" class="btn btn-primary btn-sm" ng-click="editHotelItem( hotel.id )">
-                  					<span class="glyphicon glyphicon-pencil" ></span>
-                				</button>
-                				<button type="button" class="btn btn-danger btn-sm" ng-click="deleteItem(hotel.id)">
-                 					 <span class="glyphicon glyphicon-remove"></span>
-              					  </button></td>
-                       </tr>
+                <div class="col-lg-10 col-lg-offset-1" style="margin-top:5px">
+                <div class="col-lg-12" ng-repeat="pack in packPage">
+                
+                	<div class='panel panel-info'>
+                      <div class='panel-heading'>{{ pack.package_code  }}</div>
+                        <div class='panel-body'  style="padding:0px">
                         
-                    </table>
+                         <div class='col-md-2' style="padding:5px">
+                             <div><a href="#" class="thumbnail"><img ng-src=''></a> </div>
+                            <div class="text-center"><b>{{  pack.package_name }}</b></div>
+                           </div>
+                           <div class='col-md-7' style="padding:5px">
+                            
+                            <div>{{ pack.package_currency + ':' + pack.package_cost + ' (' +  pack.package_duration + ' Days) ' }}</div>
+                            <div><b>Inclusion : </b>{{ pack.package_inclusion }}</div>
+                            <div><b>Exclusion :  </b>{{ pack.package_exclusion }}</div>
+                            <div><b>Valid : </b>{{ pack.package_valid_from | dateToISO |  date:'MM/dd/yyyy' }}  -  {{ pack.package_valid_to | dateToISO |  date:'MM/dd/yyyy'}}</div>
+                           <div><b>Destination Covered : </b>{{ pack.package_des_covered}}</div>
+                            <div ><b>Tour Details : </b>{{ pack.package_tour_details }}</div>
+                           </div>
+                           <div class='col-md-3 alert-info' style="padding:margin:0px; height:100%"><div>
+                           <span class="glyphicon glyphicon-pencil"></span>
+                           <button type='button' class='btn btn-link' ng-click='editPackage()'>Edit Package</button></div><div>   <span class="glyphicon glyphicon-tasks"></span>
+                           <button type='button' class='btn btn-link' ng-click='manageDays()'>Manage Days Details</button></div><div>   <span class="glyphicon glyphicon-th-large"></span>
+                           <button type='button' class='btn btn-link' ng-click='manageImage()'>Manage Image Details</button></div> <div>   <span class="glyphicon glyphicon-trash"></span>
+                           <button type='button' class='btn btn-link' ng-click='deletePackage()'>Delete Details</button></div>
+                           </div>
+                           </div>
+                           </div>
+                    
+                </div>
+                
+                    
                    <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
                 </div>
             </div>  </div></div>
-   </tab>
-  </tabset>
-
-
-</div>
+   

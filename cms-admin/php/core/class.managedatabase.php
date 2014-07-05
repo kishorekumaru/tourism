@@ -10,10 +10,10 @@
 	 }
 	 
 	 
-	 function getOrderData($table_name, $order_col){
+	 function getOrderData($table_name, $order_col, $order_type){
 		$result = array();
 		$sqlQuery="";
-		$sqlQuery = "SELECT * FROM $table_name ORDER BY $order_col DESC";
+		$sqlQuery = "SELECT * FROM $table_name ORDER BY $order_col $order_type";
 		$query = $this->link->query($sqlQuery);
 		
 		$rowCountVar = $query->num_rows;

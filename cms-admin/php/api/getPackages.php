@@ -6,6 +6,27 @@ if(function_exists($_GET['method'])){
 }
 
 
+
+function getAllPackages(){
+	$tablename="packagemaster";
+	include_once('../core/class.managedatabase.php');
+	$param =json_decode(file_get_contents('php://input'));
+	$init = new managedatabase;
+	$data = $init->getData($tablename);
+	$data = json_encode($data);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
+function getPackByOrder(){
+	$tablename="packagemaster";
+	$param =json_decode(file_get_contents('php://input'));	
+	include_once('../core/class.managedatabase.php');
+	$init = new managedatabase;
+	$data = $init->getOrderData($tablename, $param->col, $param->ORDER);
+	$data = json_encode($data);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
 function getAllHotels(){
 	$tablename="hotelmaster";
 	include_once('../core/class.managedatabase.php');
@@ -21,7 +42,7 @@ function getByOrder(){
 	$param =json_decode(file_get_contents('php://input'));	
 	include_once('../core/class.managedatabase.php');
 	$init = new managedatabase;
-	$data = $init->getOrderData($tablename, $param->col);
+	$data = $init->getOrderData($tablename, $param->col, $param->ORDER);
 	$data = json_encode($data);
 	echo $_GET['jsoncallback'] . $data ;
 }
