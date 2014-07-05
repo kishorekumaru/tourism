@@ -1,8 +1,8 @@
-app.controller("packageController", function($scope, $modal, $filter, packServices, deleteServices, editServices){
+app.controller("packageController", function($scope, $rootScope, $modal, $location, $filter, packServices){
 
 	
 	$scope.packages= "";
-	$scope.itemsPerPage = 5;
+	$scope.itemsPerPage = 2;
 	$scope.isNameASC = "ASC";
 	$scope.isCostASC = "ASC";
 	$scope.currentPage = 1;
@@ -49,39 +49,23 @@ app.controller("packageController", function($scope, $modal, $filter, packServic
 	};
 	
 	$scope.pageChanged = function(currentPage){
-		var start = (currentPage-1) * $packages.itemsPerPage;
+		var start = (currentPage-1) * $scope.itemsPerPage;
 		var end = start + $scope.itemsPerPage;
 		$scope.packPage = $scope.packages.slice(start,end);
 	};
 	
 	$scope.editPackItem = function (id){
 		
-	var selectedDetails = $filter('getById')($scope.packages, id);
-	var editInstance = $modal.open({
-	templateUrl: 'myPackageContent.html',
-	controller: popupControllerIns,
-	resolve: {
-		headerName: function () {
-			return "Edit Hotel Details";
-		},
-		selectedDetails:function(){
-			return selectedDetails;
-		}		 
-		}
-	});
-
-	
-    editInstance.result.then(function (userItems) {
-		  editServices.editPack(userItems, $scope);
-	});
-		
+		var selectedDetails = $filter('getById')($scope.packages, id);
+		$rootScope.$emit("editPackages",[selectedDetails]);
+		$location.path("/addPackages");
 	};
 	
 
 	
-	$scope.deleteItem = function (id){
+	$scope.deletePackage = function (id){
 		if (confirm('Are you sure you want to delete?')) {
-    		deleteServices.deletePack({'id':id},$scope);
+    		packServices.deletePack({'id':id},$scope);
 		} 
 	};
 

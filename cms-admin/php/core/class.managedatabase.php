@@ -29,6 +29,12 @@
 
 	 }
 	 
+	 function getCount($table_name){
+		$sqlQuery = "SELECT * FROM $table_name where 1=1";
+		$query = $this->link->query($sqlQuery);
+		$rowCountVar = $query->num_rows;
+		return $rowCountVar;
+	 }
 	 
 	 function getData($table_name, $id=null, $sql=null){
 		$result = array();

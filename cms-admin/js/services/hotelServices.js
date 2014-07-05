@@ -40,14 +40,6 @@ app.factory("deleteServices", function($http){
 					scope.$emit('reloadDetails'); 
 				}
 			});
-			},
-		deletePack:function(idValue, scope){
-			var deleteHotel= $http.post("php/api/getPackages.php?method=deleteHotels&jsoncallback=", idValue);
-			deleteHotel.then(function(data){				
-				if(data.data == "1"){
-					scope.$emit('reloadDetails'); 
-				}
-			});
 			}
 		}
 });
@@ -62,15 +54,8 @@ app.factory("editServices", function($http){
 					scope.$emit('reloadDetails'); 
 				}
 			});
-			},
-			editPack:function(users, scope){
-			var editUser= $http.post("php/api/getPackages.php?method=editHotels&jsoncallback=", users);
-			editUser.then(function(data){				
-				if(data.data == "1"){
-					scope.$emit('reloadDetails'); 
-				}
-			});
 			}
+			
 
 		}
 });

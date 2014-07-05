@@ -20,7 +20,6 @@ app.config(function($routeProvider){
 			 })
 			 .when("/addPackages", 
 			{ 
-				 	controller: "hotelController", 
 					templateUrl: 'com/views/addPackages.html' 
 			 })
 			 .when("/packImages", 
@@ -70,15 +69,23 @@ $location.path("/");
 		loginServices.logOutUser();
 	};
 	
+
 	
 });
 
 
 
 app.run(function($rootScope, $location, loginServices){
+	
 	var packagePermission = ['/packages'];
 	var reportPermission = ['/reports'];
 	var changepwdPermission = ['/changepassword'];
+	$rootScope.editPackagesRetour = {}; 
+	$rootScope.$on('editPackages', function(event, selectedDetails){
+		
+		$rootScope.editPackagesRetour = selectedDetails[0];
+	});
+	
 	$rootScope.$on("$routeChangeStart",function(){
 		if(packagePermission.indexOf($location.path()) != -1 && !loginServices.islogged()){
 			$location.path("/");
