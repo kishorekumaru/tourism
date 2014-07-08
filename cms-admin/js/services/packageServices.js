@@ -22,9 +22,10 @@ app.factory("packServices", function($http){
 			});
 		},
 		packageCount:function(scope){
-		    var getPackCount= $http.post("php/api/getPackages.php?method=getPackageCount&jsoncallback=");
-			getPackCount.then(function(data){				
-					scope.$emit('packageCount', [data.data]); 				
+		    var getPackCount= $http.post("php/api/getPackages.php?method=getPackLastId&jsoncallback=");
+			getPackCount.then(function(data){	
+					var incrementByOne  = parseInt(data.data) + 1;
+					scope.$emit('packageCount', [incrementByOne]); 				
 			});
 
 		},
@@ -46,4 +47,46 @@ app.factory("packServices", function($http){
 		}
 		
 	}
+});
+
+
+app.factory("dayDetailServices", function($http){
+	var dayDetailServicesVar = {};
+		
+	dayDetailServicesVar.addDayDetails = function(dayObj, scope){
+		    var addDayDetails = $http.post("php/api/getPackages.php?method=addDayDetails&jsoncallback=", dayObj);
+			addDayDetails.then(function(data){	
+				if(data.data == "1"){			
+					scope.$emit('daysInserted');
+				}
+		});
+	}
+	
+	dayDetailServicesVar.getDayDetails = function(dayObj, scope){
+		    var addDayDetails = $http.post("php/api/getPackages.php?method=getDayDetails&jsoncallback=");
+			addDayDetails.then(function(data){	
+				scope.$emit('getDayDetails', [data.data]);
+		});
+	}
+	
+	dayDetailServicesVar.editDayDetails = function(selectedItem, scope){
+		  var editDayDetails= $http.post("php/api/getPackages.php?method=editDayDetails&jsoncallback=", selectedItem);
+			editDayDetails.then(function(data){				
+				if(data.data == "1"){
+					scope.$emit('onAddSuccess'); 
+				}
+			});
+	}
+			
+		dayDetailServicesVar.deleteDetails = function(idValue, scope){
+		    var deletePack = $http.post("php/api/getPackages.php?method=deleteDetails&jsoncallback=", idValue);
+			deletePack.then(function(data){	
+				if(data.data == "1"){			
+					scope.$emit('onDeleteSuccess');
+				}
+			});
+		}
+
+	
+	return dayDetailServicesVar;
 });

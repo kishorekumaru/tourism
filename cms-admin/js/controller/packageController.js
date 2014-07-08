@@ -1,7 +1,9 @@
-app.controller("packageController", function($scope, $rootScope, $modal, $location, $filter, packServices){
+app.controller("packageController", function($scope, $rootScope, $modal, $location, $filter, packServices
+, sharedEventDispatcher){
 
 	
 	$scope.packages= "";
+	$scope.packPage = [];
 	$scope.itemsPerPage = 2;
 	$scope.isNameASC = "ASC";
 	$scope.isCostASC = "ASC";
@@ -12,10 +14,15 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	packServices.getPackages($scope);
 	
 	$scope.$on('loadPackDetails',function(event, data){
-		$scope.packages  = data[0].data;
-		$scope.totalItems =  $scope.packages.length;
-		$scope.packPage = $scope.packages.slice(0, $scope.itemsPerPage);
-		$scope.currentPage = 1;
+		if(data[0].data != ""){
+			$scope.packages  = data[0].data;
+			$scope.totalItems =  $scope.packages.length;
+			$scope.packPage = $scope.packages.slice(0, $scope.itemsPerPage);
+			$scope.currentPage = 1;
+			
+			//Store it in global variable 
+			sharedEventDispatcher.totalPackagesObj($scope.packages);
+		}
 	});
 	
 	$scope.$on('reloadPackDetails', function(event){
@@ -57,7 +64,8 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	$scope.editPackItem = function (id){
 		
 		var selectedDetails = $filter('getById')($scope.packages, id);
-		$rootScope.$emit("editPackages",[selectedDetails]);
+		sharedEventDispatcher.sharePackEditDetails(selectedDetails); 
+		//$rootScope.$emit("editPackages",[selectedDetails]);
 		$location.path("/addPackages");
 	};
 	
@@ -67,6 +75,12 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 		if (confirm('Are you sure you want to delete?')) {
     		packServices.deletePack({'id':id},$scope);
 		} 
+	};
+	
+	
+	$scope.manageDays = function (id){
+		sharedEventDispatcher.sharePackageID(id, $scope.packages);
+		$location.path("/dayDetails");
 	};
 
 

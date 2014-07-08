@@ -33,12 +33,9 @@ app.directive('dateField', function () {
 				
 				scope.dt = attrs.dateValue;
 				scope.dateId = attrs.dateId;
-				scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
+				scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd/MM/yyyy', 'shortDate'];
 				scope.format = scope.formats[1];
-				scope.dateOptions = {
-					formatYear: 'yy',
-					startingDay: 1
-				  };
+				
 				scope.open = function($event) {
 					$event.preventDefault();
 					$event.stopPropagation();				
@@ -54,34 +51,3 @@ app.directive('dateField', function () {
 
 
 
-app.directive('packageView', function () {
-    return {
-			scope:{},
-			restrict: 'E',
-			link:function(scope, elm, attrs){
-				scope.packageCode = attrs.packageCode;
-				scope.packageName = attrs.packageName;
-				scope.desinationCovered=attrs.desinationCovered;
-				scope.currency = attrs.currency;
-				scope.cost = attrs.cost;
-				scope.tourDuration = attrs.tourDuration;
-				scope.inclusion = attrs.inclusion;
-				scope.exclusion = attrs.exclusion;
-				scope.validFrom = attrs.validFrom;
-				scope.validTo = attrs.validTo;
-				scope.tour_Details = attrs.tour_Details;
-	
-				
-				scope.editPackage = function() { 
-				alert('editpack');
-				};
-				scope.manageDays = function() { alert('manageDays'); };
-				scope.manageImage = function() { alert('manageImage'); };
-				scope.deletePackage = function() { alert('deletePackage'); };
-				
-			},
-			replace:true,
-			template:"<div class='panel panel-info'><div class='panel-heading'>{{ packageCode }}</div><div class='panel-body'><div class 'col-md-4'><img ng-src=''> <div>{{ packageName }}</div></div><div class='col-md-4'><div class='col-md-2'>{{ desinationCovered}}</div><div class='col-md-2'>{{ currency + ':' + cost + ' (' + tourDuration + ')' }} + </div><div class='col-md-2'>{{ inclusion }}</div><div class='col-md-2'>{{ exclusion }}</div><div class='col-md-2'>{{ validFrom + '-' + validTo}}</div><div class='col-md-3'>{{ tour_Details }}</div></div><div class='col-md-4'><div class ='col-md-2'><button type='button' class='btn btn-link' ng-click='editPackage()'>Edit Package</button></div><div class='col-md-2'><button type='button' class='btn btn-link' ng-click='manageDays()'>Manage Days Details</button></div><div class='col-md-2'><button type='button' class='btn btn-link' ng-click='manageImage()'>Manage Image Details</button></div> <div class='col-md-2'><button type='button' class='btn btn-link' ng-click='deletePackage()'>Delete Details</button></div></div></div></div>"
-			
-    };
-});

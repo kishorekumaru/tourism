@@ -3,7 +3,7 @@ app.filter('getById', function() {
   return function(array, id) {
 	     var returnArry = [];
 			for(var i=0; i<array.length; i++) {
-				if (array[i].id == +id) {
+				if (array[i].id == id) {
 					return array[i];
 				}
 		}
@@ -17,4 +17,20 @@ app.filter('dateToISO', function() {
     input = new Date(input).toISOString();
     return input;
   };
+});
+
+
+//Filter by package ID
+
+app.filter('getByPackageId', function() {
+  return function(array, id) {
+	     var returnArry = [];
+			for(var i=0; i<array.length; i++) {
+				if (array[i].package_id == id) {
+					returnArry.push(array[i]);
+				}
+		}
+		 return returnArry;
+    };
+   
 });

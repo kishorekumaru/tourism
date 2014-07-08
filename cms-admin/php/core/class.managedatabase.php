@@ -29,11 +29,11 @@
 
 	 }
 	 
-	 function getCount($table_name){
-		$sqlQuery = "SELECT * FROM $table_name where 1=1";
+	 function getLastPackId($table_name){	
+		$sqlQuery = "SELECT IF(MAX(id)is NULL, 0, MAX(id)) as id FROM `packagemaster` WHERE 1=1";
 		$query = $this->link->query($sqlQuery);
-		$rowCountVar = $query->num_rows;
-		return $rowCountVar;
+		$rowCountVar = $query->fetch_assoc();
+		return intval($rowCountVar['id']);
 	 }
 	 
 	 function getData($table_name, $id=null, $sql=null){
@@ -68,6 +68,11 @@
 	 	return $result;
 	 }
 	 
+	 
+	 
+	 
+	 
+	 
 	 function validate($sqlQuery){
 		$query = $this->link->query($sqlQuery);
 		$rowCountVar = $query->num_rows;
@@ -101,6 +106,9 @@
 	 	$query = $this->link->query($sqlQuery) or die($this->link->errno);
 		return "1";
 	 }
+	 
+	
+	 
 	 
 	 
 	 function insertData($table_name, $field_name, $field_value){

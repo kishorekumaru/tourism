@@ -32,7 +32,7 @@
                             <div>{{ pack.package_currency + ':' + pack.package_cost + ' (' +  pack.package_duration + ' Days) ' }}</div>
                             <div><b>Inclusion : </b>{{ pack.package_inclusion }}</div>
                             <div><b>Exclusion :  </b>{{ pack.package_exclusion }}</div>
-                            <div><b>Valid : </b>{{ pack.package_valid_from | dateToISO |  date:'MM/dd/yyyy' }}  -  {{ pack.package_valid_to | dateToISO |  date:'MM/dd/yyyy'}}</div>
+                            <div><b>Valid : </b>{{ pack.package_valid_from | myDateFormat }}  -  {{ pack.package_valid_to | myDateFormat}}</div>
                            <div><b>Destination Covered : </b>{{ pack.package_des_covered}}</div>
                             <div ><b>Tour Details : </b>{{ pack.package_tour_details }}</div>
                            </div>

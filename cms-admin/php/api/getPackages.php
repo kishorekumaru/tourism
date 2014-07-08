@@ -5,6 +5,43 @@ if(function_exists($_GET['method'])){
 	$_GET['method']();
 }
 
+/** Function for Day details **/
+function addDayDetails(){
+	$table_name ='package_day_details';
+	include_once('../core/class.managedatabase.php');
+	$param =json_decode(file_get_contents('php://input'));
+	foreach($param as $key=>$value){
+		$field_names[]= $key;
+		$field_value[] = "'" . $value . "'";
+	}
+	$init = new managedatabase;
+	
+	$field_names = implode(",",$field_names); 
+	$field_value = implode(",",$field_value); 
+
+
+	$insert = $init->insertData($table_name, $field_names, $field_value);
+	
+	if($insert == 1){
+		$result = "1";
+	}else{
+		$result = "0";
+	}
+	
+	echo $_GET['jsoncallback'] .  $insert ;
+
+}
+
+function getDayDetails(){
+	$tablename="package_day_details";
+	include_once('../core/class.managedatabase.php');
+	$param =json_decode(file_get_contents('php://input'));
+	$init = new managedatabase;
+	$data = $init->getData($tablename);
+	$data = json_encode($data);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
 
 function addPackages(){
 	$table_name ='packagemaster';
@@ -31,15 +68,39 @@ function addPackages(){
 	echo $_GET['jsoncallback'] .  $insert ;
 }
 
-function getPackageCount(){
+
+
+function editDayDetails(){
+	$table_name ='package_day_details';
+	$param =json_decode(file_get_contents('php://input'));	
+	include_once('../core/class.managedatabase.php');
+	$init = new managedatabase;
+	$data = $init->editData($table_name,$param, $param->id);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
+
+function deleteDetails(){
+	$table_name ='package_day_details';
+	$param =json_decode(file_get_contents('php://input'));	
+	include_once('../core/class.managedatabase.php');
+	$init = new managedatabase;
+	$data = $init->deleteData($table_name, $param->id);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
+//Package Handler
+
+function getPackLastId(){
 	$tablename="packagemaster";
 	include_once('../core/class.managedatabase.php');
 	$param =json_decode(file_get_contents('php://input'));
 	$init = new managedatabase;
-	$data = $init->getCount($tablename);
+	$data = $init->getLastPackId($tablename);
 	$data = json_encode($data);
 	echo $_GET['jsoncallback'] . $data ;
 }
+
 
 function deletePackage(){
 	$table_name ='packagemaster';

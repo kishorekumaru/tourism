@@ -30,10 +30,9 @@
                             <label  class="col-sm-2 control-label">Duration</label>
                             <div class="col-sm-10">
                             
-                              <select class="form-control" ng-model="pack.package_duration" >
+                              <select class="form-control" ng-model="pack.package_duration" 
+                              ng-disabled="{{isEdit}}" ng-options="i.value as i.text for i in dayIntervals">
                                <option value="" disabled selected>Select number of days</option>
-                              <option value="1" > 1 Day </option>
-                              <option ng-repeat="i in dayIntervals" value="{{ i }}">{{ i }}  Days</option>
                               </select>
                             </div>
                           </div> 

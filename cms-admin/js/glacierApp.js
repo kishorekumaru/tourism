@@ -18,6 +18,11 @@ app.config(function($routeProvider){
 				 	controller: "hotelController", 
 					templateUrl: 'com/views/hotelDetails.html' 
 			 })
+			  .when("/dayDetails", 
+			{ 
+				 	controller: "dayDetailsController", 
+					templateUrl: 'com/views/datDetails.html' 
+			 })
 			 .when("/addPackages", 
 			{ 
 					templateUrl: 'com/views/addPackages.html' 
@@ -73,13 +78,21 @@ $location.path("/");
 	
 });
 
-
+app.filter('myDateFormat',function myDateFormat($filter){
+	return function(text){
+		var  tempdate= new Date(text.replace(/-/g,"/"));
+	return $filter('date')(tempdate, 'dd/MM/yyyy');
+	}
+})
 
 app.run(function($rootScope, $location, loginServices){
 	
 	var packagePermission = ['/packages'];
 	var reportPermission = ['/reports'];
 	var changepwdPermission = ['/changepassword'];
+	var dayDetailsPermission = ['/dayDetails'];
+	var addPackagePermission = ['/addPackages'];
+	
 	$rootScope.editPackagesRetour = {}; 
 	$rootScope.$on('editPackages', function(event, selectedDetails){
 		
@@ -94,5 +107,12 @@ app.run(function($rootScope, $location, loginServices){
 		}else if(changepwdPermission.indexOf($location.path()) != -1 && !loginServices.islogged()){
 			$location.path("/");
 		}
+		else if(dayDetailsPermission.indexOf($location.path()) != -1 && !loginServices.islogged()){
+			$location.path("/");
+		}
+		else if(addPackagePermission.indexOf($location.path()) != -1 && !loginServices.islogged()){
+			$location.path("/");
+		}
+		
 	});
 });
