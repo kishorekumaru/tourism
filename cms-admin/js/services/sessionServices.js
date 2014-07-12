@@ -18,6 +18,7 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	var sharedEventDispatch = {};
 	
 	sharedEventDispatch.hotelId = 0;
+	sharedEventDispatch.totalHotels = [];
 	sharedEventDispatch.packageId = 0;
 	
 	sharedEventDispatch.totalPackages = [];
@@ -33,6 +34,10 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	
 	sharedEventDispatch.totalPackagesObj = function(totalPackages){
 		this.totalPackages=totalPackages;
+	};
+
+	sharedEventDispatch.totalHotelsObj = function(totalHotels){
+		this.totalHotels=totalHotels;
 	};
 	
 	

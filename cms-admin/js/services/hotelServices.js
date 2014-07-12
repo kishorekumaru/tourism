@@ -74,3 +74,70 @@ app.factory("uploadServices", function($http){
 		}
 	}
 });
+
+
+app.factory("hotelLinkServices", ['$http', function($http){
+
+	var hotelLinkServices = {};
+	
+		
+	hotelLinkServices.addLinkDetails = function(hotellinks){
+		var addLinkDetails  = $http.post("php/api/getHotelLinks.php?method=addHotelLink&jsoncallback=", hotellinks);
+		addLinkDetails.then(function(data){
+			console.log(data.data);	
+		});
+	};
+	
+	hotelLinkServices.getLinkDetails = function(scope, packageId){
+		var getLinkDetails = $http.post("php/api/getHotelLinks.php?method=getHotelLink&jsoncallback=", packageId);
+		getLinkDetails.then(function(data){
+			scope.$emit('loadHotelLinks', [data]);			
+		});
+	};
+	
+	
+	hotelLinkServices.editHotelLinks = function(scope, hotelLinks){
+		var editHotelLinks= $http.post("php/api/getHotelLinks.php?method=editHotelLinks&jsoncallback=", hotelLinks);
+		editHotelLinks.then(function(data){				
+			if(data.data == "1"){
+					scope.$emit('reloadHotelLinkDetails'); 
+			}
+		});
+	};
+	
+	
+	
+	return hotelLinkServices
+
+}]);
+
+
+app.factory("imageHotelServices", function($http){
+	var imageServicesVar = {};
+	
+	imageServicesVar.addImgDetails = function(seletedItem, scope){
+			var addDayDetails = $http.post("php/api/getHotelLinks.php?method=addHotelImageDetails&jsoncallback=", seletedItem);
+			addDayDetails.then(function(data){	
+				scope.$emit('imagesHotelInserted');
+		});
+	}
+	
+	
+	imageServicesVar.deleteImgDetails = function(idValue, scope){
+		    var deletePack = $http.post("php/api/getHotelLinks.php?method=deleteHotelImageDetails&jsoncallback=", idValue);
+			deletePack.then(function(data){	
+				if(data.data == "1"){			
+					scope.$emit('onDeleteHotelImageSuccess');
+				}
+			});
+		}
+		
+	imageServicesVar.getImgDetails = function(scope){
+		    var addDayDetails = $http.post("php/api/getHotelLinks.php?method=getHotelImageDetails&jsoncallback=");
+			addDayDetails.then(function(data){	
+				scope.$emit('getHotelImageDetails', [data.data]);
+		});
+	}
+
+	return imageServicesVar
+});

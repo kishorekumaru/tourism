@@ -1,5 +1,5 @@
 // JavaScript Document
-var app = angular.module("glacierAdmin", ['ngRoute', 'ui.bootstrap', 'ngAnimate']);
+var app = angular.module("glacierAdmin", ['ngRoute', 'ui.bootstrap', 'angularFileUpload']);
 
 app.config(function($routeProvider){
 	$routeProvider
@@ -23,18 +23,23 @@ app.config(function($routeProvider){
 				 	controller: "dayDetailsController", 
 					templateUrl: 'com/views/datDetails.html' 
 			 })
+			   .when("/linkHotels", 
+			{ 
+				 	controller: "linkHotelController", 
+					templateUrl: 'com/views/linkHotels.html' 
+			 })
 			 .when("/addPackages", 
 			{ 
 					templateUrl: 'com/views/addPackages.html' 
 			 })
 			 .when("/packImages", 
 			{ 
-				 	controller: "packageController", 
+				 	controller: "uploadImgController", 
 					templateUrl: 'com/views/packageImageDetails.html' 
 			 })
 			 .when("/hotelImages", 
 			{ 
-				 	controller: "packageController", 
+				 	controller: "uploadHotelImgController", 
 					templateUrl: 'com/views/hotelImageDetails.html' 
 			 })
 			.when("/reports", 
@@ -43,6 +48,16 @@ app.config(function($routeProvider){
 					templateUrl: 'com/views/reportDetails.html' 
 			 })
 			 .when("/changepassword", 
+			{ 
+				 	controller: "passwordController", 
+					templateUrl: 'com/views/changePassword.html' 
+			 })
+			  .when("/viewPackages", 
+			{ 
+				 	controller: "passwordController", 
+					templateUrl: 'com/views/changePassword.html' 
+			 })
+			  .when("/viewHotels", 
 			{ 
 				 	controller: "passwordController", 
 					templateUrl: 'com/views/changePassword.html' 
@@ -92,6 +107,7 @@ app.run(function($rootScope, $location, loginServices){
 	var changepwdPermission = ['/changepassword'];
 	var dayDetailsPermission = ['/dayDetails'];
 	var addPackagePermission = ['/addPackages'];
+	var linkHotelPermission = ['/linkHotels'];
 	
 	$rootScope.editPackagesRetour = {}; 
 	$rootScope.$on('editPackages', function(event, selectedDetails){
@@ -111,6 +127,9 @@ app.run(function($rootScope, $location, loginServices){
 			$location.path("/");
 		}
 		else if(addPackagePermission.indexOf($location.path()) != -1 && !loginServices.islogged()){
+			$location.path("/");
+		}
+		else if(linkHotelPermission.indexOf($location.path()) != -1 && !loginServices.islogged()){
 			$location.path("/");
 		}
 		

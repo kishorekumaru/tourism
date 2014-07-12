@@ -1,14 +1,15 @@
 // JavaScript Document
-app.controller("hotelController", function($scope, $modal, $filter, hotelServices, deleteServices, editServices){
+app.controller("hotelController", function($scope, $modal, $filter, hotelServices, deleteServices, editServices, $location, sharedEventDispatcher, imageHotelServices){
 	
 	$scope.hotelDetails = "";
 	$scope.itemsPerPage = 2;
 	$scope.isNameASC = "ASC";
 	$scope.isRatingASC = "ASC";
 	$scope.currentPage = 1;
-	
-   
-  
+	$scope.totalImagehotels = [];
+    $scope.noImageFile = "no-image.jpg";
+ 	$scope.imageDetails = [];
+	 
 	hotelServices.getHotels($scope);
 	
 	$scope.$on('loadDetails',function(event, data){
@@ -16,6 +17,23 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 		$scope.totalItems =  $scope.hotelDetails.length;
 		$scope.hotelDetailsPage = $scope.hotelDetails.slice(0, $scope.itemsPerPage);
 		$scope.currentPage = 1;
+		
+		//Store it in global variable 
+		sharedEventDispatcher.totalHotelsObj($scope.hotelDetails);
+		imageHotelServices.getImgDetails($scope);
+	});
+	
+	$scope.$on("getHotelImageDetails", function($event, data){
+		$scope.totalImagehotels = data[0];
+		
+		for(var i=0;i< $scope.hotelDetails.length;i++){
+			$scope.imageDetails = $filter("getByHotelId")($scope.totalImagehotels,$scope.hotelDetails[i].id);
+			if($scope.imageDetails.length){	
+				$scope.hotelDetails[i].first_image = $scope.imageDetails[0].hotel_thumb_img;
+			}else{
+				$scope.hotelDetails[i].first_image =  $scope.noImageFile;
+			}
+		}
 	});
 	
 	$scope.$on('reloadDetails', function(event){
@@ -78,6 +96,10 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 	};
 	
 
+	$scope.manageImage = function(id){
+		sharedEventDispatcher.shareHotelID(id);
+		$location.path("/hotelImages");
+	}
 	
 	$scope.deleteItem = function (id){
 		if (confirm('Are you sure you want to delete?')) {

@@ -1,5 +1,5 @@
 // JavaScript Document
-app.controller("addPackageController", function($scope,$filter, $location, packServices, dayDetailServices, sharedEventDispatcher){
+app.controller("addPackageController", function($scope,$filter, $location, packServices, dayDetailServices, sharedEventDispatcher, hotelLinkServices){
 
 	$scope.dayIntervals = [{value:1, text:"1 Day"},
 	{value:2, text:"2 Days"},
@@ -16,6 +16,8 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	{value:13, text:"13 Days"},
 	{value:14, text:"14 Days"},
 	{value:15, text:"15 Days"}];
+	
+
 	
 	if(sharedEventDispatcher.editPackagesRetour.id != undefined){
 		$scope.pack= sharedEventDispatcher.editPackagesRetour;
@@ -54,7 +56,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 		 var insertDate = new Date();
 		 if(!$scope.isEdit){
 			 $scope.pack.insert_date = insertDate.toJSON();
-			 packServices.addPackage($scope.pack, $scope);		
+			 packServices.addPackage($scope.pack, $scope);
 		 }else{
 		 	$scope.pack.MODIFIED_DATE = insertDate.toJSON();
 			packServices.editPack($scope.pack, $scope);
@@ -72,6 +74,13 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 			 sendObj.INSERT_DATE = insertDate.toJSON();
 			 dayDetailServices.addDayDetails(sendObj,$scope);
 		}
+		
+		//Add link details as well
+		var sendObj = new Object();
+		 sendObj.package_id = parseInt($scope.packageVal.id);
+		 sendObj.INSERT_DATE = insertDate.toJSON();
+		 hotelLinkServices.addLinkDetails(sendObj);
+
 	}
 	
 	$scope.$on("dateValidChanged", function(event, data){

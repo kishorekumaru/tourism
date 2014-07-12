@@ -1,5 +1,5 @@
 app.controller("packageController", function($scope, $rootScope, $modal, $location, $filter, packServices
-, sharedEventDispatcher){
+, sharedEventDispatcher, imageServices){
 
 	
 	$scope.packages= "";
@@ -8,7 +8,8 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	$scope.isNameASC = "ASC";
 	$scope.isCostASC = "ASC";
 	$scope.currentPage = 1;
-	
+	$scope.totalImagePackages = "";
+	$scope.noImageFile = "no-image.jpg";
    
   
 	packServices.getPackages($scope);
@@ -22,8 +23,26 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 			
 			//Store it in global variable 
 			sharedEventDispatcher.totalPackagesObj($scope.packages);
+			imageServices.getImgDetails($scope);
 		}
 	});
+	
+	
+	//Get all the package Thumb Images
+	$scope.$on("getImageDetails", function($event, data){
+		$scope.totalImagePackages = data[0];
+		
+		for(var i=0;i< $scope.packages.length;i++){
+			$scope.imageDetails = $filter("getByPackageId")($scope.totalImagePackages,$scope.packages[i].id);
+			if($scope.imageDetails.length){
+				$scope.packages[i].first_image = $scope.imageDetails[0].package_thumb_img;
+			}else{
+				$scope.packages[i].first_image =  $scope.noImageFile;
+			}
+		}
+		
+	});
+
 	
 	$scope.$on('reloadPackDetails', function(event){
 		packServices.getPackages($scope);
@@ -69,6 +88,13 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 		$location.path("/addPackages");
 	};
 	
+	$scope.linkHotels = function (id){
+		
+		var selectedDetails = $filter('getById')($scope.packages, id);
+	sharedEventDispatcher.sharePackageID(id, $scope.packages);
+		$location.path("/linkHotels");
+	};
+	
 
 	
 	$scope.deletePackage = function (id){
@@ -83,7 +109,11 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 		$location.path("/dayDetails");
 	};
 
-
+	
+	$scope.manageImage = function(id){
+		sharedEventDispatcher.sharePackageID(id, $scope.packages);
+		$location.path("/packImages");
+	};
 
 
 });

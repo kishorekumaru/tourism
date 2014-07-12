@@ -1,0 +1,77 @@
+<div class="panel panel-default" style="margin-top:-20px">
+        <div class="panel-heading">
+
+<div class="container">
+<div class="col-md-5 text-left">
+ <label  class="col-md-5 control-label">Select Package Name:</label><div class="col-md-7"> <select  class="form-control"  ng-model="packform.packages_name" ng-change="getPackValue(event)" ng-options="pack.id as pack.package_name for pack in totalPackages">
+   <option value="" disabled selected>Select package</option>
+</select></div>
+
+</div>
+
+<div class="col-md-3 alert alert-info" role="alert" ng-show="packform.infoDisplay"><i>{{ packform.info }}</i></div>
+
+</div></div>
+
+<div class="panel-body">
+<div class="container" style="min-height:200px">
+
+<div class="container text-center" ng-show="isNotLinked" style="color:rgba(229,229,229,1.00)"><h1><b>No Hotels are linked to this package</b></h1></div>
+
+<div class="container">
+    <div ng-repeat="hotel in linkedHotels | orderBy:hotel_rating">
+        <div class="col-md-2 alert alert-info" role="alert" style="margin:5px">
+          <button type="button" class="close" ng-click="deleteLink(hotel.id)">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>{{ hotel.hotel_name}}</strong><p>{{ hotel.hotel_address}}</p><div ng-init="x = hotel.hotel_rating">Rating : <rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<h4>Link hotels from below</h4><br/>
+<div class="container">
+    <div class="panel panel-default" style="margin-top:-20px">
+        <div class="panel-heading">  
+         <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text" ng-model="hotelname" ng-keyup="getChar($event)" class="form-control"></div>
+                  <div class="text-right">
+                sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Name</button> | <button type="button" class="btn btn-link" ng-click="sortByRating()">Rating</button> 
+         </div>          
+        </div>
+        <div class="panel-body">
+               
+           
+                <table class="table table-bordered table-hover">
+                <tbody><tr class="active"> 
+                	<td>Select</td>
+                	<td>Hotel Name</td>
+                	<td>Address</td>
+                	<td>Rating</td>
+                    </tr>
+                </tbody>
+                <form name="hotellinkForm">
+                <tr  ng-repeat="hotel in hotelDetailsPage" >
+                	<td><input type="checkbox" ng-model="hotel.islinked" required></td>
+                    <td>{{ hotel.hotel_name  }}</td>
+                    <td>{{ hotel.hotel_address }}</td>
+                    <td><div ng-init="x = hotel.hotel_rating"><b>Rating : </b><rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div></td>
+                    
+                </tr>
+                </table>
+
+                           
+  <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
+          </div>
+          
+          <div class="panel-footer text-right">
+        <button type="button" class="btn btn-default" ng-click="goToPackage()"><span class="glyphicon glyphicon-chevron-left"> </span>  Back to Package</button>
+          <button type="submit" class="btn btn-primary" ng-click="addLinkItem()"><span class="glyphicon glyphicon-magnet"> </span> Link Selected Hotel</button>
+ </form>
+</div>
+          </div>
+
+
+</div>
+</div>
+</div>

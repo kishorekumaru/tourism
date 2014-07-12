@@ -3,30 +3,37 @@
 
 <div class="alert alert-success text-center" role="alert"><h4>Welcome to Glaceir Admin Page</h4>
 </div>
+
 <div class="col-md-4 col-md-offset-4">
-	  <div class="panel panel-default">
+<div class="alert alert-danger text-center" ng-show="isInvalid" role="alert"> {{ invalidUser }} </div>
+<br>  <div class="panel panel-default">
         <div class="panel-heading"> Login Page </div>
+          <form name="loginForm"  class="form-horizontal" role="form">
+        <div class="panel-body"> 
+        
         <br>
-        <div class="col-md-3 col-md-offset-4 alert alert-danger text-center" ng-show="isInvalid" role="alert"> {{ invalidUser }} </div>
          
-         <form name="loginForm">
        
-          <table class="table">
-          	<tr>
-            	<td class="borderless">Username</td>
-                <td class="borderless"><input type="input" ng-model="admin_username" ng-blur="clearError()" class="form-control" required></td>
-            </tr>
-            <tr>
-            	<td  class="borderless">Password</td>
-                <td  class="borderless"><input type="password" ng-model="admin_password"  ng-blur="clearError()" class="form-control"  required></td>
-            </tr>
-          </table>
+          <div class="form-group">
+                            <label  class="col-sm-4 control-label">User Name</label>
+                            <div class="col-sm-7">
+                		<input type="input" ng-model="admin_username" ng-blur="clearError()" class="form-control" required>
+                     </div>
+			</div>
+            
+            <div class="form-group">
+                            <label  class="col-sm-4 control-label">Password</label>
+                            <div class="col-sm-7"><input type="password" ng-model="admin_password"  ng-blur="clearError()" class="form-control"  required>  </div>
+			</div>
+            
           
-         <div class="panel-footer text-right">  
+        </br>
+        
+       </div>
+        <div class="panel-footer text-right">  
        
             <button class="btn btn-primary" ng-disabled="loginForm.$invalid" ng-click="login()">Login</button>
          </div>
         </form>
-       </div>
 </div>
-</div>
+</div></div>

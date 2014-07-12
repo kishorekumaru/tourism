@@ -90,3 +90,34 @@ app.factory("dayDetailServices", function($http){
 	
 	return dayDetailServicesVar;
 });
+
+
+app.factory("imageServices", function($http){
+	var imageServicesVar = {};
+	
+	imageServicesVar.addImgDetails = function(seletedItem, scope){
+			var addDayDetails = $http.post("php/api/getPackages.php?method=addImageDetails&jsoncallback=", seletedItem);
+			addDayDetails.then(function(data){	
+				scope.$emit('imagesInserted');
+		});
+	}
+	
+	
+	imageServicesVar.deleteImgDetails = function(idValue, scope){
+		    var deletePack = $http.post("php/api/getPackages.php?method=deleteImageDetails&jsoncallback=", idValue);
+			deletePack.then(function(data){	
+				if(data.data == "1"){			
+					scope.$emit('onDeleteImageSuccess');
+				}
+			});
+		}
+		
+	imageServicesVar.getImgDetails = function(scope){
+		    var addDayDetails = $http.post("php/api/getPackages.php?method=getImageDetails&jsoncallback=");
+			addDayDetails.then(function(data){	
+				scope.$emit('getImageDetails', [data.data]);
+		});
+	}
+
+	return imageServicesVar
+});

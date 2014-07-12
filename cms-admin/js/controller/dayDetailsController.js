@@ -8,11 +8,17 @@ app.controller("dayDetailsController", ['$scope', 'sharedEventDispatcher', '$fil
 	$scope.packform.info = "";
 	$scope.packform.infoDisplay = false;
 
+	
+
 
 	$scope.setDetails = function(){
 	   dayDetailServices.getDayDetails($scope.packform.packages_name, $scope);   
 	};
 	
+	if($scope.packageId != 0){
+		$scope.packform.packages_name = $scope.packageId;
+		$scope.setDetails();
+	}	
 	
 	$scope.$on('getDayDetails', function($event, data){
 	    $scope.getSelectedPack = [];
@@ -71,10 +77,6 @@ app.controller("dayDetailsController", ['$scope', 'sharedEventDispatcher', '$fil
 	}
 		
 	
-	if($scope.packageId != 0){
-		$scope.packform.packages_name = $scope.packageId;
-		$scope.setDetails();
-	}
 
 	$scope.getPackValue = function(){
 		$scope.setDetails();
