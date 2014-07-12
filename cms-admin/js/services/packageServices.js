@@ -118,6 +118,14 @@ app.factory("imageServices", function($http){
 				scope.$emit('getImageDetails', [data.data]);
 		});
 	}
+	
+	
+	imageServicesVar.unlinkImages = function(scope, deleteImage, id){
+		    var unlinkImages = $http.post("php/api/getPackages.php?method=deleteImagesFrmFolder&jsoncallback=", deleteImage);
+			unlinkImages.then(function(data){	
+				scope.$emit('onDeleteImageUnlink', id);
+		});
+	}
 
 	return imageServicesVar
 });

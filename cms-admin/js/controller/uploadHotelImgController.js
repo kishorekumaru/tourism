@@ -98,11 +98,20 @@ app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '
 	//Delete Images
 	$scope.deleteImage = function(id){
 		if (confirm('Are you sure you want to delete?')) {
-			
+			var packItems = $filter("getById")($scope.totalImagehotels ,id);
+			var sendObj = new Object();
+			try{
+			sendObj.big_img = packItems.hotel_big_img;
+			sendObj.small_img = packItems.hotel_small_img;
+			sendObj.thumb_img = packItems.hotel_thumb_img;
+			imageHotelServices.unlinkImages($scope, sendObj, id);
+			}catch(err){
+				alert(err);
+			}
 		}
 	}
 	
-	$scope.on('onDeleteImageUnlink',function($event, id){
+	$scope.$on('onDeleteHotelImageUnlink',function($event, id){
 		imageHotelServices.deleteImgDetails({'id':id}, $scope);  
 	});
 	

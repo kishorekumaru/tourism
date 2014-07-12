@@ -90,11 +90,23 @@ app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filt
 	//Delete Images
 	$scope.deleteImage = function(id){
 		if (confirm('Are you sure you want to delete?')) {
-			imageServices.deleteImgDetails({'id':id}, $scope);  
+			var packItems = $filter("getById")($scope.totalImagePackages ,id);
+			var sendObj = new Object();
+			try{
+				sendObj.big_img = packItems.package_big_img;
+				sendObj.small_img = packItems.package_small_img;
+				sendObj.thumb_img = packItems.package_thumb_img;
+				imageServices.unlinkImages($scope, sendObj, id);
+			}catch(err){
+				alert(err.message);
+			}
 		}
 	}
 	
 	
+	$scope.$on('onDeleteImageUnlink',function($event, id){
+		imageServices.deleteImgDetails({'id':id}, $scope);  
+	});
 	$scope.$on('onDeleteImageSuccess', function($event){
 		$scope.setDetails();
 	});

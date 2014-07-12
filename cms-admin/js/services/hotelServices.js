@@ -138,6 +138,13 @@ app.factory("imageHotelServices", function($http){
 				scope.$emit('getHotelImageDetails', [data.data]);
 		});
 	}
+	
+	imageServicesVar.unlinkImages = function(scope, deleteImage, id){
+		    var unlinkImages = $http.post("php/api/getPackages.php?method=deleteImagesFrmFolder&jsoncallback=", deleteImage);
+			unlinkImages.then(function(data){	
+				scope.$emit('onDeleteHotelImageUnlink', id);
+		});
+	}
 
 	return imageServicesVar
 });

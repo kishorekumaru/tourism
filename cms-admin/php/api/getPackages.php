@@ -78,6 +78,27 @@ function getImageDetails(){
 	$data = $init->getData($tablename);
 	$data = json_encode($data);
 	echo $_GET['jsoncallback'] . $data ;
+
+}
+
+
+//function to delete the images from the folder
+function deleteImagesFrmFolder(){
+	$param =json_decode(file_get_contents('php://input'));
+	$uploadPath =  ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "com". DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR;
+	$bigImage =	$uploadPath . $param->big_img;
+	$smallImage =	$uploadPath . $param->small_img;
+	$thumbImage =	$uploadPath . $param->thumb_img;
+	 
+	try{
+		unlink($bigImage);
+		unlink($smallImage);
+		unlink($thumbImage);
+	}catch(Exception $e){
+			echo $e->getMessage();
+			return;
+	}
+	echo $_GET['jsoncallback'] . "1";
 }
 
 
@@ -89,6 +110,8 @@ function deleteImageDetails(){
 	$data = $init->deleteData($table_name, $param->id);
 	echo $_GET['jsoncallback'] . $data ;
 }
+
+
 
 
 
