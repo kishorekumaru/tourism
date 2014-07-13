@@ -45,9 +45,43 @@ app.directive('dateField', function () {
 			  
 			},
 			replace:true,
-			template:"<div class='row'><div class='col-md-6'><p class='input-group'><input type='text' class='form-control' datepicker-popup='{{format}}' disabled ng-model='dt' is-open='opened' min-date='minDate' max-date=''2015-06-22''   datepicker-options='dateOptions' date-disabled='disabled(date, mode)' ng-required='true' close-text='Close' /><span class='input-group-btn'><button type='button' class='btn btn-default' ng-click='open($event)' ><i class='glyphicon glyphicon-calendar'></i></button></span></p></div></div>"
+			template:"<div class='row'><div class='col-md-6'><p class='input-group'><input type='text' class='form-control' datepicker-popup='{{format}}' disabled ng-model='{{dt}}' is-open='opened' min-date='minDate' max-date=''2015-06-22''   datepicker-options='dateOptions' date-disabled='disabled(date, mode)' ng-required='true' close-text='Close' /><span class='input-group-btn'><button type='button' class='btn btn-default' ng-click='open($event)' ><i class='glyphicon glyphicon-calendar'></i></button></span></p></div></div>"
     };
 });
+
+
+
+app.directive('uiDate', function() {
+    return {
+      require: '?ngModel',
+      link: function($scope, element, attrs, controller) {
+        var originalRender, updateModel, usersOnSelectHandler;
+        if ($scope.uiDate == null) $scope.uiDate = {};
+        if (controller != null) {
+          updateModel = function(value, picker) {
+            return $scope.$apply(function() {
+              return controller.$setViewValue(element.datepicker("getDate"));
+            });
+          };
+          if ($scope.uiDate.onSelect != null) {
+            usersOnSelectHandler = $scope.uiDate.onSelect;
+            $scope.uiDate.onSelect = function(value, picker) {
+              updateModel(value);
+              return usersOnSelectHandler(value, picker);
+            };
+          } else {
+            $scope.uiDate.onSelect = updateModel;
+          }
+          originalRender = controller.$render;
+          controller.$render = function() {
+            originalRender();
+            return element.datepicker("setDate", controller.$viewValue);
+          };
+        }
+        return element.datepicker($scope.uiDate);
+      }
+    };
+  });
 
 
 

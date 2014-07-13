@@ -22,14 +22,18 @@
 						<div class="form-group">
                             <label  class="col-sm-2 control-label">Currency</label>
                             <div class="col-sm-10">
-                              <input type="input" class="form-control" ng-model="pack.package_currency"  placeholder="Currency" required>
+                             <select class="form-control"  ng-model="pack.package_currency"  
+                             ng-options="cur.code as cur.name for cur in totalCurrencies">
+                               <option value="" disabled selected>Select Currency Code</option>                            
+                             </select>
+                            
                             </div>
                           </div>
                           
                           <div class="form-group">
                             <label  class="col-sm-2 control-label">Duration</label>
                             <div class="col-sm-10">
-                            
+                            	
                               <select class="form-control" ng-model="pack.package_duration" 
                               ng-disabled="{{isEdit}}" ng-options="i.value as i.text for i in dayIntervals">
                                <option value="" disabled selected>Select number of days</option>
@@ -38,15 +42,17 @@
                           </div> 
                           <div class="form-group">
                             <label  class="col-sm-2 control-label">Valid From</label>
-                            <div class="col-sm-10">
-                              <date-field date-id="valid_from" date-value="{{ pack.package_valid_from }}">
+                            <div class="col-sm-5">
+                            
+                              <input class="form-control" ng-model="pack.package_valid_from" ui-date required>
                             </div>
                           </div>    
                           
                           <div class="form-group">
                             <label  class="col-sm-2 control-label">Valid To</label>
-                            <div class="col-sm-10">
-                              <date-field date-id="valid_to" date-value="{{ pack.package_valid_to }}">
+                            <div class="col-sm-5">
+                            	<input class="form-control" ng-model="pack.package_valid_to" ui-date required>
+                             
                             </div>
                           </div>                        
                           

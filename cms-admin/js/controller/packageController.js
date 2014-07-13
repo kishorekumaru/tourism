@@ -13,7 +13,7 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
    
   
 	packServices.getPackages($scope);
-	
+	$scope.isloading=true;
 	$scope.$on('loadPackDetails',function(event, data){
 		if(data[0].data != ""){
 			$scope.packages  = data[0].data;
@@ -24,7 +24,10 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 			//Store it in global variable 
 			sharedEventDispatcher.totalPackagesObj($scope.packages);
 			imageServices.getImgDetails($scope);
+		}else{
+			$scope.isloading=false;
 		}
+		
 	});
 	
 	
@@ -40,13 +43,14 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 				$scope.packages[i].first_image =  $scope.noImageFile;
 			}
 		}
-		
+		$scope.isloading=false;
 	});
 
 	
 	$scope.$on('reloadPackDetails', function(event){
 		packServices.getPackages($scope);
 		$scope.currentPage = 1;
+		$scope.isloading=true;
 	});
 	
 	

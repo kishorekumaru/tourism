@@ -4,7 +4,8 @@
 	<meta charset="utf-8">
 	<title>Glacier Admin Page</title>
   	<meta name="viewport" content="width=content-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+   <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -31,9 +32,7 @@ ng-show="isNavBar">
           <ul class="dropdown-menu" role="menu">
             <li><a ng-click="loadFiles('/packages')" class="getHand">Manage Packages</a></li>
             <li><a ng-click="loadFiles('/hotels')" class="getHand">Manage Hotels</a></li>
-              <li><a ng-click="loadFiles('/viewPackages')" class="getHand">View Packages</a></li>
-            <li><a ng-click="loadFiles('/viewHotels')" class="getHand">View Hotels</a></li>
-             <li class="divider"></li>
+               <li class="divider"></li>
              <li><a ng-click="loadFiles('/addPackages')" class="getHand">Add Packages</a></li>
            <li><a ng-click="loadFiles('/linkHotels')" class="getHand">Link Hotels</a></li>
           </ul>
@@ -48,7 +47,9 @@ ng-show="isNavBar">
 
  <ng-view ></ng-view>
 
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+
 <script src="js/bootstrap.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/angular-resource.min.js"></script>

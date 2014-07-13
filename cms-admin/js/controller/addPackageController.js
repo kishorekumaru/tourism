@@ -17,13 +17,28 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	{value:14, text:"14 Days"},
 	{value:15, text:"15 Days"}];
 	
-
+	$scope.totalCurrencies = [];
+	
+	$scope.pack = {};
+	$scope.pack.package_valid_from;
+	$scope.pack.package_valid_to;
+	
+	
+	//Load the currency details
+	packServices.getAllCurrencies($scope);
+	
+	
+	$scope.$on("onGetCurrencyDetails", function($event, data){
+		$scope.totalCurrencies = data
+	});
 	
 	if(sharedEventDispatcher.editPackagesRetour.id != undefined){
 		$scope.pack= sharedEventDispatcher.editPackagesRetour;
 		$scope.isEdit = true;
-		$scope.pack.package_valid_from = $filter('date')($scope.pack.package_valid_from.split(" ")[0],'medium');
-		$scope.pack.package_valid_to =$filter('date')($scope.pack.package_valid_to.split(" ")[0], 'medium');;
+		var valid_from =Date.parse($scope.pack.package_valid_from);
+		var valid_to = Date.parse($scope.pack.package_valid_to);
+		$scope.pack.package_valid_from =  $filter('date')(valid_from, 'MM/dd/yyyy');
+		$scope.pack.package_valid_to =  $filter('date')(valid_to, 'MM/dd/yyyy');
 		$scope.pack.package_duration = parseInt($scope.pack.package_duration);
 	}else{
 		packServices.packageCount($scope);
@@ -33,8 +48,6 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 		$scope.tabset.isSecondTab = true;
 		$scope.tabset.secondActive = true;
 
-		$scope.pack.package_valid_from = $filter('date')($scope.tabset.scopeValidFrom[0].dt, 'yyyy-MM-dd');	
-		$scope.pack.package_valid_to = $filter('date')($scope.tabset.scopeValidTo[0].dt, 'yyyy-MM-dd');
 	};
 	
 	
@@ -54,6 +67,11 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	
 	$scope.saveSubmit = function(){
 		 var insertDate = new Date();
+		var valid_from =new Date($scope.pack.package_valid_from);
+		var valid_to = new Date($scope.pack.package_valid_to);
+		$scope.pack.package_valid_from =  $filter('date')(valid_from, 'yyyy-MM-dd');
+		$scope.pack.package_valid_to =  $filter('date')(valid_to, 'yyyy-MM-dd');
+
 		 if(!$scope.isEdit){
 			 $scope.pack.insert_date = insertDate.toJSON();
 			 packServices.addPackage($scope.pack, $scope);
@@ -83,13 +101,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 
 	}
 	
-	$scope.$on("dateValidChanged", function(event, data){
-		if(data[0].dateId == "valid_from"){
-			$scope.tabset.scopeValidFrom = data
-		}else{
-			$scope.tabset.scopeValidTo = data
-		}
-	});
+
 	
 	
 	//** http return function

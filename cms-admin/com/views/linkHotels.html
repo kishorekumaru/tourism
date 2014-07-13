@@ -1,3 +1,4 @@
+
 <div class="panel panel-default" style="margin-top:-20px">
         <div class="panel-heading">
 
@@ -13,12 +14,17 @@
 
 </div></div>
 
+ 
+
 <div class="panel-body">
 <div class="container" style="min-height:200px">
 
 <div class="container text-center" ng-show="isNotLinked" style="color:rgba(229,229,229,1.00)"><h1><b>No Hotels are linked to this package</b></h1></div>
 
-<div class="container">
+<div class="container text-center" ng-show="isloading">
+   	<img src="images/loading.gif">
+   </div>
+<div class="container"  ng-hide="isloading">
     <div ng-repeat="hotel in linkedHotels | orderBy:hotel_rating">
         <div class="col-md-2 alert alert-info" role="alert" style="margin:5px">
           <button type="button" class="close" ng-click="deleteLink(hotel.id)">

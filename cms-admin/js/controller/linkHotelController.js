@@ -30,6 +30,7 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 		$scope.packform.packages_name = $scope.packageId;
 	}
 	hotelServices.getHotels($scope);
+	$scope.isloading=true;
 	
 	
 	$scope.$on('loadDetails',function(event, data){
@@ -66,6 +67,7 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 		$scope.totalItems =  $scope.restHotels.length;
 		$scope.hotelDetailsPage = $scope.restHotels.slice(0, $scope.itemsPerPage);
 		$scope.currentPage = 1;
+		$scope.isloading=false;
 	});
 	
 	
@@ -73,6 +75,7 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 	$scope.$on('reloadDetails', function(event){
 		hotelServices.getHotels($scope);
 		$scope.currentPage = 1;
+		$scope.isloading=true;
 	});
 	
 	

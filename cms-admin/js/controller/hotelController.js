@@ -11,6 +11,7 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
  	$scope.imageDetails = [];
 	 
 	hotelServices.getHotels($scope);
+	$scope.isloading=true;
 	
 	$scope.$on('loadDetails',function(event, data){
 		$scope.hotelDetails  = data[0].data;
@@ -34,11 +35,14 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 				$scope.hotelDetails[i].first_image =  $scope.noImageFile;
 			}
 		}
+		
+		$scope.isloading=false;
 	});
 	
 	$scope.$on('reloadDetails', function(event){
 		hotelServices.getHotels($scope);
 		$scope.currentPage = 1;
+		$scope.isloading=true;
 	});
 	
 	

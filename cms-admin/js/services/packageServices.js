@@ -44,6 +44,15 @@ app.factory("packServices", function($http){
 					scope.$emit('reloadPackDetails');
 				}
 			});
+		},
+		
+		
+		getAllCurrencies:function(scope){
+		    var deletePack = $http.post("php/resources/currency.json");
+			deletePack.then(function(data){							
+					scope.$emit('onGetCurrencyDetails', data.data);
+				
+			});
 		}
 		
 	}

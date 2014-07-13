@@ -1,0 +1,27 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Datepicker - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+   <script src="app.js"></script>
+</head>
+<body>
+ 
+<div ng-app="myApp">
+  <div ng-controller="PatientController">
+    <label>Date: </label>
+    <input ng-model="patient.date" ui-date>
+    
+     <input ng-model="patient.date2" ui-date>
+    <hr>
+      <h1> {{patient.date | date: 'dd/MM/yyyy'}}</h1><Br>
+      <h1> {{patient.date2 | date: 'dd/MM/yyyy'}}</h1>
+  </div>
+</div>
+ 
+ 
+</body>
+</html>
