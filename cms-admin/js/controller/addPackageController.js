@@ -1,21 +1,7 @@
 // JavaScript Document
 app.controller("addPackageController", function($scope,$filter, $location, packServices, dayDetailServices, sharedEventDispatcher){
 
-	$scope.dayIntervals = [{value:1, text:"1 Day"},
-	{value:2, text:"2 Days"},
-	{value:3, text:"3 Days"},
-	{value:4, text:"4 Days"},
-	{value:5, text:"5 Days"},
-	{value:6, text:"6 Days"},
-	{value:7, text:"7 Days"},
-	{value:8, text:"8 Days"},
-	{value:9, text:"9 Days"},
-	{value:10, text:"10 Days"},
-	{value:11, text:"11 Days"},
-	{value:12, text:"12 Days"},
-	{value:13, text:"13 Days"},
-	{value:14, text:"14 Days"},
-	{value:15, text:"15 Days"}];
+	$scope.dayIntervals = [];
 	
 	if(sharedEventDispatcher.editPackagesRetour.id != undefined){
 		$scope.pack= sharedEventDispatcher.editPackagesRetour;
