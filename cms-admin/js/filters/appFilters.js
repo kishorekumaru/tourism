@@ -20,6 +20,19 @@ app.filter('dateToISO', function() {
 });
 
 
+app.filter('searchObjectItem', function(){
+
+	return function(array, value, object_name){
+		var returnArry = [];
+			for(var i=0; i<array.length; i++) {
+				if (String(array[i][object_name]).toUpperCase()== String(value).toUpperCase()) {
+					returnArry.push(array[i]);
+				}
+		}
+		 return returnArry;
+	}
+});
+
 //Filter by package ID
 
 app.filter('getByPackageId', function() {

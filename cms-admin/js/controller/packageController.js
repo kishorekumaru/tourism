@@ -1,5 +1,5 @@
 app.controller("packageController", function($scope, $rootScope, $modal, $location, $filter, packServices
-, sharedEventDispatcher, imageServices){
+, sharedEventDispatcher, imageServices, catServices){
 
 	
 	$scope.packages= "";
@@ -13,7 +13,14 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
    
   
 	packServices.getPackages($scope);
+	catServices.crudCategory({"action":"Get"}, $scope);
+	
 	$scope.isloading=true;
+	
+	$scope.$on('loadCatDetails',function(event, data){
+			$scope.totalCategories  = data;	
+	});
+	
 	$scope.$on('loadPackDetails',function(event, data){
 		if(data[0].data != ""){
 			$scope.packages  = data[0].data;
@@ -34,7 +41,8 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	//Get all the package Thumb Images
 	$scope.$on("getImageDetails", function($event, data){
 		$scope.totalImagePackages = data[0];
-		
+		//Store it in global variable 
+		sharedEventDispatcher.setTotalImagePackages($scope.totalImagePackages);
 		for(var i=0;i< $scope.packages.length;i++){
 			$scope.imageDetails = $filter("getByPackageId")($scope.totalImagePackages,$scope.packages[i].id);
 			if($scope.imageDetails.length){
@@ -50,8 +58,12 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	$scope.$on('reloadPackDetails', function(event){
 		packServices.getPackages($scope);
 		$scope.currentPage = 1;
-		$scope.isloading=true;
+		$scope.isloading=true;	
 	});
+	
+	
+	
+	
 	
 	
 	$scope.sortByName = function(){
@@ -77,6 +89,21 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 		}
 		$scope.currentPage = 1;
 	};
+	
+	
+	
+	//Select the items by category
+	$scope.selectByCat = function($event){
+		if($scope.cat_id != null){
+			selectedDetails = $filter('searchObjectItem')($scope.packages, $scope.cat_id, 'cat_id')
+			$scope.totalItems =  selectedDetails.length;
+			$scope.packPage = selectedDetails.slice(0, $scope.itemsPerPage);
+		}else{
+			$scope.totalItems =  $scope.packages.length;
+			$scope.packPage = $scope.packages.slice(0, $scope.itemsPerPage);
+		}
+		$scope.currentPage = 1;
+	}
 	
 	$scope.pageChanged = function(currentPage){
 		var start = (currentPage-1) * $scope.itemsPerPage;
@@ -120,6 +147,21 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	};
 
 
+
+	//Opeing the package in detailed View
+	$scope.showViewPanel = function (id){
+			sharedEventDispatcher.sharePackageID(id, $scope.packages);
+			$location.path("/viewPackages");
+	}
+
+	$scope.addPackage = function(){
+		$location.path("/addPackages");
+	}
+	
+	
+	
+	
+ 
 });
 
 

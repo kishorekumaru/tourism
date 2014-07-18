@@ -1,5 +1,5 @@
 // JavaScript Document
-app.controller("hotelController", function($scope, $modal, $filter, hotelServices, deleteServices, editServices, $location, sharedEventDispatcher, imageHotelServices){
+app.controller("hotelController", function($scope, $modal, $filter, hotelServices, deleteServices, editServices, $location, sharedEventDispatcher, imageHotelServices, hotelAddServices){
 	
 	$scope.hotelDetails = "";
 	$scope.itemsPerPage = 2;
@@ -9,9 +9,9 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 	$scope.totalImagehotels = [];
     $scope.noImageFile = "no-image.jpg";
  	$scope.imageDetails = [];
-	 
+    $scope.isHotelloading=true;
 	hotelServices.getHotels($scope);
-	$scope.isloading=true;
+	
 	
 	$scope.$on('loadDetails',function(event, data){
 		$scope.hotelDetails  = data[0].data;
@@ -36,13 +36,13 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 			}
 		}
 		
-		$scope.isloading=false;
+		$scope.isHotelloading=false;
 	});
 	
 	$scope.$on('reloadDetails', function(event){
 		hotelServices.getHotels($scope);
 		$scope.currentPage = 1;
-		$scope.isloading=true;
+		$scope.isHotelloading=true;
 	});
 	
 	
@@ -99,26 +99,8 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 		
 	};
 	
-
-	$scope.manageImage = function(id){
-		sharedEventDispatcher.shareHotelID(id);
-		$location.path("/hotelImages");
-	}
 	
-	$scope.deleteItem = function (id){
-		if (confirm('Are you sure you want to delete?')) {
-    		deleteServices.deleteHotel({'id':id},$scope);
-		} 
-	};
-
-
-
-});
-
-
-app.controller("popupController",function ($scope, $modal, hotelAddServices) {
-
-  $scope.openWindow = function () {
+	$scope.openWindow = function () {
 
     var modalInstance = $modal.open({
       templateUrl: 'myModalContent.html',
@@ -137,8 +119,23 @@ app.controller("popupController",function ($scope, $modal, hotelAddServices) {
 		  hotelAddServices.addHotels(userItems, $scope);
 		});
    };
-  
+
+	$scope.manageImage = function(id){
+		sharedEventDispatcher.shareHotelID(id);
+		$location.path("/hotelImages");
+	}
+	
+	$scope.deleteItem = function (id){
+		if (confirm('Are you sure you want to delete?')) {
+    		deleteServices.deleteHotel({'id':id},$scope);
+		} 
+	};
+
+
+
 });
+
+
 
 
 

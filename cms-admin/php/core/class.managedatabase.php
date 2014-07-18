@@ -24,7 +24,7 @@
 		}else{
 				array_push($result, 0);
 		}
-		
+
 	 	return $result;
 
 	 }
@@ -134,7 +134,7 @@
 	 function insertData($table_name, $field_name, $field_value){
 		$sqlQuery = "INSERT INTO $table_name ($field_name) VALUES ($field_value)";
 	 	$query = $this->link->query($sqlQuery) or die($this->link->errno);	
-		return "1";
+		return $query;
 	 }
 	 
  }

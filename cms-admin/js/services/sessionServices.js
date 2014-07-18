@@ -23,6 +23,8 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	
 	sharedEventDispatch.totalPackages = [];
 	sharedEventDispatch.editPackagesRetour = {};
+	var totalImagePackages = [];
+	
 	
 	sharedEventDispatch.sharePackageID = function(id){
 		this.packageId=id;
@@ -39,6 +41,16 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	sharedEventDispatch.totalHotelsObj = function(totalHotels){
 		this.totalHotels=totalHotels;
 	};
+	
+	sharedEventDispatch.setTotalImagePackages = function(totalImagePackages){
+		this.totalImagePackages=totalImagePackages;
+	};
+	
+	sharedEventDispatch.getTotalImagePackages = function(){
+		return this.totalImagePackages;
+	};
+	
+	
 	
 	
 	sharedEventDispatch.shareHotelID = function(id){

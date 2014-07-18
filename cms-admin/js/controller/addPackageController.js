@@ -1,5 +1,6 @@
 // JavaScript Document
-app.controller("addPackageController", function($scope,$filter, $location, packServices, dayDetailServices, sharedEventDispatcher, hotelLinkServices){
+app.controller("addPackageController", function($scope,$filter, $location, packServices, dayDetailServices, sharedEventDispatcher,
+ hotelLinkServices, catServices){
 
 	$scope.dayIntervals = [{value:1, text:"1 Day"},
 	{value:2, text:"2 Days"},
@@ -30,8 +31,15 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	
 	$scope.$on("onGetCurrencyDetails", function($event, data){
 		$scope.totalCurrencies = data
+		catServices.crudCategory({"action":"Get"}, $scope);
 	});
 	
+	
+	$scope.$on('loadCatDetails',function(event, data){
+			$scope.totalCategories  = data;	
+	});
+		
+		
 	if(sharedEventDispatcher.editPackagesRetour.id != undefined){
 		$scope.pack= sharedEventDispatcher.editPackagesRetour;
 		$scope.isEdit = true;
@@ -66,7 +74,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	}
 	
 	$scope.saveSubmit = function(){
-		 var insertDate = new Date();
+		var insertDate = new Date();
 		var valid_from =new Date($scope.pack.package_valid_from);
 		var valid_to = new Date($scope.pack.package_valid_to);
 		$scope.pack.package_valid_from =  $filter('date')(valid_from, 'yyyy-MM-dd');
@@ -164,6 +172,8 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 		sharedEventDispatcher.editPackagesRetour = {};
 		$location.path("/packages");
 	}
+	
+	
 	
 		$scope.resetFun();
 });

@@ -11,7 +11,8 @@
 </div>
 
 <div class="col-md-3 alert alert-info" role="alert" ng-show="packform.infoDisplay"><i>{{ packform.info }}</i></div>
-
+  <div class="text-right"><button type="button" class="btn btn-default" 
+  ng-click="goToPackage()"><span class="glyphicon glyphicon-chevron-up"> </span>  Back to Package</button></div>
 </div></div>
 
  
@@ -35,7 +36,7 @@
 </div>
 </div>
 
-<h4>Link hotels from below</h4><br/>
+<div class="text-center"><h4>Link hotels from below</h4></div><br/>
 <div class="container">
     <div class="panel panel-default" style="margin-top:-20px">
         <div class="panel-heading">  
@@ -71,7 +72,7 @@
           </div>
           
           <div class="panel-footer text-right">
-        <button type="button" class="btn btn-default" ng-click="goToPackage()"><span class="glyphicon glyphicon-chevron-left"> </span>  Back to Package</button>
+      
           <button type="submit" class="btn btn-primary" ng-click="addLinkItem()"><span class="glyphicon glyphicon-magnet"> </span> Link Selected Hotel</button>
  </form>
 </div>

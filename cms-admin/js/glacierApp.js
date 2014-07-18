@@ -15,7 +15,6 @@ app.config(function($routeProvider){
 			 })
 			 .when("/hotels", 
 			{ 
-				 	controller: "hotelController", 
 					templateUrl: 'com/views/hotelDetails.html' 
 			 })
 			  .when("/dayDetails", 
@@ -42,6 +41,11 @@ app.config(function($routeProvider){
 				 	controller: "uploadHotelImgController", 
 					templateUrl: 'com/views/hotelImageDetails.html' 
 			 })
+			  .when("/category", 
+			{ 
+				 
+					templateUrl: 'com/views/category.html' 
+			 })
 			.when("/reports", 
 			{ 
 				 	controller: "reportsController", 
@@ -54,13 +58,13 @@ app.config(function($routeProvider){
 			 })
 			  .when("/viewPackages", 
 			{ 
-				 	controller: "passwordController", 
-					templateUrl: 'com/views/changePassword.html' 
+				 	controller: "viewPackagesController", 
+					templateUrl: 'com/views/viewPackages.html' 
 			 })
 			  .when("/viewHotels", 
 			{ 
-				 	controller: "passwordController", 
-					templateUrl: 'com/views/changePassword.html' 
+				 	controller: "viewHotelsController", 
+					templateUrl: 'com/views/viewHotels.html' 
 			 })
 			 .otherwise({ redirectTo:"/"});
 });
