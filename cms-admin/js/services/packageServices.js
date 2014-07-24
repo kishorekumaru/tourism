@@ -53,6 +53,14 @@ app.factory("packServices", function($http){
 					scope.$emit('onGetCurrencyDetails', data.data);
 				
 			});
+		},
+		
+		editpackLinks:function(scope, featuredObj){
+		    var editFeatLink = $http.post("php/api/getPackages.php?method=setFeatured&jsoncallback=", featuredObj);
+			editFeatLink.then(function(data){							
+					scope.$emit('reloadPackFeatDetails');
+				
+			});
 		}
 		
 	}

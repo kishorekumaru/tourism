@@ -95,3 +95,18 @@ app.filter('filterRestIds', function() {
 		return filteredArr;
     };
 });
+
+
+//Filter based upon the column name and value
+app.filter('filterOnCondition', function() {
+  return function(arr1, colName, value) {
+		var returnArry = [];
+			for(var i=0; i<arr1.length; i++) {
+				if (arr1[i][colName] == value) {
+					returnArry.push(arr1[i]);
+				}
+		}
+		 return returnArry;
+    };
+});
+

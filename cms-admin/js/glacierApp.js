@@ -46,10 +46,23 @@ app.config(function($routeProvider){
 				 
 					templateUrl: 'com/views/category.html' 
 			 })
+			   .when("/featured", 
+			{ 
+				 	controller: "featuredController", 
+					templateUrl: 'com/views/feautred.html' 
+			 })
 			.when("/reports", 
 			{ 
 				 	controller: "reportsController", 
 					templateUrl: 'com/views/reportDetails.html' 
+			 })
+			.when("/news_events", 
+			{ 
+					templateUrl: 'com/views/news_events.html' 
+			 })
+			.when("/testimonial", 
+			{ 
+						templateUrl: 'com/views/testimonial.html' 
 			 })
 			 .when("/changepassword", 
 			{ 

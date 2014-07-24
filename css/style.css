@@ -1,0 +1,483 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 
+ Generic Styles
+ Such as Font size, background color, margin 
+ and padding for Body and general div tags 
+*/
+.body{
+font-family: 'Lato', sans-serif;
+}
+hr{
+margin:0;
+border:2px medium #bebebe;
+}
+.verticalLine {
+    border-right: thin solid #bebebe;
+}
+
+
+
+.centered{
+	float:none;
+	margin:0 auto;
+	text-align:center;
+	clear:both;
+}
+
+.splash{
+	position:absolute;
+	text-align:right;
+	padding-right:10px;
+	width:100%;
+	margin-top:-30px;
+	z-index:1;	
+	height:1px;
+}
+.centered-width{
+	/** width:60%; **/
+	width:1000px;
+	margin:0 auto;
+}
+.marginTop{
+ margin-top: 10px;
+}
+
+.margin-bottom{
+ margin-bottom: 10px;
+}
+
+.topBanner-text{
+	color: #656565;
+	font-size:15px;
+	
+}
+
+.iconColor {
+	color: #77c146;
+	display: inline-block;
+	margin:5px;
+}
+
+.spacer{
+	width: 2px;
+	display: inline-block;
+	margin:2px;
+}
+
+.fontbold{
+	font-weight:bold;
+}
+
+.total-reset{
+	padding:0px;
+	clear:both;
+}
+
+.content-reset{
+	padding:0px;
+	margin:0px;
+}
+
+/** END OF GENERIC STYLES **/
+
+
+
+/* Menu Styles */
+.menuBackground{
+	background-color:#2f68b2;
+	height: 55px; /** Fixed as per the design **/
+}
+
+.menu-nav{
+	margin:0;
+	padding:0;
+	z-index:200;	
+}
+
+.menu-nav ul{
+	list-style:none;
+	margin: 0 auto;
+	
+}
+
+.menu-nav ul li{
+	padding:0;
+	margin:0;
+	float:left;
+	display:inline-block;
+	width:19%;
+}
+
+.menu-nav ul li img{
+	padding:0;
+	margin:0;
+	float:left;
+	display:inline-block;
+}
+
+
+.menu-nav ul li a:link, .menu-nav ul li a:visited{
+	float:left; 
+	display:inline-block;
+	color:#FFF;
+	text-decoration:none;
+	height:55px;
+	padding:15px 30px;
+	width:98%;
+	margin:0;
+	z-index:300;	
+}
+
+.menu-nav ul li a:active, .menu-nav ul li a:hover{
+  background: url(../images/linear_bg.png);
+  background-repeat: repeat-x;
+}
+
+.activeMenu{
+  background: url(../images/linear_bg.png);
+  background-repeat: repeat-x;
+}
+
+
+
+
+
+/** END OF MENU STYLES **/
+
+/** BANNER STYLE **/
+
+.banner-holder{
+	width:100%;
+	padding:0;
+	height:0;
+	overflow:hidden;
+	height:450px;
+	box-shadow:inset 0 1px 5px #000000;
+ 	background: url(../images/banner.jpg);
+}
+
+.package-holder{
+	width:100%;
+	padding:0;
+	height:0;
+	overflow:hidden;
+	height:110px;
+	box-shadow:inset 0 1px 5px #000000;
+ 	background: url(../images/other-bg.png);
+}
+
+.bannerText{
+	padding-left:20px;
+	padding-top:10px;
+	text-transform:uppercase;
+	color:#FFF;
+	text-shadow:3px 3px 5px #2D2C2C;
+	font-family: 'Lato', sans-serif;
+	font-size:55px;
+	font-weight:300;
+}
+
+/** END OF BANNER SLIDE **/
+
+
+/** Title text **/
+.title-text {
+ height: 50px;
+ text-align:center;
+ font-size:18px;
+}
+
+
+/** END OF TITLE TEXT **/
+
+/** SLIDER DESIGN **/
+.user-font{
+font-family: 'Lato', sans-serif;
+}
+.titleText{
+color:#000;
+font-size:24px;
+font-weight:400;
+}
+
+.featuredTitle{
+
+color:#f5710b;
+font-size:15px;
+font-weight:bold;
+text-transform:uppercase;
+}
+
+.planTitle{
+color:#f5710b;
+font-size:20px;
+font-weight:400;
+text-transform:uppercase;
+}
+
+.featuredContent p{
+color:#2f3132;
+font-size:13px;
+font-weight:bold;
+line-height:22px;
+}
+
+.featuredCurrency{
+color:#2f68b2;
+}
+
+.featuredContent a{
+color:#4fb779;
+font-size:11px;
+font-weight:bold;
+text-decoration:underline;
+}
+
+.featuredContent a:hover{
+color:#f5710b;
+
+}
+
+.feaImgStyle{
+	width:140px;
+	height:122px;
+}
+.graphic-holder{
+	width:100%;
+	padding:0;
+	height:0;
+ 	background: url(../images/graphic-bg.jpg);
+	height:580px;
+}
+
+.block-img{
+	float:left;
+	padding-top:10px;
+	padding-left:10px;
+}
+
+.extra-top-padding{
+	padding-top:25px;
+}
+
+.extra-top-padding-2x{
+	padding-top:30px; 
+}
+
+.flight-block{
+	width:22%;
+	padding:0px 20px;
+	background-color:#fcd404;
+	height:80px;
+	float:left;
+	color:#FFF;
+	font-size:15px;
+}
+
+.fligt-line{
+	background-color:#fab901;
+	height:2px;
+	width:22%;
+	font-size:15px;	
+	float:left;
+}
+
+.hotel-block{
+	width:22%;
+	padding:0px 20px;
+	background-color:#f99e20;
+	height:80px;
+	float:left;
+	color:#FFF;
+	font-size:15px;
+}
+
+.hotel-line{
+	background-color:#f5710b;
+	height:2px;
+	width:22%;
+	float:left;
+}
+
+.tour-block{
+	width:25%;
+	padding:0px 20px;
+	background-color:#77c144;
+	height:80px;
+	float:left;
+	color:#FFF;
+	font-size:15px;
+}
+
+.tour-line{
+	background-color:#489e1f;
+	height:2px;
+	width:25%;
+	font-size:15px;
+	float:left;
+}
+
+.travel-block{
+	width:30%;
+	padding:0px 20px;
+	background-color:#2f68b2;
+	height:80px;
+	float:left;
+	color:#FFF;
+	font-size:15px;
+}
+.travel-line{
+	background-color:#133a8a;
+	height:2px;
+	width:30%;
+	font-size:15px;
+	float:left;	
+}
+/** END OF SLIDER **/
+
+/** Side Menu **/
+
+.dealTitle{
+	color:#2f68b2;
+	text-align:left;
+	font-size:14px;
+	font-weight:bold;
+}
+
+.dealContent ul{
+	list-style:none;
+	padding-left:0;
+}
+
+.dealContent ul li{
+	padding-left:-5px;
+	line-height:25px;
+	font-size:12px;
+}
+.newsTestTitle{
+	color:#f5710b;
+	font-size:14px;
+	font-weight:bold;
+}
+
+.newsTestContent{
+	color:#000;
+	font-size:12px;
+	font-weight:300;
+	font-style:italic;
+}
+
+.side-bar{
+	width:250px;
+	float:left;
+}
+
+.main-bar{
+	width:750px;
+	float:left;
+	padding: 0 20px;
+}
+.side-menu{
+ 	
+
+	margin:0;
+}
+
+.side-empty-line {
+	height:1px;
+	width:100%;
+	background-color:#FFFFFF;
+}
+
+.side-menu-content{
+ text-align:left;
+ padding:10px;
+ font-size:15px;
+ color:#2f68b2;
+ font-weight:400;
+}
+
+
+.side-pack-content{
+ text-align:left;
+ padding:10px 2px;
+ font-size:15px;
+ color:#2f68b2;
+ font-weight:400;
+ cursor:pointer;
+ background-color:#fcd404;
+}
+
+
+.side-pack-content:hover{
+	background-color:#2f68b2;
+	color:#FFF;
+}
+
+.side-active{
+	background-color:#2f68b2;
+	color:#FFF;
+}
+
+
+.ourdealHeight{
+min-height:200px;
+height:100%;
+}
+
+footer a{
+	font-size:11px;
+	color:#000;
+	font-weight:bold;
+}
+
+
+.contact-heading{
+	font-size:27px;
+	font-weight:bold;
+	color:#2f68b2;
+	font-family: 'Lato', sans-serif;
+}
+
+.contact-text{
+	font-size:18px;
+	color:#2f68b2;
+	font-family: 'Lato', sans-serif;
+}
+
+.contact-add{
+	font-size:15px;
+	line-height:20px;
+	color:#444444;
+	font-family: 'Lato', sans-serif;
+}
+
+
+.contact-addHead{
+	font-size:18px;
+	line-height:20px;
+	color:#444444;
+	font-weight:bold;
+	font-family: 'Lato', sans-serif;
+}
+
+.submitbtn{
+	width:82%;
+	height:45px;
+	background-color:#16a14a;
+	font-size:20px;
+	padding:7px 0;
+	color:#FFF;
+	font-weight:bold;
+	font-family: 'Lato', sans-serif;
+	text-align:center;
+	cursor:pointer;
+}
+
+#map_canvas {
+        width: 500px;
+        height: 250px;
+		padding:10px;
+}

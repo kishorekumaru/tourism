@@ -3,6 +3,10 @@
 .table th, .table td { 
      border-top: none; 
  }
+ 
+ body{
+ font-size:12px;
+ }
 
 .container{
 padding:2px;

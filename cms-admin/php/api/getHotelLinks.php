@@ -26,7 +26,7 @@ function addHotelLink(){
 	$param =json_decode(file_get_contents('php://input'));
 	foreach($param as $key=>$value){
 		$field_names[]= $key;
-		$field_value[] = "'" . $value . "'";
+		$field_value[] = "'" . addslashes($value) . "'";
 	}
 	$init = new managedatabase;
 	
@@ -75,10 +75,11 @@ function addHotelImageDetails(){
 	$param =json_decode(file_get_contents('php://input'));
 	foreach($param as $key=>$value){
 		$field_names[]= $key;
-		$field_value[] = "'" . $value . "'";
+		$field_value[] = "'" . addslashes($value) . "'";
 	}
 	$init = new managedatabase;
 	
+
 	$field_names = implode(",",$field_names); 
 	$field_value = implode(",",$field_value); 
 

@@ -5,6 +5,17 @@ if(function_exists($_GET['method'])){
 	$_GET['method']();
 }
 
+
+/** Function for set Featured Details **/
+function setFeatured(){
+	$table_name ='packagemaster';
+	include_once('../core/class.managedatabase.php');
+	$param =json_decode(file_get_contents('php://input'));
+	$init = new managedatabase;
+	$data = $init->editDataGroup($table_name,'isFeatured', $param->isFeatured, $param->id);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
 /** Function for Day details **/
 function addDayDetails(){
 	$table_name ='package_day_details';
@@ -12,7 +23,7 @@ function addDayDetails(){
 	$param =json_decode(file_get_contents('php://input'));
 	foreach($param as $key=>$value){
 		$field_names[]= $key;
-		$field_value[] = "'" . $value . "'";
+		$field_value[] = "'" . addslashes($value) . "'";
 	}
 	$init = new managedatabase;
 	
@@ -49,7 +60,7 @@ function addImageDetails(){
 	$param =json_decode(file_get_contents('php://input'));
 	foreach($param as $key=>$value){
 		$field_names[]= $key;
-		$field_value[] = "'" . $value . "'";
+		$field_value[] = "'" . $value  . "'";
 	}
 	$init = new managedatabase;
 	
@@ -122,7 +133,7 @@ function addPackages(){
 	$param =json_decode(file_get_contents('php://input'));
 	foreach($param as $key=>$value){
 		$field_names[]= $key;
-		$field_value[] = "'" . $value . "'";
+		$field_value[] = "'" . addslashes($value) . "'";
 	}
 	$init = new managedatabase;
 	
@@ -267,7 +278,7 @@ function addHotels(){
 	$param =json_decode(file_get_contents('php://input'));
 	foreach($param as $key=>$value){
 		$field_names[]= $key;
-		$field_value[] = "'" . $value . "'";
+		$field_value[] = "'" . addslashes($value) . "'";
 	}
 	$init = new managedatabase;
 	

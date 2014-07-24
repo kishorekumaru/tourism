@@ -24,15 +24,15 @@
 		}else{
 				array_push($result, 0);
 		}
-
+		$this->link->close();
 	 	return $result;
-
 	 }
 	 
 	 function getLastPackId($table_name){	
 		$sqlQuery = "SELECT IF(MAX(id)is NULL, 0, MAX(id)) as id FROM $table_name WHERE 1=1";
 		$query = $this->link->query($sqlQuery);
 		$rowCountVar = $query->fetch_assoc();
+		$this->link->close();
 		return intval($rowCountVar['id']);
 	 }
 	 
@@ -49,7 +49,8 @@
 		}else{
 				array_push($result, 0);
 		}
-		
+
+		$this->link->close();
 	 	return $result;
 	 }
 	 
@@ -84,7 +85,7 @@
 		}else{
 				array_push($result, 0);
 		}
-		
+		$this->link->close();
 	 	return $result;
 	 }
 	 
@@ -102,6 +103,7 @@
 			}
 			
 		}
+		 $this->link->close();
 		 return $rowCountVar;	 
 	 }
 	 
@@ -111,19 +113,30 @@
 		while ($row = $query->fetch_assoc()) {
 				array_push($result, $row);
 		 }
-		 return $result;	 
+		$this->link->close();
+		return $result;	 
 	 }
 	 
 	 function editData($table_name, $param, $id){
 	 	foreach($param as $key=>$value){
+			$value = $this->link->real_escape_string($value);
 			$query = $this->link->query("UPDATE $table_name SET $key = '$value' WHERE id=$id"); 
 		}
+		$this->link->close();
+		return "1";
+	 }
+	 
+	 function editDataGroup($table_name, $key, $value, $id){
+		$value = $this->link->real_escape_string($value);	
+		$query = $this->link->query("UPDATE $table_name SET $key = '$value', MODIFIED_DATE=NOW() WHERE id in ($id)"); 
+		$this->link->close();
 		return "1";
 	 }
 	 
 	 function deleteData($table_name, $id){
 		$sqlQuery ="DELETE FROM $table_name where id=$id";
 	 	$query = $this->link->query($sqlQuery) or die($this->link->errno);
+		$this->link->close();
 		return "1";
 	 }
 	 
@@ -134,6 +147,7 @@
 	 function insertData($table_name, $field_name, $field_value){
 		$sqlQuery = "INSERT INTO $table_name ($field_name) VALUES ($field_value)";
 	 	$query = $this->link->query($sqlQuery) or die($this->link->errno);	
+		$this->link->close();
 		return $query;
 	 }
 	 

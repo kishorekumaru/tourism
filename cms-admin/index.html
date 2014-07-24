@@ -22,22 +22,30 @@ ng-show="isNavBar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a style="padding:0px; margin:0px;" href="#"><img src="images/admin-logo.png" title="Glacier"></a>
+      <a style="padding:0px; margin:0px;" href="../"><img src="images/admin-logo.png" title="Glacier"></a>
     </div>
 
    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li ng-class="{ active: isActive('/packages')}" class="dropdown">
-          <a href="#" class="dropdown-toggle" >PACKAGES <span class="caret"></span></a>
+          <a class="dropdown-toggle getHand" >PACKAGES <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a ng-click="loadFiles('/packages')" class="getHand">Manage Packages</a></li>
             <li><a ng-click="loadFiles('/hotels')" class="getHand">Manage Hotels</a></li>
              <li><a ng-click="loadFiles('/category')" class="getHand">Manage Category</a></li>
                <li class="divider"></li>
               <li><a ng-click="loadFiles('/linkHotels')" class="getHand">Link Hotels</a></li>
+              <li><a ng-click="loadFiles('/featured')" class="getHand">Make Featured</a></li>
           </ul>
         </li>
-        <li ng-class="{ active: isActive('/reports')}"><a ng-click="loadFiles('/reports')" class="getHand">REPORTS</a></li>
+        <li ng-class="{ active: isActive('/reports')}" class="dropdown">
+        	<a class="dropdown-toggle getHand">REPORTS <span class="caret"></span></a>
+            	<ul class="dropdown-menu" role="menu">
+                	<li><a ng-click="loadFiles('/reports') "class="getHand">Reports</a></li>
+                  	<li><a ng-click="loadFiles('/news_events')" class="getHand">News & Events</a></li>
+                	<li><a ng-click="loadFiles('/testimonial')" class="getHand">Client Testimonial</a></li>
+                </ul>
+        </li>
         <li ng-class="{ active: isActive('/changepassword')}"><a ng-click="loadFiles('/changepassword')" class="getHand">CHANGE PASSWORD</a></li>
          <li class="label-info"><a ng-click="loadFiles('/')" class="getHand">LOGOUT</a></li>
       </ul>
@@ -73,12 +81,15 @@ ng-show="isNavBar">
 <script src="js/controller/uploadHotelImgController.js"></script>
 <script src="js/controller/viewPackagesController.js"></script>
 <script src="js/controller/catController.js"></script>
-
+<script src="js/controller/reportsController.js"></script>
+<script src="js/controller/featuredController.js"></script>
 <!-- Inclue Services-->
 <script src="js/services/appServices.js"></script>
 <script src="js/services/sessionServices.js"></script>
 <script src="js/services/packageServices.js"></script>
 <script src="js/services/hotelServices.js"></script>
 <script src="js/services/catServices.js"></script>
+<script src="js/services/reportServices.js"></script>
+
 </body>
 </html>

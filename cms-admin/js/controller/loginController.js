@@ -3,6 +3,7 @@ app.controller("loginController", function($scope, $location, $rootScope, loginS
  $rootScope.$broadcast('showHideNaveBar', [false]);
  $scope.user={};
  $scope.isInvalid = false;
+ $scope.isNavBar = false;
 
 	$scope.login = function(){
 		$scope.user.admin_username = $scope.admin_username;
@@ -15,7 +16,8 @@ app.controller("loginController", function($scope, $location, $rootScope, loginS
 		$scope.clearError();
 		$scope.admin_username="";
 		$scope.admin_password="";	
-		
+	 	$scope.isNavBar = false;
+	
 		//Redirect
 		$location.path("/packages");
 	});

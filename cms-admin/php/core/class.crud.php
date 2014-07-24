@@ -17,12 +17,13 @@ class crud{
 	function addItems($param){
 		foreach($param as $key=>$value){
 				$field_names[]= $key;
-				$field_value[] = "'" . $value . "'";
+				$field_value[] = "'" . addslashes($value) . "'";
 		}
 		
-		$field_names = implode(",",$field_names); 
-		$field_value = implode(",",$field_value); 
 		
+		$field_names = implode(",",$field_names); 
+		$field_value = implode(",", $field_value); 
+
 
 	
 		$insert = $this->manageDB->insertData($this->tableName, $field_names, $field_value);

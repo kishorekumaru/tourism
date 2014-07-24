@@ -1,0 +1,38 @@
+<div class="container text-center" ng-show="isloading">
+   	<img src="cms-admin/images/loading.gif">
+   </div>
+<div ng-hide="isloading" class="conatiner-fluid"> 
+<div class="centered-width total-reset marginTop" >
+    	<div class="side-bar" >
+        	<div class="side-menu">
+              
+                <div ng-repeat="cat in totalCategories">
+                    <div class="side-pack-content"
+                    ng-class="{ 'side-active': $index == selectedIndex }"
+                    	 ng-click="filterCat(cat.id, $index)"><span class="spacer"></span> {{ cat.cat_name }}</div>
+                    <div class="side-empty-line"></div>                
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="main-bar text-left">
+        	<span class="titleText">Our Travel Packages </span> 
+           <div class="col-sm-12" style="clear:both">
+            	<div class="col-sm-4 marginTop margin-bottom" ng-repeat="fpack in totalPackItems">              
+                	<div><a class='btn btn-link' ng-click="showViewPanel( fpack.id )">
+                    	<img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{fpack.first_image}}"></a></div>
+                    <div class="featuredContent" style="padding:2px">
+                        <p><h4 class="featuredTitle"> {{ fpack.package_name }}</h4></p>
+                        <p> {{ fpack.dayString }} <br>
+                        <span class="featuredCurrency">{{ fpack.package_currency }} : {{ fpack.package_cost | currency : ''}} </span> 
+                        	<span style="font-size:10px">*per person </span><br>
+                        <i style="font-weight:normal">({{ fpack.offerValid }})</i></p>
+                        <a href="#">more details >> </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+  </div>
