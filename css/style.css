@@ -217,6 +217,13 @@ font-weight:400;
 text-transform:uppercase;
 }
 
+
+.normalTitle{
+color:#323232;
+font-size:20px;
+font-weight:400;
+}
+
 .featuredContent p{
 color:#2f3132;
 font-size:13px;
@@ -232,7 +239,7 @@ color:#2f68b2;
 color:#4fb779;
 font-size:11px;
 font-weight:bold;
-text-decoration:underline;
+
 }
 
 .featuredContent a:hover{
@@ -480,4 +487,24 @@ footer a{
         width: 500px;
         height: 250px;
 		padding:10px;
+}
+
+.showCursor{
+display:inline-block;
+cursor:pointer;
+}
+
+
+.content-title{
+	font-size:15px;
+	color:#515457;
+	font-weight:600;
+	font-family: 'Lato', sans-serif;
+}
+
+.content-text{
+	font-size:15px;
+	color:#515457;
+	font-weight:400;
+	font-family: 'Lato', sans-serif;
 }

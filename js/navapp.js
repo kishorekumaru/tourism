@@ -9,6 +9,11 @@ app.config(function($routeProvider){
 				controller: "packageList", 
 				templateUrl: 'views/packagedetails.html' 
 			 })
+		  .when("/packview", 
+			{ 
+				controller: "packViewController", 
+				templateUrl: 'views/packview.html' 
+			 })
 			
 			 .otherwise({ redirectTo:"/"});
 });

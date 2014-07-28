@@ -1,0 +1,156 @@
+<div>
+<div class="breadcrumb" style="height:50px"> 
+	<div class="centered-width total-reset">
+    <ol class="breadcrumb">
+	<li><a class="showCursor" ng-click="gotoPackage();">Package</a></li>
+  	<li>{{ selectedPackage.package_name }}</li>
+</ol></div>
+</div>
+
+<div class="centered-width total-reset">
+<div class="row" style="margin:10px 0">
+    <div class="col-sm-4">
+     <carousel interval="myInterval">
+            <slide ng-repeat="slide in slides" active="slide.active">
+                <a class="showCursor" ng-click="openWindow(slide.big_image)"> <img ng-src="{{slide.image}}" style="margin:auto;"></a>
+                <div class="carousel-caption">
+                    <h4> {{selectedPackage.package_name  }} Snapshot  - {{$index + 1}}</h4>                     
+                </div>
+            </slide>
+    </carousel>
+    </div>
+    <div class="col-sm-6">
+    	<div class="titleText">{{ selectedPackage.package_name  }}</div>
+        <div class="dealTitle">{{ selectedPackage.package_currency }} : {{ selectedPackage.package_cost | currency : ''}}
+        <span style="font-size:10px">*per person </span><br>
+                        <i style="font-weight:normal">({{ selectedPackage.offerValid }})</i>
+                     <br>
+                    <span class="content-title">{{ selectedPackage.package_des_covered }} </span> </div>
+                    
+      
+	</div>
+ 
+	</div>
+
+ 
+<tabset class="marginTop margin-bottom">
+    <tab heading="Package Info" >
+        <div class="row" style="margin:4px;">
+                <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
+            </div>
+            
+          <div class="row marginTop" style="padding:10px">
+			<display-item label-name="Name :" label-value="{{ selectedPackage.package_name }}" ></display-item>
+            <display-item label-name="Charge : " label-value="{{ selectedPackage.package_currency }} : {{ selectedPackage.package_cost | currency : ''}}" ></display-item>
+            <display-item label-name="Days :" label-value="{{ selectedPackage.dayString }}" ></display-item>
+            <display-item label-name="" label-value="{{ selectedPackage.offerValid }}" ></display-item>
+            <display-item label-name="Destinations Covered :" label-value="{{ selectedPackage.package_des_covered }}" ></display-item>
+   
+          </div>
+         
+    </tab>
+    
+    
+       <tab heading="General Information" >
+           <div class="row" style="margin:4px;">
+            <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
+        </div>
+    	<div class="row marginTop" style="padding:10px">
+			<display-item label-name="Destination Covered: " label-value="{{ selectedPackage.package_des_covered }}" ></display-item>
+            <display-item label-name="Tour Details: " label-value="{{ selectedPackage.package_tour_details }}" ></display-item>
+            <display-item label-name="Inclusion : " label-value="{{ selectedPackage.package_inclusion }}" ></display-item>
+            <display-item label-name="Exclusion : " label-value="{{ selectedPackage.package_exclusion }}" ></display-item>
+   
+          </div>
+    </tab>
+    
+    <tab heading="Day Details" >
+        <div class="row" style="margin:4px;">
+            <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
+        </div>
+        <div class="col-sm-6" ng-repeat="days in selectedDayPack | orderBy:day_num" style="padding:10px">
+        	
+            	<b>Day: {{ days.day_num  }}</b><br>
+            	 <p><label class="content-title">Day Title : </label> <label class="content-text"> {{ days.day_title  }}</label> <br>
+            	 <label class="content-title">Day Meals : </label> <label class="content-text"> {{ days.day_meals  }}</label> <br> 
+             	 <label class="content-title">Day Description : </label> <label class="content-text"> {{ days.day_desc  }}</label> <br> 
+         		</p>
+        </div>
+        
+    </tab>
+    
+    
+    <tab heading="Linked Hotel Details" >
+        <div class="row" style="margin:4px;">
+            <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
+        </div>
+        
+                <div class="row marginTop" style="padding:10px">
+                    <div class="row text-center" ng-show="isNotLinked" style="color:rgba(229,229,229,1.00)">
+                        <h1><b>No Hotels are linked to this package</b></h1>
+                     </div>
+                
+                <div ng-repeat="hotel in linkedHotels | orderBy:hotel_rating">
+                    <div class="col-md-3 alert alert-info" role="alert" style="margin:5px">
+                        <strong>{{ hotel.hotel_name}}</strong><p>{{ hotel.hotel_address}}</p>
+                        <div ng-init="x = hotel.hotel_rating">
+                            Category : <rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> 
+                         </div>
+                    </div>
+                   </div>
+                </div>
+        
+    </tab>
+    
+    
+    <tab heading="Terms" >
+           <div class="row" style="margin:4px;">
+            <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
+        </div>
+    	<div class="row marginTop" style="padding:10px">
+					<display-item label-name="Specific Tour Dates : " label-value="{{ selectedPackage.package_specific_tour_dates }} Days" ></display-item>
+                    <display-item label-name="Departure Cities Rates : " label-value="{{ selectedPackage.package_departure_cities_rates }}" ></display-item>
+                    <display-item label-name="Terms & Conditions" label-value="{{ selectedPackage.package_terms_cond}}" ></display-item>
+   
+          </div>
+    </tab>
+    
+    
+</tabset>
+
+
+               
+</div>
+<div class="container" >
+ <div class="centered-width total-reset marginTop" >
+       		<div class="newsTestTitle marginTop"> Similar Category Packages </div>
+            <div ng-repeat="catpack in sameCatPack" class="col-sm-4">
+           		<div><a class='btn btn-link' ng-click="openPackView( catpack.id )" style="padding:0;">
+                    	<img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{catpack.first_image}}" ></a></div>
+                    <div class="featuredContent" style="padding:1px">
+                       <h4 class="featuredTitle showCursor" ng-click="packView(catpack.id)"> {{ catpack.package_name }}</h4>
+                        <br>
+                        <a class="showCursor" ng-click="packView(catpack.id)">more details >> </a>
+                 	</div>
+            </div>
+            
+</div>
+</div>
+<script type="text/ng-template" id="ImageTemplate.html">
+	
+	
+	
+	<div >
+	 <carousel interval="myInterval">
+            <slide ng-repeat="slide in slides" active="slide.active">
+               <img ng-src="{{slide.big_image}}" style="margin:auto;">
+                <div class="carousel-caption">
+                    <h4> {{ headerName  }} Snapshot  - {{$index + 1}}</h4>                     
+                </div>
+            </slide>
+    </carousel>
+	
+	
+	</div>
+	
+</script>

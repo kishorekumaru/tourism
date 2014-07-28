@@ -100,6 +100,24 @@ app.directive('displayTag', function() {
 			replace:false
     };
   });
+  
+  
+  app.directive('displayItem', function() {
+      return {
+			scope:{},
+			restrict: 'E',
+			
+			link:function(scope, elm, attrs){
+				
+				// Get the attr values to scope values
+				scope.labelName = attrs.labelName;
+				scope.labelValue = attrs.labelValue;
+				
+			},
+			template:"  <div class='form-group'><label  class='col-sm-3 control-label'>{{ labelName }}</label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ labelValue }}</label></div>",
+			replace:false
+    };
+  });
 
 
 

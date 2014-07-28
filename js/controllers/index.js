@@ -1,4 +1,22 @@
-// JavaScript Document
+/**
+ * @author Kishore Kumar Unnikrishnan
+ * Created Date - 05-05-2014 
+ 
+-- Client : Glacier Holidays--
+Version : 1.0
+Updated on 20 July 2014 
+
+-- About
+	
+The file contains Controllers and function to retrive informations
+	
+-- Updates 
+
+Included Services for News and Testimonial Services
+
+*/
+
+
 app.controller("newsTestimonial", function($scope, $filter, testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
 
 	$scope.newsDetails = [];
@@ -13,15 +31,19 @@ app.controller("newsTestimonial", function($scope, $filter, testServices, newsSe
 	newsServices.crudCategory({"action":"Get"}, $scope);
 	packServices.getPackages($scope);
 	
+	//Call Back Method for test details
 	$scope.$on('loadtestDetails', function($event, data){
 		$scope.testimonialDetails = data;
 	});
 	
+	
+	//Call Back Method for News details
 	$scope.$on('loadnewsDetails', function($event, data){
 		$scope.newsDetails = data;
 	});
 	
-		
+	
+	//Call Back Method for Package details	
 	$scope.$on('loadPackDetails', function($event, data){
 		//store it in a session variable
 		if(data[0].data != ""){
@@ -33,7 +55,7 @@ app.controller("newsTestimonial", function($scope, $filter, testServices, newsSe
 	});
 	
 	
-		//Get all the package Thumb Images
+	//Get all the package Thumb Images
 	$scope.$on("getImageDetails", function($event, data){
 		$scope.totalImagePackages = data[0];
 
@@ -47,7 +69,7 @@ app.controller("newsTestimonial", function($scope, $filter, testServices, newsSe
 			}
 			
 			//Add Day items
-			$scope.packages[i].dayString = (parseInt($scope.packages[i].package_duration) - 1) + "Nights / " + $scope.packages[i].package_duration + "Days";
+			$scope.packages[i].dayString = (parseInt($scope.packages[i].package_duration) - 1) + "Night(s) / " + $scope.packages[i].package_duration + "Day(s)";
 			dateObj = new Date(String($scope.packages[i].package_valid_to).split(" ")[0]);
 			 $scope.packages[i].offerValid = "Offer till " + $filter("date")(dateObj, 'MMM d, y');  
 		}

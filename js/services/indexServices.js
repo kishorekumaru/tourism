@@ -71,7 +71,29 @@ app.factory("packServices", function($http){
 			});
 	 };
 	 
-	 
+	 returnServices.getDayDetails = function(dayObj, scope){
+		    var getDayDetails = $http.post("cms-admin/php/api/getPackages.php?method=getDayDetails&jsoncallback=");
+			getDayDetails.then(function(data){	
+				scope.$emit('getDayDetails', [data.data]);
+		});
+	};
+	
+	returnServices.getLinkDetails = function(scope, packageId){
+		var getLinkDetails = $http.post("cms-admin/php/api/getHotelLinks.php?method=getHotelLink&jsoncallback=", packageId);
+		getLinkDetails.then(function(data){
+			scope.$emit('loadHotelLinks', [data]);			
+		});
+	};
+	
+	
+	returnServices.getHotels = function(scope){
+			var getHotelDetails= $http.get("cms-admin/php/api/getPackages.php?method=getAllHotels&jsoncallback=");
+			getHotelDetails.then(function(data){
+				scope.$emit('loadDetails', [data]);
+			});
+		};
+	
+	
 	 return returnServices;
 });
 
@@ -94,15 +116,35 @@ app.factory("imageServices", function($http){
 
 app.factory('sharedEventDispatcher', function($rootScope, $location){
 	var sharedEventDispatch = {};
-	
+	sharedEventDispatch.id="";
 	sharedEventDispatch.hotelId = 0;
 	sharedEventDispatch.totalHotels = [];
-
 	sharedEventDispatch.packageId = 0;	
 	sharedEventDispatch.totalPackages = [];
-	
 	sharedEventDispatch.totalImagePackages = [];
+	sharedEventDispatch.category = [];
+	
+	
+	sharedEventDispatch.setCateogry = function(category){
+		this.category = category;
+	}
+	
+	sharedEventDispatch.getCateogry = function(){
+		return this.category;
+	}
+	
 
+
+
+	sharedEventDispatch.setPackageID = function(id){
+			this.id =  id;
+	}
+
+	sharedEventDispatch.getPackageID = function(){
+		return this.id;
+	}
+	
+	
 	sharedEventDispatch.setPackages = function(totalPackages){
 		this.totalPackages =  totalPackages;
 	}

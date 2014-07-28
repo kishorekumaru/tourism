@@ -1,13 +1,49 @@
 // JavaScript Document
-app.controller("packageList", function($scope, $filter, testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
+app.controller("packageList", function($scope, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
 		
 		$scope.allPackageCat = [];
 		$scope.totalImagePackages = [];
 		$scope.noImageFile = "no-image.jpg";	
 		$scope.packages =[];
 		$scope.isloading=true;
+		$scope.totalCategories = [];
 		
-		(!sharedEventDispatcher.getPackages().length)?packServices.getPackages($scope):$scope.packages=sharedEventDispatcher.getPackages()
+		
+		$scope.generateView = function(){
+			
+			for(var i=0;i< $scope.packages.length;i++){
+				var dateObj = new Date();
+				$scope.imageDetails = $filter("getByPackageId")($scope.totalImagePackages,$scope.packages[i].id);
+				if($scope.imageDetails.length){
+					$scope.packages[i].first_image = $scope.imageDetails[0].package_thumb_img;
+				}else{
+					$scope.packages[i].first_image =  $scope.noImageFile;
+				}
+				
+				//Add Day items
+				$scope.packages[i].dayString = (parseInt($scope.packages[i].package_duration) - 1) 
+												+ "Night(s) / " + $scope.packages[i].package_duration + "Day(s)";
+				dateObj = new Date(String($scope.packages[i].package_valid_to).split(" ")[0]);
+				$scope.packages[i].offerValid = "Offer till " + $filter("date")(dateObj, 'MMM d, y');  
+			}
+				
+				
+
+			$scope.totalCategories = $filter('orderBy')($scope.totalCategories, 'id')
+			$scope.isloading=false;
+			$scope.selectedIndex = 0;
+			$scope.totalPackItems = $scope.packages;
+		}
+		
+		if(!sharedEventDispatcher.getPackages().length){
+				packServices.getPackages($scope)
+		}else{
+			$scope.packages=sharedEventDispatcher.getPackages();
+			$scope.totalCategories = sharedEventDispatcher.getCateogry();
+			$scope.totalImagePackages = sharedEventDispatcher.getTotalImagePackages();
+			$scope.generateView();
+			$scope.isloading=false;
+		}
 			
 		$scope.$on('loadPackDetails', function($event, data){
 			//store it in a session variable
@@ -22,24 +58,8 @@ app.controller("packageList", function($scope, $filter, testServices, newsServic
 		
 			$scope.$on("getImageDetails", function($event, data){
 				$scope.totalImagePackages = data[0];
-		
-				for(var i=0;i< $scope.packages.length;i++){
-					var dateObj = new Date();
-					$scope.imageDetails = $filter("getByPackageId")($scope.totalImagePackages,$scope.packages[i].id);
-					if($scope.imageDetails.length){
-						$scope.packages[i].first_image = $scope.imageDetails[0].package_thumb_img;
-					}else{
-						$scope.packages[i].first_image =  $scope.noImageFile;
-					}
+					//Store it in global variable 
 					
-					//Add Day items
-					$scope.packages[i].dayString = (parseInt($scope.packages[i].package_duration) - 1) + "Nights / " + $scope.packages[i].package_duration + "Days";
-					dateObj = new Date(String($scope.packages[i].package_valid_to).split(" ")[0]);
-					 $scope.packages[i].offerValid = "Offer till " + $filter("date")(dateObj, 'MMM d, y');  
-				}
-				
-				
-				//Store it in global variable 
 				sharedEventDispatcher.setTotalImagePackages($scope.totalImagePackages);
 				sharedEventDispatcher.setPackages($scope.packages);
 				
@@ -48,17 +68,24 @@ app.controller("packageList", function($scope, $filter, testServices, newsServic
 	});
 	
 	$scope.$on('loadCatDetails',function(event, data){
-			$scope.totalCategories  = data;	
+			$scope.totalCategories  = data;
 			var addAllObj = new Object();
 			addAllObj.cat_name = "ALL"
 			addAllObj.id = 0;
-			$scope.totalCategories.push(addAllObj);
-			$scope.totalCategories = $filter('orderBy')($scope.totalCategories, 'id')
-			$scope.isloading=false;
-			$scope.selectedIndex = 0;
-			$scope.totalPackItems = $scope.packages;
+			
+			$scope.totalCategories.push(addAllObj);	
+			sharedEventDispatcher.setCateogry($scope.totalCategories);
+			$scope.generateView();		
 	});
 	
+	
+	
+	
+	$scope.openPackView = function(id){
+	
+		sharedEventDispatcher.setPackageID(id);
+		$location.path("/packview");
+	}
 	
 	$scope.filterCat = function(id, $index){
 		
@@ -66,8 +93,7 @@ app.controller("packageList", function($scope, $filter, testServices, newsServic
 		
 		if(id != 0){
 			selectedDetails = $filter('searchObjectItem')($scope.packages, id, 'cat_id')
-			$scope.totalPackItems = selectedDetails
-			
+			$scope.totalPackItems = selectedDetails			
 		}else{
 			$scope.totalPackItems =  $scope.packages;;
 			
@@ -75,3 +101,139 @@ app.controller("packageList", function($scope, $filter, testServices, newsServic
 	}
 
 });
+
+
+
+
+	app.controller("packViewController", function($scope, $route, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices, $modal){ 
+	
+	 $scope.totalPackages = sharedEventDispatcher.getPackages();
+	 $scope.selectedID = sharedEventDispatcher.getPackageID();
+	 $scope.totalImages = sharedEventDispatcher.getTotalImagePackages();
+	 $scope.totalCateogry = sharedEventDispatcher.getCateogry();
+	 $scope.slides = [];
+	 $scope.selectedPackage = {};
+	 $scope.selectedDayPack = [];
+	 $scope.linkedHotels = [];
+	 $scope.hotelDetails = [];
+	 $scope.getSameCatPack = [];
+	 $scope.sameCatPack = [];
+	 $scope.selectedPackage.cat_id ="";
+	 
+	 
+	if($scope.selectedID == "" || $scope.selectedID == undefined){
+		$location.path("/");
+		return;
+	}
+	 
+	 $scope.selectedPackage = $filter("getById")($scope.totalPackages, $scope.selectedID);
+	 $scope.categoryObj = $filter("getById")($scope.totalCateogry, $scope.selectedPackage.cat_id);
+	 $scope.selectedImg = $filter("getByPackageId")($scope.totalImages, $scope.selectedID);
+	 $scope.selectedPackage.cat_name = $scope.categoryObj.cat_name;
+	 
+	  packServices.getDayDetails($scope.selectedID, $scope);    
+	  packServices.getHotels($scope);
+	
+	
+	//Open other pack
+	$scope.packView = function(id){
+		sharedEventDispatcher.setPackageID(id);
+		$route.reload();
+	}
+	//Get Revelant Package ID 
+	
+	$scope.getSameCatPack = $filter('searchObjectItem')($scope.totalPackages, $scope.selectedPackage.cat_id, 'cat_id')
+	
+	for(var i=0;i<$scope.getSameCatPack.length;i++){
+		if($scope.getSameCatPack[i].id != $scope.selectedID){
+			$scope.sameCatPack.push($scope.getSameCatPack[i]);
+		}
+		if(i==4){
+			break;
+		}
+	}
+
+	
+	
+	//Get all the hotels
+	$scope.$on('loadDetails',function(event, data){
+		$scope.hotelDetails  = data[0].data;
+		packServices.getLinkDetails($scope,{'package_id':$scope.selectedID});
+	});
+	 
+	 
+
+	//Get all the days Information
+	 $scope.$on('getDayDetails', function($event, data){
+		$scope.selectedDayPack = [];
+		$scope.selectedDayPack =  $filter('getByPackageId')(data[0], $scope.selectedID);
+		for(i=0;i<$scope.selectedDayPack.length;i++){
+			$scope.selectedDayPack[i].day_num = i + 1;
+		}
+		
+	});
+	
+	
+	//Get all Hotel Link Details
+	$scope.$on('loadHotelLinks',function(event, data){
+		if(data[0].data[0].hotel_id != ""){
+			$scope.isNotLinked = false;
+		    $scope.hotelLinkDetails  = data[0].data[0].hotel_id;
+			$scope.linkedHotels =  $filter("filterLinkedHotels")($scope.hotelDetails, $scope.hotelLinkDetails);
+		}else{
+			$scope.isNotLinked = true;
+			$scope.linkedHotels =  [];
+		}
+	});
+	
+	
+	
+	 $scope.addSlide = function(imgName, big_image) {
+			$scope.slides.push({image: 'cms-admin/com/uploads/' + imgName, big_image:'cms-admin/com/uploads/'+big_image});
+	 };
+	 
+	 if($scope.selectedImg.length){
+			//Loop the Image to 
+			for(var i=0;i<$scope.selectedImg.length;i++){
+					$scope.addSlide($scope.selectedImg[i].package_small_img, $scope.selectedImg[i].package_big_img);
+			}
+			
+	}
+		
+		
+	$scope.gotoPackage = function(){
+		$location.path("/");
+	}
+	
+
+
+	//Open Modal Window for Larger Image
+	$scope.openWindow = function(currentImage){
+		var modalInstance = $modal.open({
+			templateUrl: 'ImageTemplate.html',
+			controller: largeImgPopupUpIns,
+			resolve: {
+				totalDetails: function () {
+					return [$scope.selectedPackage.package_name, currentImage, $scope.slides];
+				}
+			}
+		});
+	
+	}
+
+
+
+
+});
+
+
+var largeImgPopupUpIns = function ($scope, $modalInstance, totalDetails) {
+  $scope.currentImage = totalDetails[1];
+  $scope.headerName = totalDetails[0];
+  $scope.slides  = totalDetails[2];
+ 
+ 	
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
