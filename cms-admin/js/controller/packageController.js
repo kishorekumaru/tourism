@@ -1,8 +1,8 @@
 app.controller("packageController", function($scope, $rootScope, $modal, $location, $filter, packServices
-, sharedEventDispatcher, imageServices, catServices){
+, sharedEventDispatcher, imageServices, catServices, dayDetailServices){
 
 	
-	$scope.packages= "";
+	$scope.packages= [];
 	$scope.packPage = [];
 	$scope.itemsPerPage = 2;
 	$scope.isNameASC = "ASC";
@@ -10,7 +10,6 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	$scope.currentPage = 1;
 	$scope.totalImagePackages = "";
 	$scope.noImageFile = "no-image.jpg";
-   
   
 	packServices.getPackages($scope);
 	catServices.crudCategory({"action":"Get"}, $scope);
@@ -32,6 +31,8 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 			sharedEventDispatcher.totalPackagesObj($scope.packages);
 			imageServices.getImgDetails($scope);
 		}else{
+			$scope.packPage.package_valid_from = new Date();
+			$scope.packPage.pack.package_valid_to  = new Date();
 			$scope.isloading=false;
 		}
 		
@@ -60,12 +61,7 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 		$scope.currentPage = 1;
 		$scope.isloading=true;	
 	});
-	
-	
-	
-	
-	
-	
+		
 	$scope.sortByName = function(){
 		//Toggle SORT Values
 		($scope.isNameASC == "ASC")?$scope.isNameASC="DESC":$scope.isNameASC="ASC";
@@ -111,18 +107,16 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 		$scope.packPage = $scope.packages.slice(start,end);
 	};
 	
-	$scope.editPackItem = function (id){
-		
+	$scope.editPackItem = function (id){		
 		var selectedDetails = $filter('getById')($scope.packages, id);
 		sharedEventDispatcher.sharePackEditDetails(selectedDetails); 
 		//$rootScope.$emit("editPackages",[selectedDetails]);
 		$location.path("/addPackages");
 	};
 	
-	$scope.linkHotels = function (id){
-		
+	$scope.linkHotels = function (id){		
 		var selectedDetails = $filter('getById')($scope.packages, id);
-	sharedEventDispatcher.sharePackageID(id, $scope.packages);
+		sharedEventDispatcher.sharePackageID(id, $scope.packages);
 		$location.path("/linkHotels");
 	};
 	
@@ -130,9 +124,33 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	
 	$scope.deletePackage = function (id){
 		if (confirm('Are you sure you want to delete?')) {
-    		packServices.deletePack({'id':id},$scope);
+    		//Delete all the package Information before Deleting
+			packItems = $filter("searchObjectItem")($scope.totalImagePackages,id,'package_id');
+			try{
+				for(var i=0;i<packItems.length;i++){
+					var sendObj = new Object();
+					sendObj.big_img = packItems[i].package_big_img;
+					sendObj.small_img = packItems[i].package_small_img;
+					sendObj.thumb_img = packItems[i].package_thumb_img;
+					imageServices.unlinkImages($scope, sendObj, packItems[i].id);
+					imageServices.deleteImgDetails({'id':packItems[i].id}, $scope); 				 
+				}
+				dayDetailServices.getDayDetails(id, $scope);  
+				
+			}catch(err){
+				alert(err.message);
+			}
 		} 
 	};
+	
+	$scope.$on('getDayDetails', function($event, data){
+	   	var getSelectedPack = [];
+		getSelectedPack =  $filter('getByPackageId')(data[0], data[1]);
+		for(i=0;i<getSelectedPack.length;i++){	
+			dayDetailServices.deleteDetails({'id':getSelectedPack[i].id}, $scope);
+		}
+		packServices.deletePack({'id':data[1]},$scope);
+	});
 	
 	
 	$scope.manageDays = function (id){

@@ -25,21 +25,38 @@
                         	<td>Hotel name</td>
                     		<td><input type="input" name="hotel_name" ng-model="hotel.hotel_name"></td>
                          </tr>
+						 
+						 <tr>
 						 <tr>
                         	<td>Overview</td>
-                    		<td><textarea ng-model="hotel.hotel_overview" name="hotel_overview"></textarea></td>
+                    		<td><textarea ng-model="hotel.hotel_overview" name="hotel_overview"  rows="3" cols="70"></textarea></td>
                          </tr>
 						 <tr>
                         	<td>Address</td>
-                    		<td><textarea ng-model="hotel.hotel_address" name="hotel_address"></textarea></td>
+                    		<td><textarea ng-model="hotel.hotel_address" name="hotel_address"  rows="3" cols="70"></textarea></td>
                          </tr>
 						 <tr>
                         	<td>Country</td>
-                    		<td><input type="input" name="hotel_country_id" ng-model="hotel.hotel_country_id"></td>
+                    		<td> <select class="form-control"  ng-model="hotel.hotel_country"  
+                            		 ng-options="cur.name as cur.name for cur in totalCountries">
+                               <option value="" disabled selected>Select Country</option>                            
+                             </select></td>
+                         </tr>
+						 <tr>
+                        	<td>Email</td>
+                    		<td><input type="input" ng-model="hotel.hotel_email" name="hotel_email" ></td>
+                         </tr>
+						 <tr>
+                        	<td>Phone</td>
+                    		<td><input type="input" ng-model="hotel.hotel_phone" name="hotel_phone" ></td>
+                         </tr>
+						 <tr>
+                        	<td>Website</td>
+                    		<td><input type="input" name="hotel_web_url" ng-model="hotel.hotel_web_url"></td>
                          </tr>
                          <tr>
                         	<td>Facilities</td>
-                    		<td><input type="input" name="hotel_facilities" ng-model="hotel.hotel_facilities"></td>
+                    		<td><textarea type="input" name="hotel_facilities" ng-model="hotel.hotel_facilities"  rows="3" cols="70"></textarea></td>
                          </tr>
 						 <tr>
                         	<td>Category</td>
@@ -97,11 +114,13 @@
                            <div class='col-md-10' style="padding:5px">
                             
                             <div><b>Address: </b>{{ hotel.hotel_address }}</div>
-                            <div><b>Country : </b>{{ hotel.hotel_country_id }}</div>
+                            <div><b>Country : </b>{{ hotel.hotel_country }}</div>
+                            <div><b>Phone : </b>{{ hotel.hotel_phone }}</div>
+                            <div><b>Email : </b>{{ hotel.hotel_email }}</div>                           
+                            <div><b>Website : </b><a href="{{hotel.hotel_web_url}}" target="_blank">{{ hotel.hotel_web_url }}</a></div>
+                            <div><b>Facilities : </b>{{ hotel.hotel_facilities}}</div>                           
                             <div><b>Overview :  </b>{{hotel.hotel_overview }}</div>
                             <div ng-init="x = hotel.hotel_rating"><b>Category : </b><rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div>
-                           <div><b>Facilities : </b>{{ hotel.hotel_facilities}}</div>
-                            
                            </div>
                           
                            </div>

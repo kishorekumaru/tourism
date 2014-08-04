@@ -1,0 +1,116 @@
+<!-- Banner -->
+<div class="banner-holder">
+</div>
+<div class="container title-text titleText text-center marginTop">
+	Our Services
+</div>
+
+<!-- END OF BANNER -->
+<div class="graphic-holder centered">
+	<div class="centered-width total-reset">
+    	<div class="flight-block">
+        	<div class="block-img"><img src="images/flight.png"></div>
+        	<div class="block-img extra-top-padding">FLIGHTS </div>
+        </div>
+        <div class="hotel-block"> 
+        	<div class="block-img extra-top-padding"><img src="images/hotel.png "></div>
+        	<div class="block-img extra-top-padding">HOTELS </div>
+        </div>
+        <div class="tour-block"> 
+            <div class="block-img" style="padding-top:20px"><img src="images/tour.png"></div>
+        	<div class="block-img extra-top-padding">TOURS </div>
+        </div>	
+        
+        <div class="travel-block"> 
+        	<div class="block-img "><img src="images/travel.png"></div>
+        	<div class="block-img extra-top-padding">TRAVEL DEALS </div>
+         </div>
+    </div>
+    <div class="centered-width total-reset">
+    	<div class="fligt-line"> </div>
+        <div class="hotel-line"> </div>
+        <div class="tour-line"> </div>
+        <div class="travel-line"> </div>
+    </div>
+    
+    <!-- create an empty space -->
+    <div class="centered-width extra-top-padding-2x"></div>
+    
+    <!-- Our Services Holder -->
+    <div class="container user-font">
+    <div class="centered-width total-reset" style="min-height:500px;">
+    	<div class="side-bar" >
+        	<div class="side-menu" style="background-color:#fcd404; padding-top:10px;">
+        		<h4>Why Glaceir Holidays ? </h4>
+                <div class="side-menu-content"> <img src="images/hand-icon.png"> <span class="spacer"></span>Competing Price </div>
+                <div class="side-empty-line"></div>
+                <div class="side-menu-content"> <img src="images/wide.png"> <span class="spacer"></span> Wide Range of deals </div>
+                <div class="side-empty-line"></div>                
+                <div class="side-menu-content"> <img src="images/star.png"> <span class="spacer"></span> Best in class service </div>
+                <div class="side-empty-line"></div>                
+                <div class="side-menu-content"> <img src="images/man.png"> <span class="spacer"></span> Experienced Guides</div>
+                <div class="side-empty-line"></div>               
+                <div class="side-menu-content"> <img src="images/season.png"> <span class="spacer"></span> Sesonal Offers</div>
+                
+            </div>
+            <div>
+            	<div class="row text-left planTitle marginTop" style="padding-left:20px">  PLAN YOUR TRIP NOW </div>
+               
+            </div>
+        </div>
+        <div class="main-bar text-left">
+        	<span class="titleText">Our Travel Deals </span> 
+           <div class="row">
+            	<div class="col-md-6" ng-repeat="fpack in featurePackDetails">              
+                	<div class="col-md-6" style="padding:2px">
+                    		<div ><a class='btn btn-link' ng-click="showViewPanel( fpack.id )">
+                            
+                            <img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{fpack.first_image}}"></a></div>
+                            </div>
+                    <div class="col-md-6 featuredContent" style="padding:2px">
+                        <p><h4 class="featuredTitle"> {{ fpack.package_name }}</h4></p>
+                        <p> {{ fpack.dayString }} <br>
+                        <span class="featuredCurrency">{{ fpack.package_currency }} : {{ fpack.package_cost | currency : ''}} </span> 
+                        	<span style="font-size:10px">*per person </span><br>
+                        <i style="font-weight:normal">({{ fpack.offerValid }})</i></p>
+                        <a ng-click="openPackView(fpack.id)"  class="showCursor">more details >> </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- End of Service holder -->
+    
+    <div class="container margin-bottom user-font" >
+   		
+        <div class="col-md-5">
+        	<div class="row text-left">
+            	<h4  class="titleText">Our Clients say...</h4>
+            </div>
+            <div class=" text-left" ng-repeat="test in testimonialDetails" style="padding:5px">
+            	<div class="newsTestContent"> {{ test.client_content}}</div>
+            	<div class="text-right"> - <span class="newsTestTitle"> {{ test.client_name }}, </span> {{test.client_title}}</div>
+            </div>
+            <div class="row text-right">
+            	<a class="showCursor"  ng-click="gotoURL('/testimonial')";> view all testimonials >> </a>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+        	<div class="text-left">
+            	<h4  class="titleText">News & Update</h4>
+            </div>
+            <div class="text-left" ng-repeat="news in newsDetails" style="padding:5px">
+            <div > <span class="newsTestTitle">{{news.news_title}} </span>- {{ news.INSERT_DATE }}</div>
+            	<div class="newsTestContent"> {{ news.news_content}}</div>
+            	
+            </div>
+            <div class="row text-right">
+            	<a class="showCursor"  ng-click="gotoURL('/news')";> view all news & updates >> </a>
+            </div>
+        </div>
+        
+    </div>

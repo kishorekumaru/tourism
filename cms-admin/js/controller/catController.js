@@ -1,6 +1,6 @@
 // JavaScript Document
 
-app.controller("catController", function($scope, $modal, $filter,  $location, sharedEventDispatcher,  catServices, sharedEventDispatcher){
+app.controller("catController", function($scope, $modal, $filter,  $location, sharedEventDispatcher,  catServices){
 	
 		$scope.catDetails = "";
 		$scope.itemsPerPage = 10;
@@ -110,9 +110,19 @@ app.controller("catController", function($scope, $modal, $filter,  $location, sh
 	   };
 
 	$scope.deleteItem = function (id){
-		if (confirm('Are you sure you want to delete?')) {
-			catServices.crudCategory({'id':id, 'action' : 'Delete'},$scope);
-		} 
+		
+			//Confirm if any product is there 
+			$scope.totalPackages = sharedEventDispatcher.totalPackages;
+			$catPacks = $filter("searchObjectItem")($scope.totalPackages,id, 'cat_id');
+			
+			if($catPacks.length){
+				alert("Cannot delete the Cateogry.\n This cateogry contains more than one package. \n Please delete or reassign this cateogry package other cateogry");
+			}else{
+				if (confirm('Are you sure you want to delete?')) {
+		 		catServices.crudCategory({'id':id, 'action' : 'Delete'},$scope);
+			}
+		  }
+		
 	};
 
 

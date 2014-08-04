@@ -96,7 +96,9 @@ function getImageDetails(){
 //function to delete the images from the folder
 function deleteImagesFrmFolder(){
 	$param =json_decode(file_get_contents('php://input'));
-	$uploadPath =  ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "com". DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR;
+	$separator = DIRECTORY_SEPARATOR;
+	$separator = "/";
+	$uploadPath =  ".." . $separator . ".." . $separator . "com". $separator . "uploads" . $separator;
 	$bigImage =	$uploadPath . $param->big_img;
 	$smallImage =	$uploadPath . $param->small_img;
 	$thumbImage =	$uploadPath . $param->thumb_img;

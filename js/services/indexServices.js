@@ -47,6 +47,29 @@ app.factory("testServices", function($http){
 });
 
 
+app.factory("contactServices", function($http){
+	
+	//Declar a return object
+	var contactServicesObj = {};
+	
+	//Function to get all the test services
+
+	contactServicesObj.crudCategory = function(contactItems, scope){
+			var getCntList= $http.post("cms-admin/php/api/getReports.php?method=contactDetails&jsoncallback=",contactItems);
+			getCntList.then(function(data){
+					if(contactItems.action.toString() != 'Get' && contactItems.action.toString() != 'Order'){
+						scope.$emit('reloadContactDetails', data.data);			
+					}else{
+						scope.$emit('loadContactDetails', data.data);
+					}
+			});
+	 };
+	
+	
+	return contactServicesObj;
+	
+});
+
 
 app.factory("packServices", function($http){
 	
@@ -123,6 +146,26 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	sharedEventDispatch.totalPackages = [];
 	sharedEventDispatch.totalImagePackages = [];
 	sharedEventDispatch.category = [];
+	sharedEventDispatch.newsDetails = [];
+	sharedEventDispatch.testimonials = [];
+	
+	
+	sharedEventDispatch.setTestimonials = function(testimonials){
+		this.testimonials = testimonials;
+	}
+	
+	sharedEventDispatch.getTestimonials = function(){
+		return this.testimonials;
+	}
+	
+	
+	sharedEventDispatch.setNewsDetails = function(newsDetails){
+		this.newsDetails = newsDetails;
+	}
+	
+	sharedEventDispatch.getNewsDetails = function(){
+		return this.newsDetails;
+	}
 	
 	
 	sharedEventDispatch.setCateogry = function(category){

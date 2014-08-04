@@ -1,4 +1,18 @@
-// JavaScript Document
+/**
+ * @author Kishore Kumar Unnikrishnan
+ * Created Date - 05-05-2014 
+ 
+-- Client : Glacier Holidays--
+Version : 1.0
+Updated on 10 July 2014 
+
+-- About
+	
+packageList and packViewController
+	
+
+*/
+
 app.controller("packageList", function($scope, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
 		
 		$scope.allPackageCat = [];
@@ -7,8 +21,9 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 		$scope.packages =[];
 		$scope.isloading=true;
 		$scope.totalCategories = [];
+		$scope.headerName = "PACKAGES"
 		
-		
+		//Generate the view for Details
 		$scope.generateView = function(){
 			
 			for(var i=0;i< $scope.packages.length;i++){
@@ -39,10 +54,14 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 				packServices.getPackages($scope)
 		}else{
 			$scope.packages=sharedEventDispatcher.getPackages();
-			$scope.totalCategories = sharedEventDispatcher.getCateogry();
 			$scope.totalImagePackages = sharedEventDispatcher.getTotalImagePackages();
-			$scope.generateView();
-			$scope.isloading=false;
+			$scope.totalCategories = sharedEventDispatcher.getCateogry();
+			if(!$scope.totalCategories.length){
+				packServices.crudCategory({"action":"Get"}, $scope);
+			}else{				
+				$scope.generateView();
+				$scope.isloading=false;
+			}
 		}
 			
 		$scope.$on('loadPackDetails', function($event, data){
@@ -105,7 +124,8 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 
 
 
-	app.controller("packViewController", function($scope, $route, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices, $modal){ 
+	app.controller("packViewController", function($scope, $route, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices, $modal, contactServices){ 
+	
 	
 	 $scope.totalPackages = sharedEventDispatcher.getPackages();
 	 $scope.selectedID = sharedEventDispatcher.getPackageID();
@@ -120,7 +140,6 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 	 $scope.sameCatPack = [];
 	 $scope.selectedPackage.cat_id ="";
 	 
-	 
 	if($scope.selectedID == "" || $scope.selectedID == undefined){
 		$location.path("/");
 		return;
@@ -130,7 +149,8 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 	 $scope.categoryObj = $filter("getById")($scope.totalCateogry, $scope.selectedPackage.cat_id);
 	 $scope.selectedImg = $filter("getByPackageId")($scope.totalImages, $scope.selectedID);
 	 $scope.selectedPackage.cat_name = $scope.categoryObj.cat_name;
-	 
+	 $scope.headerName =   $scope.categoryObj.cat_name ;
+
 	  packServices.getDayDetails($scope.selectedID, $scope);    
 	  packServices.getHotels($scope);
 	
@@ -159,6 +179,7 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 	$scope.$on('loadDetails',function(event, data){
 		$scope.hotelDetails  = data[0].data;
 		packServices.getLinkDetails($scope,{'package_id':$scope.selectedID});
+	 	
 	});
 	 
 	 
@@ -201,11 +222,32 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 	}
 		
 		
-	$scope.gotoPackage = function(){
-		$location.path("/");
+	$scope.gotoURL = function(returnURL){
+		$location.path(returnURL);
 	}
 	
 
+	$scope.inquireNow = function(){
+		var InquireInstance = $modal.open({
+			templateUrl: 'InquireTemplate.html',
+			controller: largeInquirePopupUpIns,
+			resolve: {
+				totalDetails: function () {
+					return $scope.selectedPackage;
+				}
+			}
+		});
+		
+		InquireInstance.result.then(function (userItems) {
+		  contactServices.crudCategory(userItems, $scope);
+		});
+ 
+	}
+
+
+	$scope.$on("reloadContactDetails", function(){
+		alert("Thanks for contacting us, Our executive will be in touch with you shortly");
+	});
 
 	//Open Modal Window for Larger Image
 	$scope.openWindow = function(currentImage){
@@ -237,3 +279,29 @@ var largeImgPopupUpIns = function ($scope, $modalInstance, totalDetails) {
     $modalInstance.dismiss('cancel');
   };
 };
+
+
+
+var largeInquirePopupUpIns = function ($scope, $modalInstance, totalDetails) {
+  $scope.package = totalDetails;
+  $scope.contactDetails = {};
+  var insertDate = new Date();
+ 
+  $scope.saveChanges = function () {
+	 
+		$scope.contactDetails.insert_date = insertDate.toJSON();
+		$scope.contactDetails.contact_subject = $scope.package.package_name;
+		$scope.contactDetails.action = "Insert";
+		$modalInstance.close($scope.contactDetails);
+	 
+  };
+  
+  
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
+
+
+
+

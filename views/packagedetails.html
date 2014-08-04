@@ -1,6 +1,11 @@
+
+<div class="package-holder">
+ <div class="centered-width bannerText">{{ headerName }}</div>
+
+</div>
 <div class="container text-center" ng-show="isloading">
    	<img src="cms-admin/images/loading.gif">
-   </div>
+</div>
 <div ng-hide="isloading" class="conatiner-fluid"> 
 <div class="centered-width total-reset marginTop" >
     	<div class="side-bar" >
@@ -16,7 +21,7 @@
             </div>
             
         </div>
-        <div class="main-bar text-left">
+        <div class="main-bar text-left" style="min-height:300px">
         	<span class="titleText">Our Travel Packages </span> 
            <div class="col-sm-12" style="clear:both">
             	<div class="col-sm-4 marginTop margin-bottom" ng-repeat="fpack in totalPackItems">              

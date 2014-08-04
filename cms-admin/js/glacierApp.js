@@ -51,17 +51,19 @@ app.config(function($routeProvider){
 				 	controller: "featuredController", 
 					templateUrl: 'com/views/feautred.html' 
 			 })
-			.when("/reports", 
+			.when("/contactus", 
 			{ 
-				 	controller: "reportsController", 
-					templateUrl: 'com/views/reportDetails.html' 
+				 	controller:"contactUsController",
+					templateUrl: 'com/views/contactUsDetails.html' 
 			 })
 			.when("/news_events", 
-			{ 
+			{ 	
+					controller:"newsEventsController",
 					templateUrl: 'com/views/news_events.html' 
 			 })
 			.when("/testimonial", 
 			{ 
+						controller:"testimonialController",
 						templateUrl: 'com/views/testimonial.html' 
 			 })
 			 .when("/changepassword", 

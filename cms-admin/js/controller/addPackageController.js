@@ -23,6 +23,12 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	
 	$scope.$on('loadCatDetails',function(event, data){
 			$scope.totalCategories  = data;	
+			
+			if(!$scope.totalCategories.length || typeof($scope.totalCategories[0]) == "number" ){
+				alert("Please create a Category and then create a package");
+				$location.path("/category");
+				return;
+			}
 	});
 		
 		
@@ -33,6 +39,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 		var valid_to = Date.parse($scope.pack.package_valid_to);
 		$scope.pack.package_valid_from =  $filter('date')(valid_from, 'MM/dd/yyyy');
 		$scope.pack.package_valid_to =  $filter('date')(valid_to, 'MM/dd/yyyy');
+		$scope.pack.package_cost = parseInt($scope.pack.package_cost);
 		$scope.pack.package_duration = parseInt($scope.pack.package_duration);
 	}else{
 		packServices.packageCount($scope);

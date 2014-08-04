@@ -23,7 +23,7 @@ app.factory("hotelAddServices", function($http){
 		addHotels:function(hotels, scope){
 			var addHotels= $http.post("php/api/getPackages.php?method=addHotels&jsoncallback=", hotels);
 			addHotels.then(function(data){				
-				if(data.data == "1"){
+				if(String(data.data).trim() == "1"){
 					scope.$emit('reloadDetails'); 
 				}
 			});
@@ -36,7 +36,7 @@ app.factory("deleteServices", function($http){
 		deleteHotel:function(idValue, scope){
 			var deleteHotel= $http.post("php/api/getPackages.php?method=deleteHotels&jsoncallback=", idValue);
 			deleteHotel.then(function(data){				
-				if(data.data == "1"){
+				if(String(data.data).trim() == "1"){
 					scope.$emit('reloadDetails'); 
 				}
 			});
@@ -50,7 +50,7 @@ app.factory("editServices", function($http){
 		editUser:function(users, scope){
 			var editUser= $http.post("php/api/getPackages.php?method=editHotels&jsoncallback=", users);
 			editUser.then(function(data){				
-				if(data.data == "1"){
+				if(String(data.data).trim() == "1"){
 					scope.$emit('reloadDetails'); 
 				}
 			});
@@ -99,7 +99,7 @@ app.factory("hotelLinkServices", ['$http', function($http){
 	hotelLinkServices.editHotelLinks = function(scope, hotelLinks){
 		var editHotelLinks= $http.post("php/api/getHotelLinks.php?method=editHotelLinks&jsoncallback=", hotelLinks);
 		editHotelLinks.then(function(data){				
-			if(data.data == "1"){
+			if(String(data.data).trim() == "1"){
 					scope.$emit('reloadHotelLinkDetails'); 
 			}
 		});
@@ -126,7 +126,7 @@ app.factory("imageHotelServices", function($http){
 	imageServicesVar.deleteImgDetails = function(idValue, scope){
 		    var deletePack = $http.post("php/api/getHotelLinks.php?method=deleteHotelImageDetails&jsoncallback=", idValue);
 			deletePack.then(function(data){	
-				if(data.data == "1"){			
+				if(String(data.data).trim() == "1"){			
 					scope.$emit('onDeleteHotelImageSuccess');
 				}
 			});

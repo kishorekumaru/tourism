@@ -45,3 +45,27 @@ app.factory("testServices", function($http){
 	return testServicesObj;
 	
 });
+
+
+app.factory("contactServices", function($http){
+	
+	//Declar a return object
+	var contactServicesObj = {};
+	
+	//Function to get all the test services
+
+	contactServicesObj.crudCategory = function(contactItems, scope){
+			var getCntList= $http.post("php/api/getReports.php?method=contactDetails&jsoncallback=",contactItems);
+			getCntList.then(function(data){
+					if(contactItems.action.toString() != 'Get' && contactItems.action.toString() != 'Order'){
+						scope.$emit('reloadContactDetails', data.data);			
+					}else{
+						scope.$emit('loadContactDetails', data.data);
+					}
+			});
+	 };
+	
+	
+	return contactServicesObj;
+	
+});

@@ -17,7 +17,7 @@ Included Services for News and Testimonial Services
 */
 
 
-app.controller("newsTestimonial", function($scope, $filter, testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
+app.controller("mainViewController", function($scope, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
 
 	$scope.newsDetails = [];
 	$scope.testimonialDetails = [];
@@ -25,21 +25,26 @@ app.controller("newsTestimonial", function($scope, $filter, testServices, newsSe
 	$scope.packages = [];
 	$scope.totalImagePackages = [];
 	$scope.noImageFile = "no-image.jpg";
+	$scope.totalCategories = [];
+	
+	
 	
 	//Call those two services
-	testServices.crudCategory({"action":"Get"}, $scope);
-	newsServices.crudCategory({"action":"Get"}, $scope);
+	testServices.crudCategory({'col':'INSERT_DATE','ORDER':'DESC', 'action':'Order'}, $scope);
+	newsServices.crudCategory({'col':'INSERT_DATE','ORDER':'DESC', 'action':'Order'}, $scope);
 	packServices.getPackages($scope);
 	
 	//Call Back Method for test details
 	$scope.$on('loadtestDetails', function($event, data){
-		$scope.testimonialDetails = data;
+		$scope.testimonialDetails.push(data[0]);
+		sharedEventDispatcher.setTestimonials(data);	
 	});
 	
 	
 	//Call Back Method for News details
 	$scope.$on('loadnewsDetails', function($event, data){
-		$scope.newsDetails = data;
+		$scope.newsDetails.push(data[0]);
+		sharedEventDispatcher.setNewsDetails(data);
 	});
 	
 	
@@ -79,9 +84,30 @@ app.controller("newsTestimonial", function($scope, $filter, testServices, newsSe
 		sharedEventDispatcher.setTotalImagePackages($scope.totalImagePackages);
 		sharedEventDispatcher.setPackages($scope.packages);
 		$scope.featurePackDetails = $filter("searchObjectItem")($scope.packages, "1" , "isFeatured");
-		$scope.isloading=false;
+		packServices.crudCategory({"action":"Get"}, $scope);
+		
 	});
 
+	$scope.$on('loadCatDetails',function(event, data){
+			$scope.totalCategories  = data;
+			var addAllObj = new Object();
+			addAllObj.cat_name = "ALL"
+			addAllObj.id = 0;
+			$scope.totalCategories.push(addAllObj)
+			sharedEventDispatcher.setCateogry($scope.totalCategories);
+			$scope.isloading=false;
+	});
+	
+
+
+		$scope.openPackView = function(id){
+			sharedEventDispatcher.setPackageID(id);
+			$location.path("/packview");
+		}
+	
+	$scope.gotoURL = function(returnURL){
+		$location.path(returnURL);
+	}
 	
 });
 

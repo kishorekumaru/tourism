@@ -1,8 +1,13 @@
-<div>
+<div class="package-holder">
+ <div class="centered-width bannerText">{{ headerName }}</div>
+
+</div>
+
 <div class="breadcrumb" style="height:50px"> 
 	<div class="centered-width total-reset">
     <ol class="breadcrumb">
-	<li><a class="showCursor" ng-click="gotoPackage();">Package</a></li>
+    <li><a class="showCursor" ng-click="gotoURL('/');">Home</a></li>
+	<li><a class="showCursor" ng-click="gotoURL('/packList');">Package</a></li>
   	<li>{{ selectedPackage.package_name }}</li>
 </ol></div>
 </div>
@@ -26,6 +31,7 @@
                         <i style="font-weight:normal">({{ selectedPackage.offerValid }})</i>
                      <br>
                     <span class="content-title">{{ selectedPackage.package_des_covered }} </span> </div>
+         <div style="margin:20px 0px; width:250px"> <input type="button" class="btn-primary submitbtn" value="Inquire" ng-click="inquireNow()"  ></button></div> 
                     
       
 	</div>
@@ -41,7 +47,7 @@
             
           <div class="row marginTop" style="padding:10px">
 			<display-item label-name="Name :" label-value="{{ selectedPackage.package_name }}" ></display-item>
-            <display-item label-name="Charge : " label-value="{{ selectedPackage.package_currency }} : {{ selectedPackage.package_cost | currency : ''}}" ></display-item>
+            <display-item label-name="Cost : " label-value="{{ selectedPackage.package_currency }} : {{ selectedPackage.package_cost | currency : ''}}" ></display-item>
             <display-item label-name="Days :" label-value="{{ selectedPackage.dayString }}" ></display-item>
             <display-item label-name="" label-value="{{ selectedPackage.offerValid }}" ></display-item>
             <display-item label-name="Destinations Covered :" label-value="{{ selectedPackage.package_des_covered }}" ></display-item>
@@ -72,7 +78,7 @@
         	
             	<b>Day: {{ days.day_num  }}</b><br>
             	 <p><label class="content-title">Day Title : </label> <label class="content-text"> {{ days.day_title  }}</label> <br>
-            	 <label class="content-title">Day Meals : </label> <label class="content-text"> {{ days.day_meals  }}</label> <br> 
+            	 <label class="content-title">Meals : </label> <label class="content-text"> {{ days.day_meals  }}</label> <br> 
              	 <label class="content-title">Day Description : </label> <label class="content-text"> {{ days.day_desc  }}</label> <br> 
          		</p>
         </div>
@@ -80,7 +86,7 @@
     </tab>
     
     
-    <tab heading="Linked Hotel Details" >
+   <!-- <tab heading="Linked Hotel Details" >
         <div class="row" style="margin:4px;">
             <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
         </div>
@@ -100,7 +106,7 @@
                    </div>
                 </div>
         
-    </tab>
+    </tab> -->
     
     
     <tab heading="Terms" >
@@ -121,21 +127,59 @@
 
                
 </div>
-<div class="container" >
- <div class="centered-width total-reset marginTop" >
-       		<div class="newsTestTitle marginTop"> Similar Category Packages </div>
-            <div ng-repeat="catpack in sameCatPack" class="col-sm-4">
-           		<div><a class='btn btn-link' ng-click="openPackView( catpack.id )" style="padding:0;">
-                    	<img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{catpack.first_image}}" ></a></div>
-                    <div class="featuredContent" style="padding:1px">
-                       <h4 class="featuredTitle showCursor" ng-click="packView(catpack.id)"> {{ catpack.package_name }}</h4>
-                        <br>
-                        <a class="showCursor" ng-click="packView(catpack.id)">more details >> </a>
-                 	</div>
+
+<script type="text/ng-template" id="InquireTemplate.html">
+
+	
+	
+<div class="panel panel-primary" style="margin:0">
+<div class="panel-heading">
+    	<span class="contact-heading" style="color:#FFF">Inquire about {{ package.package_name }}</span> <br>
+        <span class="contact-text" style="color:#FFF">We’d love to reach you</span>
+</div>
+
+<div class="panel-body text-center" >
+      
+        <form name="contactForm"  class="form-horizontal" role="form">
+        
+        <div class="form-group" style="padding:10px">
+            <div >
+            <input type="input" class="form-control" ng-model="contactDetails.contact_name"   placeholder="Your Name" required>
             </div>
-            
+        </div>
+ 
+        <div class="form-group" style="padding:10px">
+            <div >
+            <input type="email" class="form-control"  ng-model="contactDetails.contact_email"  placeholder="Email" required>
+            </div>
+        </div>
+ 
+ 
+        <div class="form-group" style="padding:10px">
+            <div >
+            <input type="input" class="form-control" ng-model="contactDetails.contact_phone"  placeholder="Phone Number" required>
+            </div>
+        </div>
+
+ 
+        <div class="form-group" style="padding:10px">
+            <div >
+            <textarea class="form-control" ng-model="contactDetails.contact_message"  placeholder="Message" required></textarea>
+            </div>
+        </div>
+        
+        <input type="submit" class="btn btn-primary"  ng-disabled="contactForm.$invalid" style="margin:0 auto" value="Inquire" ng-click="saveChanges()">
+                          
+        </form>
+
 </div>
-</div>
+
+
+    </div>
+	
+</script>
+
+
 <script type="text/ng-template" id="ImageTemplate.html">
 	
 	
@@ -154,3 +198,18 @@
 	</div>
 	
 </script>
+<div class="container" >
+ <div class="centered-width total-reset marginTop" >
+       		<div class="newsTestTitle marginTop"> Similar Category Packages </div>
+            <div ng-repeat="catpack in sameCatPack" class="col-sm-4">
+           		<div><a class='btn btn-link' ng-click="openPackView( catpack.id )" style="padding:0;">
+                    	<img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{catpack.first_image}}" ></a></div>
+                    <div class="featuredContent" style="padding:1px">
+                       <h4 class="featuredTitle showCursor" ng-click="packView(catpack.id)"> {{ catpack.package_name }}</h4>
+                        <br>
+                        <a class="showCursor" ng-click="packView(catpack.id)">more details >> </a>
+                 	</div>
+            </div>
+            
+</div>
+</div>

@@ -47,6 +47,7 @@ app.controller("featuredController", ['$scope', 'sharedEventDispatcher', '$filte
 		if($scope.featPack.length){
 			$scope.isNotLinked = false;
 		}
+		
 		$scope.restAlltoFalse();
 	}
 	
@@ -113,9 +114,14 @@ app.controller("featuredController", ['$scope', 'sharedEventDispatcher', '$filte
 		}
 	}
 	
+	
+	
 	$scope.setFeatured = function(){
 		var selectedId = [];
 		var insertDate = new Date();
+		
+		
+		
 		for(var i=0; i < $scope.restPack.length;i++){
 			if($scope.restPack[i].isFeatured != undefined && $scope.restPack[i].isFeatured != false){
 				selectedId.push($scope.restPack[i].id);		
@@ -125,6 +131,11 @@ app.controller("featuredController", ['$scope', 'sharedEventDispatcher', '$filte
 		if(!selectedId.length){
 			alert("Select any item");
 		}else{
+			if($scope.featPack.length + selectedId.length > 4){
+				alert("Only 4 items can be featured");
+				return;
+			}
+			
 			var selectedObj = new Object();
 			selectedObj.isFeatured =  1;
 			selectedObj.id = selectedId.toString();

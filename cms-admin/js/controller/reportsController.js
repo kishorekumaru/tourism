@@ -316,3 +316,136 @@ var popupNewControllerIns = function ($scope, $filter, $modalInstance, headerNam
     $modalInstance.dismiss('cancel');
   };
 };
+
+
+// JavaScript Document
+app.controller("contactUsController", function($scope, $modal, $filter,  $location, contactServices ){
+		
+		$scope.details = "";
+		$scope.itemsPerPage = 10;
+		$scope.isNameASC = "ASC";
+		$scope.currentPage = 1;
+	
+		contactServices.crudCategory({"action":"Get"}, $scope);
+		$scope.isCatloading=true;
+		
+		$scope.$on('loadContactDetails',function(event, data){
+			$scope.details  = data;
+			$scope.totalItems =  $scope.details.length;
+			$scope.detailsPage = $scope.details.slice(0, $scope.itemsPerPage);
+			$scope.currentPage = 1;
+			
+			//Release the loading 
+			$scope.isCatloading=false;
+		});
+	
+	
+	
+		$scope.$on('reloadContactDetails', function(event){
+			contactServices.crudCategory({"action":"Get"}, $scope);
+			$scope.currentPage = 1;
+			$scope.isCatloading=true;
+		});
+		
+		
+		$scope.sortByName = function(){
+			//Toggle SORT Values
+			($scope.isNameASC == "ASC")?$scope.isNameASC="DESC":$scope.isNameASC="ASC";
+			contactServices.crudCategory({'col':"is_contacted",'ORDER':$scope.isNameASC, 'action':'Order'},$scope);
+		};
+	
+	
+
+	
+		$scope.pageChanged = function(currentPage){
+			var start = (currentPage-1) * $scope.itemsPerPage;
+			var end = start + $scope.itemsPerPage;
+			$scope.detailsPage = $scope.details.slice(start,end);
+		};
+		
+		//Searching the values from search Textbox
+		$scope.getChar = function($event){
+			var selectedDetails;
+			if($event.target.value != ""){
+				selectedDetails = $filter('filter')($scope.details, $event.target.value)
+				$scope.totalItems =  selectedDetails.length;
+				$scope.detailsPage = selectedDetails.slice(0, $scope.itemsPerPage);
+			}else{				
+				$scope.totalItems =  $scope.details.length;
+				$scope.detailsPage = $scope.details.slice(0, $scope.itemsPerPage);
+			}
+			$scope.currentPage = 1;
+		};
+		
+		$scope.editContactItem = function (id){
+				var selectedDetails = $filter('getById')($scope.details, id);
+				var editInstance = $modal.open({
+				templateUrl: 'contactUpdates.html',
+				controller: popupCntControllerIns,
+				resolve: {
+					headerName: function () {
+						return "Edit ContactDetails";
+					},
+					selectedDetails:function(){
+						return selectedDetails;
+					},	
+					totalDetails:function(){
+						return $scope.details;
+					} 
+					}
+			});	
+			
+			 editInstance.result.then(function (userItems){
+			  contactServices.crudCategory(userItems, $scope);
+			});
+		}
+		
+		
+		
+		$scope.deleteItem = function (id){
+		if (confirm('Are you sure you want to delete?')) {
+			contactServices.crudCategory({'id':id, 'action' : 'Delete'},$scope);
+		} 
+	};
+
+	
+});
+
+
+
+var popupCntControllerIns = function ($scope, $filter, $modalInstance, headerName, selectedDetails, totalDetails) {
+  $scope.headerName = headerName;
+  $scope.contact = {};
+  $scope.data = {};
+  $scope.data.isExist = false;
+  
+  var insertDate = new Date();
+  
+  if(selectedDetails != ""){
+	  $scope.contact.contact_subject =  selectedDetails.contact_subject;
+	  $scope.contact.contact_name = selectedDetails.contact_name;
+	  $scope.contact.contact_email =  selectedDetails.contact_email;
+	  $scope.contact.contact_phone = selectedDetails.contact_phone;
+	  $scope.contact.contact_message =  selectedDetails.contact_message;
+	  $scope.contact.is_contacted = selectedDetails.is_contacted;
+	  $scope.contact.contact_details = selectedDetails.contact_details;
+	  $scope.contact.id = selectedDetails.id;
+	  $scope.contact.MODIFIED_DATE = insertDate.toJSON(); 
+	  $scope.contact.action = "Edit";
+  }else{   
+  	  $scope.contact.action = "Insert";
+	  $scope.contact.INSERT_DATE = insertDate.toJSON();
+  }
+  
+
+
+  
+  $scope.saveChanges = function () {
+	$modalInstance.close($scope.contact);
+  };
+
+	
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};

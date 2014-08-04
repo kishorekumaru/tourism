@@ -78,10 +78,11 @@ app.controller("viewPackagesController",
 	
 	$scope.$on('loadHotelLinks',function(event, data){
 		if(data[0].data[0] == ""){
-			alert("Problem presist with the package, Please delete the pack and create again.");
-			return;
-		}
-		if(data[0].data[0].hotel_id != ""){
+			alert("Please create some hotels as well.");
+			$scope.isNotLinked = true;
+			$scope.linkedHotels =  [];
+			
+		}else if(data[0].data[0].hotel_id != ""){
 			$scope.isNotLinked = false;
 		    $scope.hotelLinkDetails  = data[0].data[0].hotel_id;
 			$scope.linkedHotels =  $filter("filterLinkedHotels")($scope.hotelDetails, $scope.hotelLinkDetails);

@@ -16,7 +16,7 @@ app.factory("packServices", function($http){
 		addPackage:function(package, scope){
 			var addPacks= $http.post("php/api/getPackages.php?method=addPackages&jsoncallback=", package);
 			addPacks.then(function(data){				
-				if(data.data == "1"){
+				if(String(data.data).trim() == "1"){
 					scope.$emit('PackageAddSuccess'); 
 				}
 			});
@@ -32,7 +32,7 @@ app.factory("packServices", function($http){
 		editPack:function(users, scope){
 			var editUser= $http.post("php/api/getPackages.php?method=editPackages&jsoncallback=", users);
 			editUser.then(function(data){				
-				if(data.data == "1"){
+				if(String(data.data).trim() == "1"){
 					scope.$emit('PackageEditedSuccess'); 
 				}
 			});
@@ -40,7 +40,7 @@ app.factory("packServices", function($http){
 		deletePack:function(idValue, scope){
 		    var deletePack = $http.post("php/api/getPackages.php?method=deletePackage&jsoncallback=", idValue);
 			deletePack.then(function(data){	
-				if(data.data == "1"){			
+				if(String(data.data).trim() == "1"){			
 					scope.$emit('reloadPackDetails');
 				}
 			});
@@ -53,6 +53,14 @@ app.factory("packServices", function($http){
 					scope.$emit('onGetCurrencyDetails', data.data);
 				
 			});
+		},
+		
+		getAllCountries:function(scope){
+		    var deletePack = $http.post("php/resources/country.json");
+			deletePack.then(function(data){							
+					scope.$emit('onGetCountryDetails', data.data);
+			});
+			
 		},
 		
 		editpackLinks:function(scope, featuredObj){
@@ -73,7 +81,7 @@ app.factory("dayDetailServices", function($http){
 	dayDetailServicesVar.addDayDetails = function(dayObj, scope){
 		    var addDayDetails = $http.post("php/api/getPackages.php?method=addDayDetails&jsoncallback=", dayObj);
 			addDayDetails.then(function(data){	
-				if(data.data == "1"){			
+				if(String(data.data).trim() == "1"){			
 					scope.$emit('daysInserted');
 				}
 		});
@@ -82,14 +90,14 @@ app.factory("dayDetailServices", function($http){
 	dayDetailServicesVar.getDayDetails = function(dayObj, scope){
 		    var addDayDetails = $http.post("php/api/getPackages.php?method=getDayDetails&jsoncallback=");
 			addDayDetails.then(function(data){	
-				scope.$emit('getDayDetails', [data.data]);
+				scope.$emit('getDayDetails', [data.data, dayObj]);
 		});
 	}
 	
 	dayDetailServicesVar.editDayDetails = function(selectedItem, scope){
 		  var editDayDetails= $http.post("php/api/getPackages.php?method=editDayDetails&jsoncallback=", selectedItem);
 			editDayDetails.then(function(data){				
-				if(data.data == "1"){
+				if(String(data.data).trim() == "1"){
 					scope.$emit('onAddSuccess'); 
 				}
 			});
@@ -98,7 +106,7 @@ app.factory("dayDetailServices", function($http){
 		dayDetailServicesVar.deleteDetails = function(idValue, scope){
 		    var deletePack = $http.post("php/api/getPackages.php?method=deleteDetails&jsoncallback=", idValue);
 			deletePack.then(function(data){	
-				if(data.data == "1"){			
+				if(String(data.data).trim() == "1"){			
 					scope.$emit('onDeleteSuccess');
 				}
 			});
@@ -123,7 +131,7 @@ app.factory("imageServices", function($http){
 	imageServicesVar.deleteImgDetails = function(idValue, scope){
 		    var deletePack = $http.post("php/api/getPackages.php?method=deleteImageDetails&jsoncallback=", idValue);
 			deletePack.then(function(data){	
-				if(data.data == "1"){			
+				if(String(data.data).trim() == "1"){			
 					scope.$emit('onDeleteImageSuccess');
 				}
 			});

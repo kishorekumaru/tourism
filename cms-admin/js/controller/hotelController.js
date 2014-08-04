@@ -1,5 +1,5 @@
 // JavaScript Document
-app.controller("hotelController", function($scope, $modal, $filter, hotelServices, deleteServices, editServices, $location, sharedEventDispatcher, imageHotelServices, hotelAddServices){
+app.controller("hotelController", function($scope, $modal, $filter, hotelServices, deleteServices, editServices, $location, sharedEventDispatcher, imageHotelServices, hotelAddServices, packServices){
 	
 	$scope.hotelDetails = "";
 	$scope.itemsPerPage = 2;
@@ -10,7 +10,15 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
     $scope.noImageFile = "no-image.jpg";
  	$scope.imageDetails = [];
     $scope.isHotelloading=true;
-	hotelServices.getHotels($scope);
+	
+	//Load the currency details
+	packServices.getAllCountries($scope);
+	
+	
+	$scope.$on("onGetCountryDetails", function($event, data){
+		$scope.totalCountries = data
+		hotelServices.getHotels($scope);
+	});
 	
 	
 	$scope.$on('loadDetails',function(event, data){
@@ -139,18 +147,28 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 
 
 
-var popupControllerIns = function ($scope, $modalInstance, headerName, selectedDetails) {
+var popupControllerIns = function ($scope, $modalInstance, headerName, selectedDetails, packServices) {
   $scope.headerName = headerName;
   $scope.hotel = {};
   $scope.data = {};
-
+  
+   //Load the currency details
+  packServices.getAllCountries($scope);
+  
+  $scope.$on("onGetCountryDetails", function($event, data){
+	$scope.totalCountries = data
+  });
+  
   var insertDate = new Date();
   
   if(selectedDetails != ""){
 	  $scope.hotel.hotel_name = selectedDetails.hotel_name;
 	  $scope.hotel.hotel_overview = selectedDetails.hotel_overview;
 	  $scope.hotel.hotel_address = selectedDetails.hotel_address;
-	  $scope.hotel.hotel_country_id = selectedDetails.hotel_country_id;
+	  $scope.hotel.hotel_country = selectedDetails.hotel_country;
+	  $scope.hotel.hotel_email = selectedDetails.hotel_email;
+	  $scope.hotel.hotel_phone = selectedDetails.hotel_phone;
+	  $scope.hotel.hotel_web_url = selectedDetails.hotel_web_url;
 	  $scope.hotel.hotel_rating = selectedDetails.hotel_rating;
 	  $scope.hotel.hotel_facilities = selectedDetails.hotel_facilities;
 	  $scope.hotel.id = selectedDetails.id;
