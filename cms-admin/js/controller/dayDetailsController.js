@@ -100,5 +100,9 @@ app.controller("dayDetailsController", ['$scope', 'sharedEventDispatcher', '$fil
 		$location.path("/packages");
 	}
 	
+	$scope.gotoImageUpload = function(){
+		$location.path("/packImages");
+	}
+	
 
 }]);

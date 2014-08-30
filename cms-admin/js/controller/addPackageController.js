@@ -9,7 +9,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	$scope.pack = {};
 	$scope.pack.package_valid_from;
 	$scope.pack.package_valid_to;
-	$scope.isloading=false;
+	$scope.isloading=true;
 	
 	//Load the currency details
 	packServices.getAllCurrencies($scope);
@@ -18,7 +18,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	$scope.$on("onGetCurrencyDetails", function($event, data){
 		$scope.totalCurrencies = data
 		catServices.crudCategory({"action":"Get"}, $scope);
-		$scope.isloading=true;
+		$scope.isloading=false;
 	});
 	
 	
