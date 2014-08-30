@@ -6,7 +6,7 @@ app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '
  
  	$scope.packform = {};
 	$scope.hotelId = sharedEventDispatcher.hotelId;
-	$scope.totalHotels = sharedEventDispatcher.totalHotels;  
+	$scope.totalHotels = sharedEventDispatcher.getTotalHotelsObj();  
 	$scope.packform.info = "";
 	$scope.packform.infoDisplay = false;
 	$scope.isNotLinked = true;
@@ -72,7 +72,7 @@ app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '
 	}
 	
 	
-	$scope.insertImageData = function(response){
+	$scope.insertImageData = function(response, item){
 			var sendObject = new Object();
 			var insertDate = new Date();
 			if($scope.packform.hotel_name == ""){			
@@ -83,6 +83,7 @@ app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '
 			sendObject.hotel_big_img = response.big_img;
 			sendObject.hotel_small_img = response.small_img;
 			sendObject.hotel_thumb_img = response.thumb_img;
+			sendObject.description = item.description;
 			sendObject.INSERT_DATE = insertDate.toJSON();
 			imageHotelServices.addImgDetails(sendObject, $scope);
 	}
@@ -91,6 +92,7 @@ app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '
 		$scope.imageInserted++;
 		if($scope.imageInserted  == $scope.uploader.queue.length){
 			$scope.setDetails();
+			uploader.clearQueue();
 		}
 	});
 	
@@ -198,7 +200,7 @@ app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '
 
         uploader.bind('complete', function (event, xhr, item, response) {
 			//Get all the infromation from the response
-			$scope.insertImageData(response);
+			$scope.insertImageData(response, item);
         });
 
         uploader.bind('progressall', function (event, progress) {

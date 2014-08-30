@@ -14,7 +14,9 @@
                 </button></div>
     </div>
          <br> 
-    <div class="container" >
+         
+         <div ng-hide="isPackage" class="text-center" style="color:rgba(229,229,229,1.00)"><h1><b>You have cleared all the packages, <br>Please contact adminstrator before adding packages.</b></h1></div>
+    <div class="container"  ng-show="isPackage">
     
             <div class="col-lg-1 text-left"  style="margin-top:5px">
             	Search:  </div> <div class="col-lg-3 text-left"> <input type="text"  ng-keyup="getChar($event)" class="form-control"></div>

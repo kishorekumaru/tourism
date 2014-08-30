@@ -14,7 +14,7 @@
                     <slide ng-repeat="slide in slides" active="slide.active">
                         <img ng-src="{{slide.image}}" style="margin:auto;">
                         <div class="carousel-caption">
-                            <h4> {{selectedPackage.package_name  }} Snapshot  - {{$index + 1}}</h4>                     
+                            <h4> {{slide.description}} </h4>                     
                         </div>
                     </slide>
                 </carousel>
@@ -78,7 +78,7 @@
             <div ng-repeat="hotel in linkedHotels | orderBy:hotel_rating">
                 <div class="col-md-2 alert alert-info" role="alert" style="margin:5px">
                    
-                    <strong>{{ hotel.hotel_name}}</strong><p>{{ hotel.hotel_address}}</p><div ng-init="x = hotel.hotel_rating">Rating : <rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div>
+                    <strong>{{ hotel.hotel_name}}</strong><p>{{ hotel.hotel_address}}</p><div ng-init="x = hotel.hotel_category">Category : <rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div>
                 </div>
             </div>
             

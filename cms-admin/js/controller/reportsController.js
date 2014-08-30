@@ -449,3 +449,189 @@ var popupCntControllerIns = function ($scope, $filter, $modalInstance, headerNam
     $modalInstance.dismiss('cancel');
   };
 };
+
+
+
+// Controller for Add Banner Image
+
+app.controller("bannerImgCntrl", function($scope, $fileUploader, $filter, bannerImgServices, imageServices){
+
+
+
+	$scope.imageInserted = 0;
+	$scope.imageDetails = [];
+	$scope.totalImagePackages = [];
+	
+	//Get the package Image information
+	$scope.setDetails = function(){
+		bannerImgServices.crudCategory({"action":"Get"}, $scope);
+	}
+	
+	$scope.$on("loadBannerDetails", function($event, data){
+		$scope.totalImagePackages = data;
+		
+		if($scope.totalImagePackages == ""){
+			$scope.isNotLinked = true;
+			return;
+		}
+		$scope.showImages();
+	});
+
+
+	$scope.showImages = function(){
+				
+		$scope.imageDetails = $scope.totalImagePackages 		
+		
+		if($scope.imageDetails.length == 0){
+			$scope.isNotLinked = true;
+		}else{
+			$scope.isNotLinked = false;
+		}
+
+	}
+
+	
+	//Sets the value if the package is selected from Package Display
+	$scope.setDetails();
+
+
+
+
+
+	
+	$scope.insertImageData = function(response, item){
+			var sendObject = new Object();
+			var insertDate = new Date();
+			
+			sendObject.img_url = response.big_img;
+			sendObject.img_small_url = response.small_img;
+			sendObject.img_tiny_url = response.thumb_img;
+			sendObject.img_desc = item.description;
+			sendObject.INSERT_DATE = insertDate.toJSON();
+			sendObject.action = "Insert";
+			bannerImgServices.crudCategory(sendObject,$scope);
+	}
+	
+	$scope.$on('imagesInserted', function(){
+		$scope.imageInserted++;
+		if($scope.imageInserted  == $scope.uploader.queue.length){
+			$scope.setDetails();
+			uploader.clearQueue();
+		}
+	});
+	
+	
+	//Delete Images
+	$scope.deleteImage = function(id){
+		if (confirm('Are you sure you want to delete?')) {
+			var packItems = $filter("getById")($scope.totalImagePackages ,id);
+			var sendObj = new Object();
+			try{
+				sendObj.big_img = packItems.img_url;
+				sendObj.small_img = packItems.img_small_url;
+				sendObj.thumb_img = packItems.img_tiny_url;
+				imageServices.unlinkImages($scope, sendObj, id);
+			}catch(err){
+				alert(err.message);
+			}
+		}
+	}
+	
+	
+	$scope.$on('onDeleteImageUnlink',function($event, id){
+		bannerImgServices.crudCategory({'id':id, 'action' : 'Delete'},$scope);
+	});
+	$scope.$on('reloadBannerDetails', function($event){
+		$scope.setDetails();
+	});
+	
+	//Get Number of uploaded files
+	
+	
+	//Code for Image controller
+	
+	
+        'use strict';
+
+        // create a uploader with options
+        var uploader = $scope.uploader = $fileUploader.create({
+            scope: $scope,                          // to automatically update the html. Default: $rootScope
+            url: 'php/api/uploader.php',
+            formData: [
+                { key: 'value'  }
+            ],
+            filters: [
+                function (item) {                    // first user filter
+                    console.info('filter1');
+                    return true;
+                }
+            ]
+        });
+
+
+        // FAQ #1
+        var item = {
+            file: {},
+            progress: 0,
+            isUploaded: false,
+            isSuccess: false
+        };
+        item.remove = function() {
+            uploader.removeFromQueue(this);
+        };
+    
+        uploader.progress = 0;
+
+
+        // ADDING FILTERS
+
+        uploader.filters.push(function (item) { // second user filter
+            console.info('filter2');
+            return true;
+        });
+
+        // REGISTER HANDLERS
+
+        uploader.bind('afteraddingfile', function (event, item) {
+        });
+
+        uploader.bind('whenaddingfilefailed', function (event, item) {
+        });
+
+        uploader.bind('afteraddingall', function (event, items) {
+        });
+
+        uploader.bind('beforeupload', function (event, item) {
+        });
+
+        uploader.bind('progress', function (event, item, progress) {
+            console.info('Progress: ' + progress, item);
+        });
+
+        uploader.bind('success', function (event, xhr, item, response) {
+        });
+
+        uploader.bind('cancel', function (event, xhr, item) {
+            console.info('Cancel', xhr, item);
+        });
+
+        uploader.bind('error', function (event, xhr, item, response) {
+            console.info('Error', xhr, item, response);
+        });
+
+        uploader.bind('complete', function (event, xhr, item, response) {
+			//Get all the infromation from the response
+			$scope.insertImageData(response, item);
+        });
+
+        uploader.bind('progressall', function (event, progress) {
+            console.info('Total progress: ' + progress);
+        });
+
+        uploader.bind('completeall', function (event, items) {
+            console.info('Complete all', items);
+			
+        });
+
+
+});

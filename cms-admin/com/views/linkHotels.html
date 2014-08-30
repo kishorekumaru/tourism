@@ -26,11 +26,11 @@
    	<img src="images/loading.gif">
    </div>
 <div class="container"  ng-hide="isloading">
-    <div ng-repeat="hotel in linkedHotels | orderBy:hotel_rating">
+    <div ng-repeat="hotel in linkedHotels | orderBy:hotel_category">
         <div class="col-md-2 alert alert-info" role="alert" style="margin:5px">
           <button type="button" class="close" ng-click="deleteLink(hotel.id)">
           <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <strong>{{ hotel.hotel_name}}</strong><p>{{ hotel.hotel_address}}</p><div ng-init="x = hotel.hotel_rating">Rating : <rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div>
+          <strong>{{ hotel.hotel_name}}</strong><p>{{ hotel.hotel_address}}</p><div ng-init="x = hotel.hotel_category">Rating : <rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div>
         </div>
     </div>
 </div>
@@ -54,7 +54,7 @@
                 	<td>Select</td>
                 	<td>Hotel Name</td>
                 	<td>Address</td>
-                	<td>Rating</td>
+                	<td>Category</td>
                     </tr>
                 </tbody>
                 <form name="hotellinkForm">
@@ -62,7 +62,7 @@
                 	<td><input type="checkbox" ng-model="hotel.islinked" required></td>
                     <td>{{ hotel.hotel_name  }}</td>
                     <td>{{ hotel.hotel_address }}</td>
-                    <td><div ng-init="x = hotel.hotel_rating"><b>Rating : </b><rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div></td>
+                    <td><div ng-init="x = hotel.hotel_category"><b>Category : </b><rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div></td>
                     
                 </tr>
                 </table>

@@ -37,7 +37,13 @@
 	<div class="menu-nav">
     	<ul class="centered-width">
         	<li ng-class="{activeMenu:isActive('/')}"><a ng-click="loadFiles('/')" href="">HOME</a></li>
-            <li ng-class="{activeMenu:isActive('/packList')}"><a ng-click="loadFiles('/packList')" href="">PACKAGES</a></li>
+            <li ng-class="{activeMenu:isActive('/packList')}" class="submenu" >
+            	<a ng-click="loadFiles('/packList')" href=""> PACKAGES </a>
+                <ul class="sub1">
+           			<li> <a ng-click="loadFiles('/packList')" href="">TOUR PACKAGES</a></li>
+            		<li> <a ng-click="loadFiles('/packList')" href="">HOTEL PACKAGES</a></li>
+            	</ul>
+            </li>
             <li ng-class="{activeMenu:isActive('/services')}"><a ng-click="loadFiles('/services')" href="">SERVICES</a></li>
             <li ng-class="{activeMenu:isActive('/destinations')}"><a ng-click="loadFiles('/destinations')" href="">DESTINATIONS</a></li>
             <li ng-class="{activeMenu:isActive('/contactus')}"><a ng-click="loadFiles('/contactus')" class="menu-border-right" href="">CONTACT US</a></li>

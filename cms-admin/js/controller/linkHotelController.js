@@ -1,6 +1,6 @@
 // JavaScript Document
-app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filter', 'dayDetailServices','packServices', '$interval', '$location', 'hotelServices', 'hotelLinkServices'
-, function($scope, sharedEventDispatcher, $filter, dayDetailServices, packServices, $interval, $location, hotelServices, hotelLinkServices){
+app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filter', 'dayDetailServices','packServices', '$interval', '$location', 'linkHotelServices', 'hotelLinkServices'
+, function($scope, sharedEventDispatcher, $filter, dayDetailServices, packServices, $interval, $location, linkHotelServices, hotelLinkServices){
 
 
 	$scope.packform = {};
@@ -29,14 +29,19 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 	if($scope.packageId != 0){
 		$scope.packform.packages_name = $scope.packageId;
 	}
-	hotelServices.getHotels($scope);
+	linkHotelServices.crudCategory({"action":"Get"}, $scope);
 	$scope.isloading=true;
 	
 	
-	$scope.$on('loadDetails',function(event, data){
-		$scope.hotelDetails  = data[0].data;
-		if($scope.packform.packages_name == ""){			
-			hotelLinkServices.getLinkDetails($scope,{'package_id':$scope.totalPackages[0].id});		
+	$scope.$on('loadLinkHotelDetails',function(event, data){
+		$scope.hotelDetails  = data;
+		if($scope.packform.packages_name == ""){	
+			if(!$scope.totalPackages[0]){		
+				alert("No Package found, Please create a new package");
+				$location.path("/packages");
+			}else{
+				hotelLinkServices.getLinkDetails($scope,{'package_id':$scope.totalPackages[0].id});	
+			}
 		}else{
 			hotelLinkServices.getLinkDetails($scope,{'package_id':$scope.packform.packages_name});		
 		}
@@ -47,21 +52,21 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 			alert("Problem presist with the package, Please delete the pack and create again.");
 			return;
 		}
-		if(data[0].data[0].hotel_id == ""){
+		if(data[0].data[0].link_hotel_id == ""){
 			$scope.isNotLinked = true;
 			$scope.restHotels = $scope.hotelDetails;
 			$scope.linkedHotels =  [];
 		}else{
 			$scope.isNotLinked = false;
-		    $scope.hotelLinkDetails  = data[0].data[0].hotel_id;
+		    $scope.hotelLinkDetails  = data[0].data[0].link_hotel_id;
 			$scope.linkedHotels =  $filter("filterLinkedHotels")($scope.hotelDetails, $scope.hotelLinkDetails);
 			$scope.restHotels = $filter("filterRestHotels")($scope.hotelDetails, $scope.hotelLinkDetails);
 		}
 		$scope.currentId  = data[0].data[0].id;
-		if(data[0].data[0].hotel_id != "") {
-			$scope.currentHotelIds = data[0].data[0].hotel_id;
+		if(data[0].data[0].link_hotel_id != "") {
+			$scope.currentHotelIds = data[0].data[0].link_hotel_id;
 		}else{
-			$scope.currentHotelIds = data[0].data[0].hotel_id;
+			$scope.currentHotelIds = data[0].data[0].link_hotel_id;
 		}
 		$scope.restAlltoFalse();
 		$scope.totalItems =  $scope.restHotels.length;
@@ -72,8 +77,8 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 	
 	
 	
-	$scope.$on('reloadDetails', function(event){
-		hotelServices.getHotels($scope);
+	$scope.$on('reloadLinkHotelDetails', function(event){
+		linkHotelServices.crudCategory({"action":"Get"}, $scope);
 		$scope.currentPage = 1;
 		$scope.isloading=true;
 	});
@@ -88,12 +93,12 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 	$scope.sortByName = function(){
 		//Toggle SORT Values
 		($scope.isNameASC == "ASC")?$scope.isNameASC="DESC":$scope.isNameASC="ASC";
-		hotelServices.getHotelsByOrder({'col':"hotel_name",'ORDER':$scope.isNameASC},$scope);
+		linkHotelServices.crudCategory({'col':"hotel_name",'ORDER':$scope.isNameASC, 'action':'Order'},$scope);
 	};
 	
 	$scope.sortByRating = function(){
 		($scope.isRatingASC == "ASC")?$scope.isRatingASC="DESC":$scope.isRatingASC="ASC";
-		hotelServices.getHotelsByOrder({'col':"hotel_rating",'ORDER':$scope.isRatingASC},$scope);
+		linkHotelServices.crudCategory({'col':"hotel_category",'ORDER':$scope.isRatingASC, 'action':'Order'},$scope);
 	};
 	
 	$scope.getChar = function($event){
@@ -144,9 +149,9 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 				selectedObj.package_id = $scope.packform.packages_name;
 			}
 			if($scope.currentHotelIds != ""){
-				selectedObj.hotel_id =  $scope.currentHotelIds + ',' + selectedId.toString();
+				selectedObj.link_hotel_id =  $scope.currentHotelIds + ',' + selectedId.toString();
 			}else{
-				selectedObj.hotel_id = selectedId.toString();
+				selectedObj.link_hotel_id = selectedId.toString();
 			}
 			selectedObj.MODIFIED_DATE = insertDate.toJSON();
 			hotelLinkServices.editHotelLinks($scope, selectedObj);
@@ -155,23 +160,22 @@ app.controller("linkHotelController", ['$scope', 'sharedEventDispatcher', '$filt
 	
 	
 	//Delete the link
-	$scope.deleteLink = function(hotel_id){
+	$scope.deleteLink = function(link_hotel_id){
 		var getRestItems = [];
 		var currentIds = $scope.currentHotelIds.split(",");
 		var selectedObj = new Object();
 		var insertDate = new Date();
 
-		getRestItems = $filter("filterRestIds")(currentIds, hotel_id);
+		getRestItems = $filter("filterRestIds")(currentIds, link_hotel_id);
 		selectedObj.id = $scope.currentId;
 		if($scope.packform.packages_name == ""){			
 			selectedObj.package_id = $scope.totalPackages[0].id;		
 		}else{
 			selectedObj.package_id = $scope.packform.packages_name;
 		}
-		selectedObj.hotel_id = getRestItems.toString();
+		selectedObj.link_hotel_id = getRestItems.toString();
 		selectedObj.MODIFIED_DATE = insertDate.toJSON();
-		hotelLinkServices.editHotelLinks($scope, selectedObj);
-		 
+		hotelLinkServices.editHotelLinks($scope, selectedObj);	 
 	}
 	
 	

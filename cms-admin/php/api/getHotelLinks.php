@@ -67,6 +67,16 @@ function editHotelLinks(){
 }
 
 
+function deleteHotelLinksMaster(){
+	$table_name ='link_hotels';
+	$param =json_decode(file_get_contents('php://input'));	
+	include_once('../core/class.managedatabase.php');
+	$init = new managedatabase;
+	$data = $init->deletePackageData($table_name, $param->package_id);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
+
 
 //Functions for Image Handler
 function addHotelImageDetails(){

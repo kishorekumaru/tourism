@@ -26,6 +26,7 @@
           <img ng-src="com/uploads/{{img.hotel_thumb_img}}"/>
           </div>
            <div class="panel-footer" style="height:30px">
+             <span class="control-label" style="margin-top:-7px;">{{ img.description }}</span>
           <button type="button" class="close" ng-click="deleteImage(img.id)" 
           style="margin-top:-7px;margin-right:-10px">
           <span aria-hidden="true"><span class="glyphicon glyphicon-trash"></span></span></button>
@@ -55,7 +56,8 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th width="50%">Name</th>
+                                <th>Name</th>
+                                 <th ng-show="uploader.isHTML5" width="50%">Description</th>
                                 <th ng-show="uploader.isHTML5">Size</th>
                                 <th ng-show="uploader.isHTML5">Progress</th>
                                 <th>Status</th>
@@ -64,7 +66,8 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in uploader.queue">
-                                <td><strong>{{ item.file.name }}</strong></td>
+                                <td><strong>{{ item.file.name }}</strong></td>.
+                                 <td width="50%"><input type="text" class="form-control" ng-model="item.description" name="description"></td>
                                 <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
                                 <td ng-show="uploader.isHTML5">
                                     <div class="progress" style="margin-bottom: 0;">

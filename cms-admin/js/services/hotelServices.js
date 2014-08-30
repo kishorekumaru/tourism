@@ -13,7 +13,30 @@ app.factory("hotelServices", function($http){
 			getHotelsByOrder.then(function(data){
 				scope.$emit('loadDetails', [data]);				
 			});
+		},
+		packageCount:function(scope){
+		    var getPackCount= $http.post("php/api/getPackages.php?method=getHotelLastId&jsoncallback=");
+			getPackCount.then(function(data){	
+					var incrementByOne  = parseInt(data.data) + 1;
+					scope.$emit('packageHotelCount', [incrementByOne]); 				
+			});
+
+		},
+		getAllCountries:function(scope){
+		    var deletePack = $http.post("php/resources/country.json");
+			deletePack.then(function(data){							
+					scope.$emit('onGetCountryDetails', data.data);
+			});
+			
+		},
+		editfeatLinks:function(scope, featuredObj){
+		    var editFeatLink = $http.post("php/api/getPackages.php?method=setHotelFeatured&jsoncallback=", featuredObj);
+			editFeatLink.then(function(data){							
+					scope.$emit('reloadPackFeatDetails');
+				
+			});
 		}
+		
 	}
 });
 
@@ -23,8 +46,8 @@ app.factory("hotelAddServices", function($http){
 		addHotels:function(hotels, scope){
 			var addHotels= $http.post("php/api/getPackages.php?method=addHotels&jsoncallback=", hotels);
 			addHotels.then(function(data){				
-				if(String(data.data).trim() == "1"){
-					scope.$emit('reloadDetails'); 
+				if(String(data.data).trim() == "1" || String(data.data).trim() == ""){
+					scope.$emit('reloadDetails', true); 
 				}
 			});
 			}
@@ -36,7 +59,7 @@ app.factory("deleteServices", function($http){
 		deleteHotel:function(idValue, scope){
 			var deleteHotel= $http.post("php/api/getPackages.php?method=deleteHotels&jsoncallback=", idValue);
 			deleteHotel.then(function(data){				
-				if(String(data.data).trim() == "1"){
+				if(String(data.data).trim() == "1" || String(data.data).trim() == ""){
 					scope.$emit('reloadDetails'); 
 				}
 			});
@@ -50,8 +73,8 @@ app.factory("editServices", function($http){
 		editUser:function(users, scope){
 			var editUser= $http.post("php/api/getPackages.php?method=editHotels&jsoncallback=", users);
 			editUser.then(function(data){				
-				if(String(data.data).trim() == "1"){
-					scope.$emit('reloadDetails'); 
+				if(String(data.data).trim() == "1" || String(data.data).trim() == ""){
+					scope.$emit('reloadDetails',false); 
 				}
 			});
 			}
@@ -91,7 +114,7 @@ app.factory("hotelLinkServices", ['$http', function($http){
 	hotelLinkServices.getLinkDetails = function(scope, packageId){
 		var getLinkDetails = $http.post("php/api/getHotelLinks.php?method=getHotelLink&jsoncallback=", packageId);
 		getLinkDetails.then(function(data){
-			scope.$emit('loadHotelLinks', [data]);			
+			scope.$emit('loadHotelLinks', [data, packageId]);			
 		});
 	};
 	
@@ -99,12 +122,21 @@ app.factory("hotelLinkServices", ['$http', function($http){
 	hotelLinkServices.editHotelLinks = function(scope, hotelLinks){
 		var editHotelLinks= $http.post("php/api/getHotelLinks.php?method=editHotelLinks&jsoncallback=", hotelLinks);
 		editHotelLinks.then(function(data){				
-			if(String(data.data).trim() == "1"){
+			if(String(data.data).trim() == "1" || String(data.data).trim() == ""){
 					scope.$emit('reloadHotelLinkDetails'); 
 			}
 		});
 	};
 	
+	
+	hotelLinkServices.deleteLinkDetails = function(scope, package_id){
+		var deleteLinkDetails= $http.post("php/api/getHotelLinks.php?method=deleteHotelLinksMaster&jsoncallback=", package_id);
+		deleteLinkDetails.then(function(data){				
+			if(String(data.data).trim() == "1" || String(data.data).trim() == ""){
+					scope.$emit('reloadHotelLinkDetails', package_id); 
+			}
+		});
+	};
 	
 	
 	return hotelLinkServices
@@ -126,7 +158,7 @@ app.factory("imageHotelServices", function($http){
 	imageServicesVar.deleteImgDetails = function(idValue, scope){
 		    var deletePack = $http.post("php/api/getHotelLinks.php?method=deleteHotelImageDetails&jsoncallback=", idValue);
 			deletePack.then(function(data){	
-				if(String(data.data).trim() == "1"){			
+				if(String(data.data).trim() == "1" || String(data.data).trim() == ""){			
 					scope.$emit('onDeleteHotelImageSuccess');
 				}
 			});

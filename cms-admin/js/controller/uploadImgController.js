@@ -64,7 +64,7 @@ app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filt
 	}
 	
 	
-	$scope.insertImageData = function(response){
+	$scope.insertImageData = function(response, item){
 			var sendObject = new Object();
 			var insertDate = new Date();
 			if($scope.packform.packages_name == ""){			
@@ -75,14 +75,17 @@ app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filt
 			sendObject.package_big_img = response.big_img;
 			sendObject.package_small_img = response.small_img;
 			sendObject.package_thumb_img = response.thumb_img;
+			sendObject.description = item.description;
 			sendObject.INSERT_DATE = insertDate.toJSON();
 			imageServices.addImgDetails(sendObject, $scope);
+
 	}
 	
 	$scope.$on('imagesInserted', function(){
 		$scope.imageInserted++;
 		if($scope.imageInserted  == $scope.uploader.queue.length){
 			$scope.setDetails();
+			uploader.clearQueue();
 		}
 	});
 	
@@ -127,7 +130,7 @@ app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filt
             scope: $scope,                          // to automatically update the html. Default: $rootScope
             url: 'php/api/uploader.php',
             formData: [
-                { key: 'value' }
+                { key: 'value'  }
             ],
             filters: [
                 function (item) {                    // first user filter
@@ -190,7 +193,7 @@ app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filt
 
         uploader.bind('complete', function (event, xhr, item, response) {
 			//Get all the infromation from the response
-			$scope.insertImageData(response);
+			$scope.insertImageData(response, item);
         });
 
         uploader.bind('progressall', function (event, progress) {
@@ -199,6 +202,7 @@ app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filt
 
         uploader.bind('completeall', function (event, items) {
             console.info('Complete all', items);
+			
         });
 
     

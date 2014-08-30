@@ -24,10 +24,22 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	sharedEventDispatch.totalPackages = [];
 	sharedEventDispatch.editPackagesRetour = {};
 	var totalImagePackages = [];
+	var totalHotelImagePackages = [];
+	
+	sharedEventDispatch.editHotelPackagesRetour = {};
 	
 	
 	sharedEventDispatch.sharePackageID = function(id){
 		this.packageId=id;
+	};
+	
+	sharedEventDispatch.shareHotelID = function(id){
+		this.hotelId=id;
+	};
+	
+	
+	sharedEventDispatch.shareHotelPackEditDetails = function(editHotelPackDetails){
+		this.editHotelPackagesRetour=editHotelPackDetails;
 	};
 	
 	sharedEventDispatch.sharePackEditDetails = function(editPackDetails){
@@ -42,6 +54,11 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 		this.totalHotels=totalHotels;
 	};
 	
+	sharedEventDispatch.getTotalHotelsObj = function(totalHotels){
+		return this.totalHotels;
+	};
+	
+	
 	sharedEventDispatch.setTotalImagePackages = function(totalImagePackages){
 		this.totalImagePackages=totalImagePackages;
 	};
@@ -49,6 +66,17 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	sharedEventDispatch.getTotalImagePackages = function(){
 		return this.totalImagePackages;
 	};
+	
+	
+	
+	sharedEventDispatch.setTotalHotelImagePackages = function(totalHotelImagePackages){
+		this.totalHotelImagePackages=totalHotelImagePackages;
+	};
+	
+	sharedEventDispatch.getTotalHotelImagePackages = function(){
+		return this.totalHotelImagePackages;
+	};
+	
 	
 	
 	

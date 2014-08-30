@@ -15,23 +15,28 @@ class crud{
 	}
 	
 	function addItems($param){
-		foreach($param as $key=>$value){
-				$field_names[]= $key;
-				$field_value[] = "'" . addslashes($value) . "'";
-		}
-		
-		
-		$field_names = implode(",",$field_names); 
-		$field_value = implode(",", $field_value); 
-
-
 	
-		$insert = $this->manageDB->insertData($this->tableName, $field_names, $field_value);
+		try{
+			foreach($param as $key=>$value){
+					$field_names[]= $key;
+					$field_value[] = "'" . addslashes($value) . "'";
+			}
+			
+			
+			$field_names = implode(",",$field_names); 
+			$field_value = implode(",", $field_value); 
+	
+	
 		
-		if($insert == 1){
-			$result = "1";
-		}else{
-			$result = "0";
+			$insert = $this->manageDB->insertData($this->tableName, $field_names, $field_value);
+			
+			if($insert == 1){
+				$result = "1";
+			}else{
+				$result = "0";
+			}
+		}catch (Exception $e){
+			return $e->getMessage();
 		}
 		
 		return  $result;
@@ -39,29 +44,45 @@ class crud{
 	
 	
 	function getItems(){
-		$data = $this->manageDB->getData($this->tableName);
-		$data = json_encode($data);
+		try{
+			$data = $this->manageDB->getData($this->tableName);
+			$data = json_encode($data);
+		}catch (Exception $e){
+			return $e->getMessage();
+		}
 		return $data ;
 	}
 
 
 	function orderItems($param){
-		$data = $this->manageDB->getOrderData($this->tableName, $param->col, $param->ORDER);
-		$data = json_encode($data);
+		try{
+			$data = $this->manageDB->getOrderData($this->tableName, $param->col, $param->ORDER);
+			$data = json_encode($data);
+		}catch (Exception $e){
+			return $e->getMessage();
+		}
 		return $data ;
 	}
 	
 	
 	function editItems($param){
-		$data = $this->manageDB->editData($this->tableName, $param, $param->id);
-		$data = json_encode($data);
+		try{
+			$data = $this->manageDB->editData($this->tableName, $param, $param->id);
+			$data = json_encode($data);
+		}catch (Exception $e){
+			return $e->getMessage();
+		}
 		return $data ;
 	}
 	
 	
 	function deleteItems($param){
-		$data = $this->manageDB->deleteData($this->tableName, $param->id);
-		$data = json_encode($data);
+		try{
+			$data = $this->manageDB->deleteData($this->tableName, $param->id);
+			$data = json_encode($data);
+		}catch (Exception $e){
+			return $e->getMessage();
+		}
 		return $data ;
 	}
 	

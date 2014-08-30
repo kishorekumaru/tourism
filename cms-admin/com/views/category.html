@@ -42,7 +42,8 @@
 
     </div>
          <br> 
-    <div class="container" >
+          <div ng-hide="isCategory" class="text-center" style="color:rgba(229,229,229,1.00)"><h1><b>No Cateogry found, <br>Please click ADD button on the top right to create new Cateogry</b></h1></div>
+    <div class="container" ng-show="isCategory" >
     
             <div class="col-lg-1 text-left"  style="margin-top:5px">
             	Search:  </div> <div class="col-lg-3 text-left"> <input type="text" ng-model="catname" ng-keyup="getChar($event)" class="form-control"></div>

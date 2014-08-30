@@ -1,6 +1,6 @@
 // JavaScript Document
 app.controller("viewPackagesController",  
-	function($scope, sharedEventDispatcher, $filter, $location, dayDetailServices, hotelServices, hotelLinkServices){
+	function($scope, sharedEventDispatcher, $filter, $location, dayDetailServices,  hotelLinkServices,linkHotelServices){
 	
 	$scope.status = {};
 	
@@ -15,8 +15,8 @@ app.controller("viewPackagesController",
 	$scope.linkedHotels = [];
 	$scope.isNotLinked = false;
 	
-	$scope.addSlide = function(imgName) {
-			$scope.slides.push({image: 'com/uploads/' + imgName});
+	$scope.addSlide = function(imgName, description) {
+			$scope.slides.push({image: 'com/uploads/' + imgName, description: description});
 	 };
 	
 	$scope.makeTabVisible = function(selectedTab){
@@ -35,7 +35,7 @@ app.controller("viewPackagesController",
 		if($scope.selectedImage.length){
 			//Loop the Image to 
 			for(var i=0;i<$scope.selectedImage.length;i++){
-					$scope.addSlide($scope.selectedImage[i].package_small_img);
+					$scope.addSlide($scope.selectedImage[i].package_small_img, $scope.selectedImage[i].description);
 			}
 			
 		}
@@ -63,12 +63,12 @@ app.controller("viewPackagesController",
 	
 	//Get all linked Hotel information
 	
-	hotelServices.getHotels($scope);
+	linkHotelServices.crudCategory({"action":"Get"}, $scope);
 	$scope.isloading=true;
 	
 	
-	$scope.$on('loadDetails',function(event, data){
-		$scope.hotelDetails  = data[0].data;
+	$scope.$on('loadLinkHotelDetails',function(event, data){
+		$scope.hotelDetails  = data;
 		if(sharedEventDispatcher.packageId !== undefined || sharedEventDispatcher.packageId !== "" ){
 			hotelLinkServices.getLinkDetails($scope,{'package_id':sharedEventDispatcher.packageId});	
 		}
@@ -82,9 +82,9 @@ app.controller("viewPackagesController",
 			$scope.isNotLinked = true;
 			$scope.linkedHotels =  [];
 			
-		}else if(data[0].data[0].hotel_id != ""){
+		}else if(data[0].data[0].link_hotel_id != ""){
 			$scope.isNotLinked = false;
-		    $scope.hotelLinkDetails  = data[0].data[0].hotel_id;
+		    $scope.hotelLinkDetails  = data[0].data[0].link_hotel_id;
 			$scope.linkedHotels =  $filter("filterLinkedHotels")($scope.hotelDetails, $scope.hotelLinkDetails);
 		}else{
 			$scope.isNotLinked = true;

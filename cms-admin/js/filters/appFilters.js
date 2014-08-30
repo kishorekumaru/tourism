@@ -77,7 +77,7 @@ app.filter('filterLinkedHotels', function() {
 
 app.filter('filterRestHotels', function() {
   return function(arr1, linkStr) {
-		arr2 = linkStr.split(",");
+		arr2 = String(linkStr).split(",");
 		var filteredArr = arr1.filter(function(element){
 			return arr2.indexOf(element.id) == -1
 		});		

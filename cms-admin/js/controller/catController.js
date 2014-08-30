@@ -6,6 +6,7 @@ app.controller("catController", function($scope, $modal, $filter,  $location, sh
 		$scope.itemsPerPage = 10;
 		$scope.isNameASC = "ASC";
 		$scope.currentPage = 1;
+		$scope.isCategory = true;
 	
 		catServices.crudCategory({"action":"Get"}, $scope);
 		$scope.isCatloading=true;
@@ -16,6 +17,11 @@ app.controller("catController", function($scope, $modal, $filter,  $location, sh
 			$scope.catDetailsPage = $scope.catDetails.slice(0, $scope.itemsPerPage);
 			$scope.currentPage = 1;
 			
+			if(!$scope.catDetails[0]){
+				$scope.isCategory = false;
+			}else{
+				$scope.isCategory = true;
+			}
 			//Release the loading 
 			$scope.isCatloading=false;
 		});

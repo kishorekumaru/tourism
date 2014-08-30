@@ -16,6 +16,15 @@ function setFeatured(){
 	echo $_GET['jsoncallback'] . $data ;
 }
 
+
+function setHotelFeatured(){
+	$table_name ='hotelmaster';
+	include_once('../core/class.managedatabase.php');
+	$param =json_decode(file_get_contents('php://input'));
+	$init = new managedatabase;
+	$data = $init->editDataGroup($table_name,'isFeatured', $param->isFeatured, $param->id);
+	echo $_GET['jsoncallback'] . $data ;
+}
 /** Function for Day details **/
 function addDayDetails(){
 	$table_name ='package_day_details';
@@ -232,6 +241,20 @@ function getPackByOrder(){
 	$data = json_encode($data);
 	echo $_GET['jsoncallback'] . $data ;
 }
+
+
+//Hotel Package Count
+
+function getHotelLastId(){
+	$tablename="hotelmaster";
+	include_once('../core/class.managedatabase.php');
+	$param =json_decode(file_get_contents('php://input'));
+	$init = new managedatabase;
+	$data = $init->getLastPackId($tablename);
+	$data = json_encode($data);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
 
 function getAllHotels(){
 	$tablename="hotelmaster";

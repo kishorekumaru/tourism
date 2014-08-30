@@ -25,7 +25,7 @@ app.factory("packServices", function($http){
 		    var getPackCount= $http.post("php/api/getPackages.php?method=getPackLastId&jsoncallback=");
 			getPackCount.then(function(data){	
 					var incrementByOne  = parseInt(data.data) + 1;
-					scope.$emit('packageCount', [incrementByOne]); 				
+					scope.$emit('packageCount', incrementByOne); 				
 			});
 
 		},
@@ -55,13 +55,7 @@ app.factory("packServices", function($http){
 			});
 		},
 		
-		getAllCountries:function(scope){
-		    var deletePack = $http.post("php/resources/country.json");
-			deletePack.then(function(data){							
-					scope.$emit('onGetCountryDetails', data.data);
-			});
-			
-		},
+		
 		
 		editpackLinks:function(scope, featuredObj){
 		    var editFeatLink = $http.post("php/api/getPackages.php?method=setFeatured&jsoncallback=", featuredObj);
@@ -82,7 +76,7 @@ app.factory("dayDetailServices", function($http){
 		    var addDayDetails = $http.post("php/api/getPackages.php?method=addDayDetails&jsoncallback=", dayObj);
 			addDayDetails.then(function(data){	
 				if(String(data.data).trim() == "1"){			
-					scope.$emit('daysInserted');
+					scope.$emit('daysInserted', dayObj.package_id);
 				}
 		});
 	}

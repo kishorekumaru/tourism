@@ -21,9 +21,7 @@
 <div ng-repeat="days in getSelectedPack | orderBy:day_num">
  <div class='panel panel-info' style="margin-top:20px;">
  	<div class='panel-heading'><b>Detais - Day {{ days.day_num }} </b>
-    <div class="text-right">
-    <button class="btn btn-primary" ng-click="addDetail(days.id)"><span class="glyphicon glyphicon-ok"> </span></button>
-    <button class="btn btn-danger"  ng-click="deleteDetails(days.id)"><span class="glyphicon glyphicon-remove"> </span></button></div>
+    
     </div>
     <div class="panel-body">
     <form  class="form-horizontal" role="form">
@@ -48,6 +46,11 @@
         </div>
      </div>
 </form>
+    </div>
+    <div class="panel-footer">
+    <div class="text-right">
+    <button class="btn btn-primary" ng-click="addDetail(days.id)"><span class="glyphicon glyphicon-ok"> </span></button>
+    <button class="btn btn-danger"  ng-click="deleteDetails(days.id)"><span class="glyphicon glyphicon-remove"> </span></button></div>
     </div>
   </div>
 

@@ -9,7 +9,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	$scope.pack = {};
 	$scope.pack.package_valid_from;
 	$scope.pack.package_valid_to;
-	
+	$scope.isloading=false;
 	
 	//Load the currency details
 	packServices.getAllCurrencies($scope);
@@ -18,6 +18,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	$scope.$on("onGetCurrencyDetails", function($event, data){
 		$scope.totalCurrencies = data
 		catServices.crudCategory({"action":"Get"}, $scope);
+		$scope.isloading=true;
 	});
 	
 	
@@ -74,6 +75,7 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 		$scope.pack.package_valid_to =  $filter('date')(valid_to, 'yyyy-MM-dd');
 
 		 if(!$scope.isEdit){
+			 $scope.pack.id = $scope.packageVal.id;
 			 $scope.pack.insert_date = insertDate.toJSON();
 			 packServices.addPackage($scope.pack, $scope);
 		 }else{
@@ -108,7 +110,6 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 	//** http return function
 	$scope.$on('packageCount',function(event, data){		
 		if(!$scope.isEdit){
-			var incrementByOne = 
 			$scope.pack.package_code = "GLACIER_TRPK_10100" + data ;
 			$scope.packageVal.id = data; 
 		}else{
@@ -117,13 +118,23 @@ app.controller("addPackageController", function($scope,$filter, $location, packS
 		
 	});
 	
-	$scope.$on('daysInserted', function(event){
+	$scope.$on('daysInserted', function(event, data){
 			$scope.packageVal.dayValues++;
 			if($scope.packageVal.dayValues ==  parseInt($scope.pack.package_duration)-1){
-				alert("Package created");
+				alert("Package created, please add day details");
 				$scope.resetFun();
-				$location.path("/packages");
+				sharedEventDispatcher.sharePackageID(String(data));
+				packServices.getPackages($scope);				
 			}
+			
+		
+	});
+	
+	$scope.$on('loadPackDetails', function(event, data){
+		$scope.packages  = data[0].data;
+		sharedEventDispatcher.totalPackages = $scope.packages;
+		
+		$location.path("/dayDetails");
 	});
 	
 	$scope.$on('PackageAddSuccess',function(event){		

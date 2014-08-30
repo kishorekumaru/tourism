@@ -10,15 +10,20 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
     $scope.noImageFile = "no-image.jpg";
  	$scope.imageDetails = [];
     $scope.isHotelloading=true;
+	$scope.isHotel = true;
+	
+	
+
 	
 	//Load the currency details
-	packServices.getAllCountries($scope);
+	hotelServices.getHotels($scope);
 	
+
+	$scope.showViewPanel = function (id){
+			sharedEventDispatcher.shareHotelID(id);
+			$location.path("/viewHotelPackages");
+	}
 	
-	$scope.$on("onGetCountryDetails", function($event, data){
-		$scope.totalCountries = data
-		hotelServices.getHotels($scope);
-	});
 	
 	
 	$scope.$on('loadDetails',function(event, data){
@@ -27,7 +32,14 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 		$scope.hotelDetailsPage = $scope.hotelDetails.slice(0, $scope.itemsPerPage);
 		$scope.currentPage = 1;
 		
+		if(!$scope.hotelDetails[0]){
+			$scope.isHotel = false;
+		}else{
+			$scope.isHotel = true;
+		}
+		
 		//Store it in global variable 
+		
 		sharedEventDispatcher.totalHotelsObj($scope.hotelDetails);
 		imageHotelServices.getImgDetails($scope);
 	});
@@ -43,7 +55,8 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 				$scope.hotelDetails[i].first_image =  $scope.noImageFile;
 			}
 		}
-		
+		//Store it in global variable 
+		sharedEventDispatcher.setTotalHotelImagePackages($scope.totalImagehotels);
 		$scope.isHotelloading=false;
 	});
 	
@@ -62,7 +75,7 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 	
 	$scope.sortByRating = function(){
 		($scope.isRatingASC == "ASC")?$scope.isRatingASC="DESC":$scope.isRatingASC="ASC";
-		hotelServices.getHotelsByOrder({'col':"hotel_rating",'ORDER':$scope.isRatingASC},$scope);
+		hotelServices.getHotelsByOrder({'col':"hotel_cost",'ORDER':$scope.isRatingASC},$scope);
 	};
 	
 	$scope.getChar = function($event){
@@ -85,48 +98,14 @@ app.controller("hotelController", function($scope, $modal, $filter, hotelService
 	};
 	
 	$scope.editHotelItem = function (id){
-		
-	var selectedDetails = $filter('getById')($scope.hotelDetails, id);
-	var editInstance = $modal.open({
-	templateUrl: 'myModalContent.html',
-	controller: popupControllerIns,
-	resolve: {
-		headerName: function () {
-			return "Edit Hotel Details";
-		},
-		selectedDetails:function(){
-			return selectedDetails;
-		}		 
-		}
-	});
-
-	
-    editInstance.result.then(function (userItems) {
-		  editServices.editUser(userItems, $scope);
-	});
-		
+		var selectedDetails = $filter('getById')($scope.hotelDetails, id);
+		sharedEventDispatcher.shareHotelPackEditDetails(selectedDetails); 
+		//$rootScope.$emit("editPackages",[selectedDetails]);
+		$location.path("/addHotelPackages");	
 	};
 	
 	
-	$scope.openWindow = function () {
 
-    var modalInstance = $modal.open({
-      templateUrl: 'myModalContent.html',
-      controller: popupControllerIns,
-	  resolve: {
-        headerName: function () {
-          return "Add Hotel Details";
-			},
-		  selectedDetails: function(){
-		  	return "";
-		  }
-		  }
-	});
-
-    modalInstance.result.then(function (userItems) {
-		  hotelAddServices.addHotels(userItems, $scope);
-		});
-   };
 
 	$scope.manageImage = function(id){
 		sharedEventDispatcher.shareHotelID(id);

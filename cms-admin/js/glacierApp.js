@@ -31,6 +31,16 @@ app.config(function($routeProvider){
 			{ 
 					templateUrl: 'com/views/addPackages.html' 
 			 })
+			 .when("/createlinkHotels", 
+			 {
+				 controller: "createlinkHotelController", 
+				 templateUrl: 'com/views/createHotelLinks.html'
+			 })
+			 .when("/addHotelPackages", 
+			{ 
+					controller: "addHotelController", 
+					templateUrl: 'com/views/addHotelPackages.html' 
+			 })
 			 .when("/packImages", 
 			{ 
 				 	controller: "uploadImgController", 
@@ -46,10 +56,20 @@ app.config(function($routeProvider){
 				 
 					templateUrl: 'com/views/category.html' 
 			 })
-			   .when("/featured", 
+			 .when("/addbanner", 
+			{ 
+				 
+					templateUrl: 'com/views/banner.html' 
+			 })
+			   .when("/featured-tour", 
 			{ 
 				 	controller: "featuredController", 
 					templateUrl: 'com/views/feautred.html' 
+			 })
+			 .when("/featured-hotel",
+			 {
+				 	controller:"hotelFeaturedController",
+					templateUrl: 'com/views/hotel_featured.html' 
 			 })
 			.when("/contactus", 
 			{ 
@@ -76,9 +96,9 @@ app.config(function($routeProvider){
 				 	controller: "viewPackagesController", 
 					templateUrl: 'com/views/viewPackages.html' 
 			 })
-			  .when("/viewHotels", 
+			  .when("/viewHotelPackages", 
 			{ 
-				 	controller: "viewHotelsController", 
+				 	controller: "viewHotelController", 
 					templateUrl: 'com/views/viewHotels.html' 
 			 })
 			 .otherwise({ redirectTo:"/"});

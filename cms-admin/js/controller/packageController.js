@@ -1,5 +1,5 @@
 app.controller("packageController", function($scope, $rootScope, $modal, $location, $filter, packServices
-, sharedEventDispatcher, imageServices, catServices, dayDetailServices){
+, sharedEventDispatcher, imageServices, catServices, dayDetailServices, linkHotelServices, hotelLinkServices){
 
 	
 	$scope.packages= [];
@@ -10,6 +10,8 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	$scope.currentPage = 1;
 	$scope.totalImagePackages = "";
 	$scope.noImageFile = "no-image.jpg";
+	$scope.linkHotelDetails = [];
+	$scope.isPackage = true;
   
 	packServices.getPackages($scope);
 	catServices.crudCategory({"action":"Get"}, $scope);
@@ -26,18 +28,27 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 			$scope.totalItems =  $scope.packages.length;
 			$scope.packPage = $scope.packages.slice(0, $scope.itemsPerPage);
 			$scope.currentPage = 1;
-			
 			//Store it in global variable 
 			sharedEventDispatcher.totalPackagesObj($scope.packages);
 			imageServices.getImgDetails($scope);
 		}else{
 			$scope.packPage.package_valid_from = new Date();
-			$scope.packPage.pack.package_valid_to  = new Date();
-			$scope.isloading=false;
+			$scope.packPage.pack.package_valid_to  = new Date();			
 		}
-		
+		linkHotelServices.crudCategory({"action":"Get"}, $scope);
+		if(!$scope.packages[0]){
+				$scope.isPackage = false;
+			}else{
+				$scope.isPackage = true;
+			}
 	});
 	
+	//Get All the linked Hotels information
+	$scope.$on('loadLinkHotelDetails',function(event, data){
+		$scope.linkHotelDetails  = data;
+		$scope.isloading=false;
+		
+	});
 	
 	//Get all the package Thumb Images
 	$scope.$on("getImageDetails", function($event, data){
@@ -125,6 +136,7 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 	$scope.deletePackage = function (id){
 		if (confirm('Are you sure you want to delete?')) {
     		//Delete all the package Information before Deleting
+			$scope.isloading=true;
 			packItems = $filter("searchObjectItem")($scope.totalImagePackages,id,'package_id');
 			try{
 				for(var i=0;i<packItems.length;i++){
@@ -135,7 +147,7 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 					imageServices.unlinkImages($scope, sendObj, packItems[i].id);
 					imageServices.deleteImgDetails({'id':packItems[i].id}, $scope); 				 
 				}
-				dayDetailServices.getDayDetails(id, $scope);  
+				hotelLinkServices.deleteLinkDetails($scope,{'package_id':id});		
 				
 			}catch(err){
 				alert(err.message);
@@ -143,6 +155,12 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 		} 
 	};
 	
+	// DELETE THE HOTEL LINKS
+	$scope.$on('reloadHotelLinkDetails',function(event, data){
+		dayDetailServices.getDayDetails(data.package_id, $scope);
+	});
+	
+	//GET THE DAY DETAILS AND THEN DELETE
 	$scope.$on('getDayDetails', function($event, data){
 	   	var getSelectedPack = [];
 		getSelectedPack =  $filter('getByPackageId')(data[0], data[1]);
@@ -150,6 +168,7 @@ app.controller("packageController", function($scope, $rootScope, $modal, $locati
 			dayDetailServices.deleteDetails({'id':getSelectedPack[i].id}, $scope);
 		}
 		packServices.deletePack({'id':data[1]},$scope);
+		
 	});
 	
 	

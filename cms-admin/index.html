@@ -27,21 +27,32 @@ ng-show="isNavBar">
 
    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li ng-class="{ active: isActive('/packages')}" class="dropdown">
-          <a class="dropdown-toggle getHand" >PACKAGES <span class="caret"></span></a>
+        <li ng-class="{active: isActive('/packages')}" class="dropdown">
+          <a class="dropdown-toggle getHand" >TOUR PACKAGES <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a ng-click="loadFiles('/packages')" class="getHand">Manage Packages</a></li>
-            <li><a ng-click="loadFiles('/hotels')" class="getHand">Manage Hotels</a></li>
-             <li><a ng-click="loadFiles('/category')" class="getHand">Manage Category</a></li>
+            <li><a ng-click="loadFiles('/packages')" class="getHand">View Tour Packages</a></li>
+            <li><a ng-click="loadFiles('/addPackages')" class="getHand">Add Tour Packages</a></li>
+            <li><a ng-click="loadFiles('/createlinkHotels')" class="getHand">Manage Tour Hotels</a></li>
                <li class="divider"></li>
               <li><a ng-click="loadFiles('/linkHotels')" class="getHand">Link Hotels</a></li>
-              <li><a ng-click="loadFiles('/featured')" class="getHand">Make Featured</a></li>
+              <li><a ng-click="loadFiles('/featured-tour')" class="getHand">Make Tours Featured</a></li>
           </ul>
         </li>
-        <li ng-class="{ active: isActive('/reports')}" class="dropdown">
-        	<a class="dropdown-toggle getHand">REPORTS <span class="caret"></span></a>
+        <li ng-class="{ active: isActive('/hotels')}" class="dropdown">
+          <a class="dropdown-toggle getHand" >HOTEL PACKAGES <span class="caret"></span></a>
+        	<ul class="dropdown-menu" role="menu">
+                <li><a ng-click="loadFiles('/hotels')" class="getHand">View Hotel Packages</a></li>
+                <li><a ng-click="loadFiles('/addHotelPackages')" class="getHand">Add Hotel Packages</a></li>
+                <li class="divider"></li>
+                <li><a ng-click="loadFiles('/featured-hotel')" class="getHand">Make Hotels Featured</a></li>
+            </ul>
+        </li>
+        <li ng-class="{ active: isActive('/category')}" ><a ng-click="loadFiles('/category')" class="getHand">CATEGORY</a></li>
+        <li ng-class="{ active: isActive('/contactus')}" class="dropdown">
+        	<a class="dropdown-toggle getHand">TOOLS <span class="caret"></span></a>
             	<ul class="dropdown-menu" role="menu">
-                	<li><a ng-click="loadFiles('/contactus') "class="getHand">Contact Info</a></li>
+                	<li><a ng-click="loadFiles('/addbanner') "class="getHand">Banner Images</a></li>
+                	<li><a ng-click="loadFiles('/contactus') "class="getHand">Contact & Info</a></li>
                   	<li><a ng-click="loadFiles('/news_events')" class="getHand">News & Events</a></li>
                 	<li><a ng-click="loadFiles('/testimonial')" class="getHand">Client Testimonial</a></li>
                 </ul>
@@ -73,6 +84,7 @@ ng-show="isNavBar">
 <!-- Inclue Controllers -->
 <script src="js/controller/loginController.js"></script>
 <script src="js/controller/packageController.js"></script>
+<script src="js/controller/createlinkHotelController.js"></script>
 <script src="js/controller/hotelController.js"></script>
 <script src="js/controller/addPackageController.js"></script>
 <script src="js/controller/dayDetailsController.js"></script>
@@ -80,9 +92,12 @@ ng-show="isNavBar">
 <script src="js/controller/uploadImgController.js"></script>
 <script src="js/controller/uploadHotelImgController.js"></script>
 <script src="js/controller/viewPackagesController.js"></script>
+<script src="js/controller/viewHotelController.js"></script>
 <script src="js/controller/catController.js"></script>
 <script src="js/controller/reportsController.js"></script>
 <script src="js/controller/featuredController.js"></script>
+<script src="js/controller/addHotelController.js"></script>
+<script src="js/controller/hotel_featured.js"></script>
 <!-- Inclue Services-->
 <script src="js/services/appServices.js"></script>
 <script src="js/services/sessionServices.js"></script>

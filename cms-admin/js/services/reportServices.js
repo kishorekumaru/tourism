@@ -69,3 +69,32 @@ app.factory("contactServices", function($http){
 	return contactServicesObj;
 	
 });
+
+
+
+app.factory("bannerImgServices", function($http){
+	
+	//Declar a return object
+	var bannerServicesObj = {};
+	
+	//Function to get all the test services
+
+	bannerServicesObj.crudCategory = function(bannerItems, scope){
+			var getBnrList= $http.post("php/api/getReports.php?method=bannerImages&jsoncallback=",bannerItems);
+			getBnrList.then(function(data){
+					if(bannerItems.action.toString() != 'Get' && bannerItems.action.toString() != 'Order'){
+						if(bannerItems.action.toString() == 'Insert'){
+							scope.$emit('imagesInserted');		
+						}else{
+							scope.$emit('reloadBannerDetails', data.data);	
+						}
+					}else{
+						scope.$emit('loadBannerDetails', data.data);
+					}
+			});
+	 };
+	
+	
+	return bannerServicesObj;
+	
+});

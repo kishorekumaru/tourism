@@ -21,3 +21,28 @@ app.factory("catServices", function($http, $rootScope, sessionServices, $locatio
 	return catServicesObj;
 	
 });
+
+
+
+app.factory("linkHotelServices", function($http, $rootScope, sessionServices, $location){
+	
+	//Declar a return object
+	var linkHotelServicesObj = {};
+	
+	//Function to get all the cat services
+
+	linkHotelServicesObj.crudCategory = function(linkItems, scope){
+			var getLinkList= $http.post("php/api/getCategory.php?method=linkHotelDetails&jsoncallback=", linkItems);
+			getLinkList.then(function(data){
+					if(linkItems.action.toString() != 'Get' && linkItems.action.toString() != 'Order'){
+						scope.$emit('reloadLinkHotelDetails', data.data);			
+					}else{
+						scope.$emit('loadLinkHotelDetails', data.data);
+					}
+			});
+	 };
+	
+	
+	return linkHotelServicesObj;
+	
+});

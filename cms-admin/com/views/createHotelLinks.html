@@ -1,0 +1,99 @@
+<div class="container text-center" ng-show="isHotelLinkloading">
+   	<img src="images/loading.gif">
+   </div>
+   
+    <div class="panel panel-default" ng-hide="isHotelLinkloading" style="margin-top:-20px">
+        <div class="panel-heading">  
+        <div class="text-right">
+                <div class="col-lg-3 text-left text-primary"><h5><b>TOUR LINK HOTEL DETAILS</b></h5></div><div class="text-right"> <button type="button" class="btn btn-primary btn-sm" ng-click="openWindow()">
+                  <span class="glyphicon glyphicon-plus-sign"></span> ADD LINK HOTEL
+                </button></div>  </div>
+   					 <script type="text/ng-template" id="linkHotelContent.html">
+            	<div class="modal-header">
+                	<button class="close" ng-click="cancel()">&times;</button>
+                    <h4> {{ headerName }} </h4>
+                </div>
+                
+                
+                <div class="modal-body">
+				
+				
+				
+                	<form name="userAddForm">
+                    	<table class="table table-bordered">
+                        <tr>
+                        	<td>Hotel name</td>
+                    		<td><input type="input" name="hotel_name" ng-model="hotelLink.hotel_name"></td>
+                         </tr>
+						 
+						 <tr>
+						 <tr>
+                        	<td>Address</td>
+                    		<td><textarea ng-model="hotelLink.hotel_address" name="hotel_address"  rows="3" cols="70"></textarea></td>
+                         </tr>
+						<tr>
+                        	<td>Category</td>
+                    		<td><div ><rating ng-model="hotelLink.hotel_category" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> <b>(<i>Rate:</i> {{ hotel.hotel_rating }})</b></div></td>
+                         </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                	<button class="btn btn-default" ng-click="cancel()">Close</button>
+                    <button class="btn btn-primary" ng-click="saveChanges()">Save Changes</button>
+                </div>
+            </script>
+  
+    
+    
+    
+   
+   					 
+
+    </div>
+         <br> 
+         <div ng-hide="isCategory" class="text-center" style="color:rgba(229,229,229,1.00)"><h1><b>No Hotel Links found, <br>Please click ADD button on the top right to create new Hotels</b></h1></div>
+    <div class="container" ng-show="isCategory" >
+    
+            <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text" ng-model="hotelname" ng-keyup="getChar($event)" class="form-control"></div>
+                            
+        <div class="text-right">
+                <div class="col-md-4" style="margin-top:-20px"><pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div> <div  class="col-md-3"> sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Name</button> | <button type="button" class="btn btn-link" ng-click="sortByRating()">Category</button> </div>
+               
+               
+                             
+              
+                </div>
+               <p></p>
+            <div class="container center-block"> 
+                <table class="table table-bordered table-hover">
+                <thead>
+                	<tr>
+                    	<th>SNo</th>
+                        <th>Hotel Name</th>
+                        <th>Hotel Address</th>
+                        <th>Hotel Category</th>
+                        <th>Actions</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                 	<tr ng-repeat="hotel in linkHotelDetailsPage">
+                    	<td>{{   $index + 1  }}</td>
+                        <td>{{    hotel.hotel_name  }}</td>
+                        <td>{{    hotel.hotel_address  }}</td>
+                        <td><div ng-init="x = hotel.hotel_category"><b>Category : </b><rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div></td>
+                        <td>
+                        <button type='button' class='btn btn-primary' ng-click='editHotelItem(hotel.id)'><span class="glyphicon glyphicon-pencil"></span></button>
+                           <button type='button' class='btn btn-danger' ng-click='deleteItem(hotel.id)'><span class="glyphicon glyphicon-trash"></span></button>
+                           </td> 
+                    </tr>
+                   
+                 </tbody>
+                 
+                   
+                 
+                </div>
+                  <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
+            </div>  </div>
+   

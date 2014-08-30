@@ -29,6 +29,7 @@
          <img ng-src="com/uploads/{{img.package_thumb_img}}"/>
           </div>
            <div class="panel-footer panel-warning" style="height:30px">
+           <span class="control-label" style="margin-top:-7px;">{{ img.description }}</span>
           <button type="button" class="close" ng-click="deleteImage(img.id)" 
           style="margin-top:-7px;margin-right:-10px">
           <span aria-hidden="true"><span class="glyphicon glyphicon-trash"></span></span></button>
@@ -60,7 +61,8 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th width="50%">Name</th>
+                                <th>Name</th>
+                                <th ng-show="uploader.isHTML5" width="50%">Description</th>
                                 <th ng-show="uploader.isHTML5">Size</th>
                                 <th ng-show="uploader.isHTML5">Progress</th>
                                 <th>Status</th>
@@ -70,6 +72,7 @@
                         <tbody>
                             <tr ng-repeat="item in uploader.queue">
                                 <td><strong>{{ item.file.name }}</strong></td>
+                                 <td width="50%"><input type="text" class="form-control" ng-model="item.description" name="description"></td>
                                 <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
                                 <td ng-show="uploader.isHTML5">
                                     <div class="progress" style="margin-bottom: 0;">
@@ -81,6 +84,7 @@
                                     <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
                                     <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
                                 </td>
+                                
                                 <td nowrap>
                                     <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                                         <span class="glyphicon glyphicon-upload"></span> Upload

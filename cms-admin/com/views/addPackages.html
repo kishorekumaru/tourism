@@ -1,6 +1,9 @@
 <div ng-controller="addPackageController" >
-<div class="container text-right" style="position:absolute;"><button type="button" class="btn btn-default" ng-click="cancelEdit()"><span class="glyphicon glyphicon-chevron-up"> </span>  Back to Package</button></div>
-  <tabset >
+<div class="container text-center" ng-show="isloading">
+   	<img src="images/loading.gif">
+   </div>
+<div class="container text-right"  style="position:absolute;"><button type="button" class="btn btn-default" ng-click="cancelEdit()"><span class="glyphicon glyphicon-chevron-up"> </span>  Back to Package</button></div>
+  <tabset ng-hide="isloading">
     <tab heading="Add Package Info" disabled="tabset.isfirstTab" active="tabset.firstActive">
     <div class="col-lg-8 col-lg-offset-2"  >
     <div class='panel panel-info' style="margin-top:20px;"><div class='panel-heading'>Add Packages - STEP 1</div>

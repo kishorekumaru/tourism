@@ -140,6 +140,14 @@
 		return "1";
 	 }
 	 
+	 
+	 function deletePackageData($table_name, $id){
+		$sqlQuery ="DELETE FROM $table_name where package_id=$id";
+	 	$query = $this->link->query($sqlQuery) or die($this->link->errno);
+		$this->link->close();
+		return "1";
+	 }
+	 
 	
 	 
 	 
