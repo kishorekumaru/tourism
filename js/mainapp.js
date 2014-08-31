@@ -27,6 +27,14 @@ app.config(function($routeProvider){
 			{	controller: "packageList", 
 				templateUrl: 'views/packagedetails.html' 
 			 })
+		  .when("/hotelList", 
+			{	controller: "hotelList", 
+				templateUrl: 'views/hoteldetails.html' 
+			 })
+		  .when("/hotelview", 
+			{	controller: "hotelViewController", 
+				templateUrl: 'views/hotelview.html' 
+		   })
 		  .when("/packview", 
 			{ 
 				controller: "packViewController", 

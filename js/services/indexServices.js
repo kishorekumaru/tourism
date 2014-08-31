@@ -121,12 +121,35 @@ app.factory("packServices", function($http){
 });
 
 
+//Get Details for HotelServices
+app.factory("hotelServices", function($http){
+
+var returnServices = {};
+	
+		returnServices.getHotelPackages = function(scope){
+			var getHotelPackDetails= $http.get("cms-admin/php/api/getPackages.php?method=getAllHotels&jsoncallback=");
+			getHotelPackDetails.then(function(data){
+				scope.$emit('loadHotelPackDetails', [data]);
+			});
+		}
+	
+	return returnServices;
+});
+
 app.factory("imageServices", function($http){
 	var imageServicesVar = {};
 	imageServicesVar.getImgDetails = function(scope){
 		    var addDayDetails = $http.post("cms-admin/php/api/getPackages.php?method=getImageDetails&jsoncallback=");
 			addDayDetails.then(function(data){	
 				scope.$emit('getImageDetails', [data.data]);
+		});
+	}
+	
+	
+	imageServicesVar.getHotelImgDetails = function(scope){
+		    var addDayDetails = $http.post("cms-admin/php/api/getHotelLinks.php?method=getHotelImageDetails&jsoncallback=");
+			addDayDetails.then(function(data){	
+				scope.$emit('getHotelImageDetails', [data.data]);
 		});
 	}
 	return imageServicesVar;
@@ -148,6 +171,9 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	sharedEventDispatch.category = [];
 	sharedEventDispatch.newsDetails = [];
 	sharedEventDispatch.testimonials = [];
+	sharedEventDispatch.hotelPackId = 0;
+	sharedEventDispatch.totalHotelPackages = [];
+	sharedEventDispatch.totalHotelImgPackages = [];
 	
 	
 	sharedEventDispatch.setTestimonials = function(testimonials){
@@ -202,6 +228,32 @@ app.factory('sharedEventDispatcher', function($rootScope, $location){
 	
 	sharedEventDispatch.getTotalImagePackages = function(){
 		return this.totalImagePackages;
+	}
+
+// Get details for hotels
+	sharedEventDispatch.setHotelPackageID = function(Hotelid){
+			this.hotelPackId =  Hotelid;
+	}
+
+	sharedEventDispatch.getHotelPackageID = function(){
+		return this.hotelPackId;
+	}
+	
+	
+	sharedEventDispatch.setHotelPackages = function(totalHotelPackages){
+		this.totalHotelPackages =  totalHotelPackages;
+	}
+
+	sharedEventDispatch.getHotelPackages = function(){
+		return this.totalHotelPackages;
+	}
+	
+	sharedEventDispatch.setHotelTotalImagePackages = function(totalHotelImgPackages){
+		this.totalHotelImgPackages = totalHotelImgPackages;
+	}
+	
+	sharedEventDispatch.getHotelTotalImagePackages = function(){
+		return this.totalHotelImgPackages;
 	}
 
 

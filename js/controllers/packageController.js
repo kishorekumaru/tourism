@@ -21,7 +21,7 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 		$scope.packages =[];
 		$scope.isloading=true;
 		$scope.totalCategories = [];
-		$scope.headerName = "PACKAGES"
+		$scope.headerName = "TOUR PACKAGES"
 		
 		//Generate the view for Details
 		$scope.generateView = function(){
@@ -209,14 +209,14 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 	
 	
 	
-	 $scope.addSlide = function(imgName, big_image) {
-			$scope.slides.push({image: 'cms-admin/com/uploads/' + imgName, big_image:'cms-admin/com/uploads/'+big_image});
+	 $scope.addSlide = function(imgName, big_image, desc) {
+			$scope.slides.push({image: 'cms-admin/com/uploads/' + imgName, big_image:'cms-admin/com/uploads/'+big_image, desc:desc});
 	 };
 	 
 	 if($scope.selectedImg.length){
 			//Loop the Image to 
 			for(var i=0;i<$scope.selectedImg.length;i++){
-					$scope.addSlide($scope.selectedImg[i].package_small_img, $scope.selectedImg[i].package_big_img);
+					$scope.addSlide($scope.selectedImg[i].package_small_img, $scope.selectedImg[i].package_big_img, $scope.selectedImg[i].description);
 			}
 			
 	}
