@@ -64,7 +64,7 @@
            <div class="row">
             	<div class="col-md-6" ng-repeat="fpack in featurePackDetails">              
                 	<div class="col-md-6" style="padding:2px">
-                    		<div ><a class='btn btn-link' ng-click="showViewPanel( fpack.id )">
+                    		<div ><a class='btn btn-link' ng-click="openPackView(fpack.id,fpack.package_url)">
                             
                             <img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{fpack.first_image}}"></a></div>
                             </div>
@@ -74,7 +74,7 @@
                         <span class="featuredCurrency">{{ fpack.package_currency }} : {{ fpack.package_cost | currency : ''}} </span> 
                         	<span style="font-size:10px">*per person </span><br>
                         <i style="font-weight:normal">({{ fpack.offerValid }})</i></p>
-                        <a ng-click="openPackView(fpack.id)"  class="showCursor">more details >> </a>
+                        <a ng-click="openPackView(fpack.id,fpack.package_url)"  class="showCursor">more details >> </a>
                     </div>
                 </div>
             </div>

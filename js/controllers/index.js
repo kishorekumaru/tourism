@@ -17,7 +17,8 @@ Included Services for News and Testimonial Services
 */
 
 
-app.controller("mainViewController", function($scope, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
+app.controller("mainViewController", function($scope, $filter, $location, testServices,
+ newsServices, packServices, sharedEventDispatcher, imageServices){ 
 
 	$scope.newsDetails = [];
 	$scope.testimonialDetails = [];
@@ -100,9 +101,9 @@ app.controller("mainViewController", function($scope, $filter, $location, testSe
 	
 
 
-		$scope.openPackView = function(id){
+		$scope.openPackView = function(id, pack_url){
 			sharedEventDispatcher.setPackageID(id);
-			$location.path("/packview");
+			$location.path("/tour_packages/" + pack_url);
 		}
 	
 	$scope.gotoURL = function(returnURL){

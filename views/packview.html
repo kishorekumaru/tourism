@@ -46,11 +46,13 @@
             </div>
             
           <div class="row marginTop" style="padding:10px">
-			<display-item label-name="Name :" label-value="{{ selectedPackage.package_name }}" ></display-item>
-            <display-item label-name="Cost : " label-value="{{ selectedPackage.package_currency }} : {{ selectedPackage.package_cost | currency : ''}}" ></display-item>
-            <display-item label-name="Days :" label-value="{{ selectedPackage.dayString }}" ></display-item>
-            <display-item label-name="" label-value="{{ selectedPackage.offerValid }}" ></display-item>
-            <display-item label-name="Destinations Covered :" label-value="{{ selectedPackage.package_des_covered }}" ></display-item>
+          <div class='form-group'><label  class='col-sm-3 control-label'>Name : </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_name }}</label></div></div>
+          <div class='form-group'><label  class='col-sm-3 control-label'>Cost : </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_currency }} : {{ selectedPackage.package_cost | currency : ''}}</label></div></div>
+          <div class='form-group'><label  class='col-sm-3 control-label'>Days : </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.dayString }}</label></div></div>
+          <div class='form-group'><label  class='col-sm-3 control-label'></label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.offerValid }}</label></div></div>
+          <div class='form-group'><label  class='col-sm-3 control-label'>Destinations Covered : </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_des_covered }}</label></div></div>
+          
+			
    
           </div>
          
@@ -62,10 +64,12 @@
             <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
         </div>
     	<div class="row marginTop" style="padding:10px">
-			<display-item label-name="Destination Covered: " label-value="{{ selectedPackage.package_des_covered }}" ></display-item>
-            <display-item label-name="Tour Details: " label-value="{{ selectedPackage.package_tour_details }}" ></display-item>
-            <display-item label-name="Inclusion : " label-value="{{ selectedPackage.package_inclusion }}" ></display-item>
-            <display-item label-name="Exclusion : " label-value="{{ selectedPackage.package_exclusion }}" ></display-item>
+          <div class='form-group'><label  class='col-sm-3 control-label'>Destination Covered: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_des_covered }}</label></div></div>
+           <div class='form-group'><label  class='col-sm-3 control-label'>Tour Details: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_tour_details }}</label></div></div>
+            <div class='form-group'><label  class='col-sm-3 control-label'>Inclusion: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_inclusion }}</label></div></div>
+             <div class='form-group'><label  class='col-sm-3 control-label'>Exclusion: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_exclusion }}</label></div></div>
+            
+			
    
           </div>
     </tab>
@@ -84,29 +88,7 @@
         </div>
         
     </tab>
-    
-    
-   <!-- <tab heading="Linked Hotel Details" >
-        <div class="row" style="margin:4px;">
-            <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
-        </div>
-        
-                <div class="row marginTop" style="padding:10px">
-                    <div class="row text-center" ng-show="isNotLinked" style="color:rgba(229,229,229,1.00)">
-                        <h1><b>No Hotels are linked to this package</b></h1>
-                     </div>
-                
-                <div ng-repeat="hotel in linkedHotels | orderBy:hotel_rating">
-                    <div class="col-md-3 alert alert-info" role="alert" style="margin:5px">
-                        <strong>{{ hotel.hotel_name}}</strong><p>{{ hotel.hotel_address}}</p>
-                        <div ng-init="x = hotel.hotel_rating">
-                            Category : <rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> 
-                         </div>
-                    </div>
-                   </div>
-                </div>
-        
-    </tab> -->
+
     
     
     <tab heading="Terms" >
@@ -114,9 +96,10 @@
             <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
         </div>
     	<div class="row marginTop" style="padding:10px">
-					<display-item label-name="Specific Tour Dates : " label-value="{{ selectedPackage.package_specific_tour_dates }} Days" ></display-item>
-                    <display-item label-name="Departure Cities Rates : " label-value="{{ selectedPackage.package_departure_cities_rates }}" ></display-item>
-                    <display-item label-name="Terms & Conditions" label-value="{{ selectedPackage.package_terms_cond}}" ></display-item>
+        <div class='form-group'><label  class='col-sm-3 control-label'>Specific Tour Dates :  </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_specific_tour_dates }}</label></div></div>
+        <div class='form-group'><label  class='col-sm-3 control-label'>Departure Cities Rates :  </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_departure_cities_rates }}</label></div></div>
+        <div class='form-group'><label  class='col-sm-3 control-label'>Terms & Conditions :  </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_terms_cond }}</label></div></div>
+					
    
           </div>
     </tab>
@@ -189,7 +172,7 @@
             <slide ng-repeat="slide in slides" active="slide.active">
                <img ng-src="{{slide.big_image}}" style="margin:auto;">
                 <div class="carousel-caption">
-                    <h4> {{ headerName  }} Snapshot  - {{$index + 1}}</h4>                     
+                    <h4> {{ slide.desc  }} - {{$index + 1}}</h4>                     
                 </div>
             </slide>
     </carousel>

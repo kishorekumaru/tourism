@@ -16,14 +16,16 @@ Main Module File
 
 var app = angular.module("glacierHolidays", ['ngRoute', 'ui.bootstrap']);
 
-app.config(function($routeProvider){
+
+app.config(function($routeProvider, $locationProvider){
+	
 	$routeProvider
 		  .when("/", 
 			{ 
 				controller: "mainViewController", 
 				templateUrl: 'views/mainView.html' 
-			 })
-		  .when("/packList", 
+			 })		 
+			  .when("/packList", 
 			{	controller: "packageList", 
 				templateUrl: 'views/packagedetails.html' 
 			 })
@@ -31,11 +33,11 @@ app.config(function($routeProvider){
 			{	controller: "hotelList", 
 				templateUrl: 'views/hoteldetails.html' 
 			 })
-		  .when("/hotelview", 
+		  .when("/hotel_packages/:hotelname", 
 			{	controller: "hotelViewController", 
 				templateUrl: 'views/hotelview.html' 
 		   })
-		  .when("/packview", 
+		  .when("/tour_packages/:packname", 
 			{ 
 				controller: "packViewController", 
 				templateUrl: 'views/packview.html' 
@@ -68,14 +70,16 @@ app.config(function($routeProvider){
 			
 			
 			 .otherwise({ redirectTo:"/"});
+			 
+			
 });
 
 
 app.controller("headerController", function($scope, $location){ 
 
 
-$location.path("/");
-$scope.isHome = false;
+//$location.path("/");
+//$scope.isHome = false;
 
 	
     $scope.isActive = function (viewLocation) { 

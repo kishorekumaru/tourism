@@ -66,36 +66,32 @@ app.controller("hotelList", function($scope, $filter, $location, hotelServices, 
 		});
 		
 		
-			$scope.$on("getHotelImageDetails", function($event, data){
-				$scope.totalImagePackages = data[0];
-					//Store it in global variable 
-					
-				sharedEventDispatcher.setHotelTotalImagePackages($scope.totalImagePackages);
-				sharedEventDispatcher.setHotelPackages($scope.packages);
-				
-				$scope.generateView();		
-				
-	});
+		$scope.$on("getHotelImageDetails", function($event, data){
+			$scope.totalImagePackages = data[0];
+			//Store it in global variable 					
+			sharedEventDispatcher.setHotelTotalImagePackages($scope.totalImagePackages);
+			sharedEventDispatcher.setHotelPackages($scope.packages);
+			$scope.generateView();		
+			
+		});
 	
 	
 	
 	
 	
 	
-	$scope.openPackView = function(id){
-	
+	$scope.openPackView = function(id, hotel_url){
 		sharedEventDispatcher.setHotelPackageID(id);
-		$location.path("/hotelview");
+		$location.path("/hotel_packages/" + hotel_url);
 	}
-	
-	
 
 });
 
 
 
 
-	app.controller("hotelViewController", function($scope, $route, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices, $modal, contactServices){ 
+	app.controller("hotelViewController", function($scope, $route, $filter, $location, $routeParams, hotelServices,
+	sharedEventDispatcher, imageServices, $modal){ 
 	
 	
 	 $scope.totalPackages = sharedEventDispatcher.getHotelPackages();
@@ -111,18 +107,85 @@ app.controller("hotelList", function($scope, $filter, $location, hotelServices, 
 	 $scope.sameCatPack = [];
 	 $scope.selectedPackage.cat_id ="";
 	 
+	 /**
 	if($scope.selectedID == "" || $scope.selectedID == undefined){
 		$location.path("/");
 		return;
+	}**/
+	
+	
+	 $scope.addSlide = function(imgName, big_image, desc) {
+			$scope.slides.push({image: 'cms-admin/com/uploads/' + imgName, big_image:'cms-admin/com/uploads/'+big_image, desc:desc});
+	 };
+	 
+	 $scope.setMainDetails = function(){
+		 $scope.selectedPackage = $filter("searchObjectItem")($scope.totalPackages, clickedURL, "hotel_url")[0];
+		 $scope.selectedImg = $filter("searchObjectItem")($scope.totalImages, $scope.selectedPackage.id, 'hotel_id');
+		 $scope.headerName =   $scope.selectedPackage.hotel_name ;
+		 if($scope.selectedImg.length){
+			//Loop the Image to 
+			for(var i=0;i<$scope.selectedImg.length;i++){
+				$scope.addSlide($scope.selectedImg[i].hotel_small_img, $scope.selectedImg[i].hotel_big_img, $scope.selectedImg[i].description);
+			}				
+		}
 	}
-	 
-	 $scope.selectedPackage = $filter("getById")($scope.totalPackages, $scope.selectedID);
-	 
-	 $scope.selectedImg = $filter("searchObjectItem")($scope.totalImages, $scope.selectedID, 'hotel_id');
+	
+	
+	 //Get the location Package
+	var clickedURL = "";
+	angular.forEach($routeParams, function(key, value) {
+		if(value == "hotelname"){
+			clickedURL = key;
+		}
+	});
+	
+	if($scope.totalPackages.length) {
+		$scope.setMainDetails();
+	}else {
+		
+		hotelServices.getHotelPackages($scope);
+		
+		$scope.$on('loadHotelPackDetails', function($event, data){
+			//store it in a session variable
+			if(data[0].data != ""){
+				$scope.packages  = data[0].data;			
+				imageServices.getHotelImgDetails($scope);			
+			}else{
+				$scope.isloading=false;
+			}
+		});
+		
+		
+		$scope.$on("getHotelImageDetails", function($event, data){
+			$scope.totalImagePackages = data[0];
+			//Store it in global variable 					
+			sharedEventDispatcher.setHotelTotalImagePackages($scope.totalImagePackages);
+			sharedEventDispatcher.setHotelPackages($scope.packages);
+			$scope.totalPackages = sharedEventDispatcher.getHotelPackages();
+			$scope.totalImages = sharedEventDispatcher.getHotelTotalImagePackages();
+			
+				
+			for(var i=0;i< $scope.totalPackages.length;i++){
+				var dateObj = new Date();
+				$scope.imageDetails = $filter("searchObjectItem")($scope.totalImagePackages,$scope.packages[i].id, 'hotel_id');
+				if($scope.imageDetails.length){
+					$scope.packages[i].first_image = $scope.imageDetails[0].hotel_thumb_img;
+				}else{
+					$scope.packages[i].first_image =  $scope.noImageFile;
+				}
+				
+				//Add Day items
+				$scope.totalPackages[i].dayString = (parseInt($scope.totalPackages[i].hotel_duration) - 1) 
+												+ "Night(s) / " + $scope.totalPackages[i].hotel_duration + "Day(s)";
+				dateObj = new Date(String($scope.totalPackages[i].package_valid_to).split(" ")[0]);
+				$scope.totalPackages[i].offerValid = "Offer till " + $filter("date")(dateObj, 'MMM d, y');  
+			}
+			
+			$scope.setMainDetails();		
+			
+		});
+	}
 
-	 $scope.headerName =   $scope.selectedPackage.hotel_name ;
-
-	 
 	
 	
 	//Open other pack
@@ -131,29 +194,7 @@ app.controller("hotelList", function($scope, $filter, $location, hotelServices, 
 		$route.reload();
 	}
 
-
-	 
-	 
-
 	
-	
-
-	
-	
-	
-	 $scope.addSlide = function(imgName, big_image, desc) {
-			$scope.slides.push({image: 'cms-admin/com/uploads/' + imgName, big_image:'cms-admin/com/uploads/'+big_image, desc:desc});
-	 };
-	 
-	 if($scope.selectedImg.length){
-			//Loop the Image to 
-			for(var i=0;i<$scope.selectedImg.length;i++){
-					$scope.addSlide($scope.selectedImg[i].hotel_small_img, $scope.selectedImg[i].hotel_big_img, $scope.selectedImg[i].description);
-			}
-			
-	}
-		
-		
 	$scope.gotoURL = function(returnURL){
 		$location.path(returnURL);
 	}
@@ -194,10 +235,6 @@ app.controller("hotelList", function($scope, $filter, $location, hotelServices, 
 		});
 	
 	}
-
-
-
-
 });
 
 
@@ -205,7 +242,6 @@ var largeHotelImgPopupUpIns = function ($scope, $modalInstance, totalDetails) {
   $scope.currentImage = totalDetails[1];
   $scope.headerName = totalDetails[0];
   $scope.slides  = totalDetails[2];
- 
  	
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
@@ -220,14 +256,11 @@ var largeInquireHotelPopupUpIns = function ($scope, $modalInstance, totalDetails
   var insertDate = new Date();
  
   $scope.saveChanges = function () {
-	 
 		$scope.contactDetails.insert_date = insertDate.toJSON();
 		$scope.contactDetails.contact_subject = $scope.package.hotel_name;
 		$scope.contactDetails.action = "Insert";
 		$modalInstance.close($scope.contactDetails);
-	 
   };
-  
   
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');

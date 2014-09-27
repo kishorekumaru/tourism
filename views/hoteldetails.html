@@ -13,15 +13,15 @@
         	<span class="titleText">Our Hotel Packages </span> 
            <div class="col-sm-12" style="clear:both">
             	<div class="col-sm-4 marginTop margin-bottom" ng-repeat="fpack in totalPackItems">              
-                	<div><a class='btn btn-link' ng-click="openPackView( fpack.id )" style="padding:0;">
+                	<div><a class='btn btn-link' ng-click="openPackView( fpack.id, fpack.hotel_url )" style="padding:0;">
                     	<img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{fpack.first_image}}" ></a></div>
                     <div class="featuredContent" style="padding:1px">
-                       <h4 class="featuredTitle showCursor" ng-click="openPackView(fpack.id)"> {{ fpack.hotel_name }}</h4>
+                       <h4 class="featuredTitle showCursor" ng-click="openPackView(fpack.id, fpack.hotel_url)"> {{ fpack.hotel_name }}</h4>
                         <p style="margin:0px"> {{ fpack.dayString }} <br>
                         <span class="featuredCurrency">Rs : {{ fpack.hotel_cost | currency : ''}} </span> 
                         	<span style="font-size:10px">*per person </span><br>
                         <span style="font-weight:normal">({{ fpack.offerValid }})</span></p>
-                        <a class="showCursor" ng-click="openPackView(fpack.id)">more details >> </a>
+                        <a class="showCursor" ng-click="openPackView(fpack.id, fpack.hotel_url)">more details >> </a>
                     </div>
                 </div>
             </div>

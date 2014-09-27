@@ -92,15 +92,24 @@ app.controller("addHotelController", function($scope,$filter, $location, hotelAd
 	
 	$scope.$on('reloadDetails', function(event, isadded){
 		if(isadded){
-			alert("Hotel Package Created");
+			$scope.resetFun();
+			//Load the currency details
+			hotelServices.getHotels($scope);
 		}else{
 			alert("Hotel Package Updated");
+			$scope.resetFun();
+			$location.path("/hotels");
 		}
-		$scope.resetFun();
-		$location.path("/hotels");
+		
 	});
 	
-	
+	$scope.$on('loadDetails',function(event, data){
+		alert("Hotel Package Updated. Please continue to add Hotel Images");
+		$scope.hotelDetails  = data[0].data;
+		sharedEventDispatcher.totalHotelsObj($scope.hotelDetails);
+		sharedEventDispatcher.shareHotelID($scope.packageVal.id);
+		$location.path("/hotelImages");
+	});
 	
 	$scope.resetFun = function(){
 		if($scope.isEdit != true){

@@ -5,11 +5,12 @@
 
 <div class="breadcrumb" style="height:50px"> 
 	<div class="centered-width total-reset">
-    <ol class="breadcrumb">
-    <li><a class="showCursor" ng-click="gotoURL('/');">Home</a></li>
-	<li><a class="showCursor" ng-click="gotoURL('/hotelList');">Hotel Packages</a></li>
-  	<li>{{ selectedPackage.hotel_name }}</li>
-</ol></div>
+        <ol class="breadcrumb">
+        <li><a class="showCursor" ng-click="gotoURL('/');">Home</a></li>
+        <li><a class="showCursor" ng-click="gotoURL('/hotelList');">Hotel Packages</a></li>
+        <li>{{ selectedPackage.hotel_name }}</li>
+        </ol>
+	</div>
 </div>
 
 <div class="centered-width total-reset">
@@ -31,43 +32,40 @@
                         <i style="font-weight:normal">({{ selectedPackage.offerValid }})</i>
                      <br>
                     <span class="content-title">{{ selectedPackage.hotel_overview }} </span> </div>
-         <div style="margin:20px 0px; width:250px"> <input type="button" class="btn-primary submitbtn" value="Inquire" ng-click="inquireNow()"  ></button></div> 
-                    
-      
+         <div style="margin:20px 0px; width:250px"> 
+         	<input type="button" class="btn-primary submitbtn" value="Inquire" ng-click="inquireNow()"  ></button>
+          </div> 
 	</div>
- 
-	</div>
+</div>
 
  
 <tabset class="marginTop margin-bottom">
     <tab heading="Package Info" >
-        <div class="row" style="margin:4px;">
+        	<div class="row" style="margin:4px;">
                 <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.hotel_name }}</div>
-            </div>
-            
+            </div>            
           <div class="row marginTop" style="padding:10px">
-			<display-item label-name="Name :" label-value="{{ selectedPackage.hotel_name }}" ></display-item>
-            <display-item label-name="Cost : " label-value="Rs : {{ selectedPackage.hotel_cost | currency : ''}}" ></display-item>
-            <display-item label-name="Days :" label-value="{{ selectedPackage.dayString }}" ></display-item>
-            <display-item label-name="" label-value="{{ selectedPackage.offerValid }}" ></display-item>
-            
-   
-          </div>
-         
+             <div class='form-group'><label  class='col-sm-3 control-label'>Name: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.hotel_name }}</label></div></div>
+              <div class='form-group'><label  class='col-sm-3 control-label'>Cost: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'> {{ selectedPackage.hotel_cost | currency : ''}}</label></div></div>
+               <div class='form-group'><label  class='col-sm-3 control-label'>Days: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.dayString }}</label></div></div>
+                <div class='form-group'><label  class='col-sm-3 control-label'> </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.offerValid }}</label></div></div>
+			
+          </div>         
     </tab>
     
     
-       <tab heading="General Information" >
-           <div class="row" style="margin:4px;">
+    <tab heading="General Information" >
+         <div class="row" style="margin:4px;">
             <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.hotel_name }}</div>
         </div>
     	<div class="row marginTop" style="padding:10px">
-			<display-item label-name="Hotel Facilities: " label-value="{{ selectedPackage.hotel_facilities }}" ></display-item>
-            <display-item label-name="Hotel Overview: " label-value="{{ selectedPackage.hotel_overview }}" ></display-item>
-            <display-item label-name="Inclusion : " label-value="{{ selectedPackage.package_inclusion }}" ></display-item>
-            <display-item label-name="Exclusion : " label-value="{{ selectedPackage.package_exclusion }}" ></display-item>
-   
-          </div>
+        <div class='form-group'><label  class='col-sm-3 control-label'>Hotel Facilities: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.hotel_facilities }}</label></div></div>
+        <div class='form-group'><label  class='col-sm-3 control-label'>Hotel Overview: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.hotel_overview }}</label></div></div>
+        <div class='form-group'><label  class='col-sm-3 control-label'>Inclusion: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_inclusion }}</label></div></div>
+        <div class='form-group'><label  class='col-sm-3 control-label'>Exclusion: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_exclusion }}</label></div></div>
+        
+			
+         </div>
     </tab>
     
     <tab heading="Contact Details" >
@@ -75,24 +73,15 @@
             <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.hotel_name }}</div>
         </div>
        <div class="row marginTop" style="padding:10px">
-			<display-item label-name="Hotel Addres: " label-value="{{ selectedPackage.hotel_address  }}" ></display-item>
-            <display-item label-name="Country: " label-value="{{ selectedPackage.hotel_country }}" ></display-item>
-             <display-item label-name="Website: " label-value="{{ selectedPackage.hotel_web_url }}" ></display-item>
-          </div>
-        
+       <div class='form-group'><label  class='col-sm-3 control-label'>Hotel Addres: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.hotel_address }}</label></div></div>
+       <div class='form-group'><label  class='col-sm-3 control-label'>Country: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.hotel_country }}</label></div></div>
+       <div class='form-group'><label  class='col-sm-3 control-label'>Website: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.hotel_web_url }}</label></div></div>
+			
+        </div>        
     </tab>
-    
-    
-  
-    
-    
-    
-    
     
 </tabset>
 
-
-               
 </div>
 
 <script type="text/ng-template" id="InquireHotelTemplate.html">
@@ -156,7 +145,7 @@
             <slide ng-repeat="slide in slides" active="slide.active">
                <img ng-src="{{slide.big_image}}" style="margin:auto;">
                 <div class="carousel-caption">
-                    <h4> {{ headerName  }} Snapshot  - {{$index + 1}}</h4>                     
+                    <h4> {{ slide.desc  }} - {{$index + 1}}</h4>                       
                 </div>
             </slide>
     </carousel>

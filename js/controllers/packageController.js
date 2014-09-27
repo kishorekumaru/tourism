@@ -13,7 +13,8 @@ packageList and packViewController
 
 */
 
-app.controller("packageList", function($scope, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
+app.controller("packageList", function($scope, $filter, $location, 
+testServices, newsServices, packServices, sharedEventDispatcher, imageServices){ 
 		
 		$scope.allPackageCat = [];
 		$scope.totalImagePackages = [];
@@ -49,6 +50,9 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 			$scope.selectedIndex = 0;
 			$scope.totalPackItems = $scope.packages;
 		}
+		
+		
+		
 		
 		if(!sharedEventDispatcher.getPackages().length){
 				packServices.getPackages($scope)
@@ -100,10 +104,10 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 	
 	
 	
-	$scope.openPackView = function(id){
+	$scope.openPackView = function(id, pack_url){
 	
 		sharedEventDispatcher.setPackageID(id);
-		$location.path("/packview");
+		$location.path("/tour_packages/" + pack_url);
 	}
 	
 	$scope.filterCat = function(id, $index){
@@ -124,7 +128,8 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 
 
 
-	app.controller("packViewController", function($scope, $route, $filter, $location, testServices, newsServices, packServices, sharedEventDispatcher, imageServices, $modal, contactServices){ 
+app.controller("packViewController", function($scope, $route, $filter, $location, $routeParams,
+	testServices, newsServices, packServices, sharedEventDispatcher, imageServices, $modal, contactServices){ 
 	
 	
 	 $scope.totalPackages = sharedEventDispatcher.getPackages();
@@ -140,19 +145,127 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 	 $scope.sameCatPack = [];
 	 $scope.selectedPackage.cat_id ="";
 	 
+	 
+	 
+	 $scope.addSlide = function(imgName, big_image, desc) {
+			$scope.slides.push({image: 'cms-admin/com/uploads/' + imgName, big_image:'cms-admin/com/uploads/'+big_image, desc:desc});
+	 };
+	 
+	 //Get Revelant Package ID 
+	$scope.setOtherDetails = function(){
+		
+		$scope.selectedPackage = $filter("searchObjectItem")($scope.totalPackages, clickedURL, "package_url")[0];
+		$scope.categoryObj = $filter("getById")($scope.totalCateogry, $scope.selectedPackage.cat_id);
+		$scope.selectedImg = $filter("getByPackageId")($scope.totalImages, $scope.selectedPackage.id);
+		$scope.selectedID = $scope.selectedPackage.id;
+		$scope.selectedPackage.cat_name = $scope.categoryObj.cat_name;
+		$scope.headerName =   $scope.categoryObj.cat_name ;
+		
+		packServices.getDayDetails($scope.selectedID, $scope);    
+		packServices.getHotels($scope);
+		$scope.getSameCatPack = $filter('searchObjectItem')($scope.totalPackages, $scope.selectedPackage.cat_id, 'cat_id')
+		
+		for(var i=0;i<$scope.getSameCatPack.length;i++){
+			if($scope.getSameCatPack[i].id != $scope.selectedID){
+				$scope.sameCatPack.push($scope.getSameCatPack[i]);
+			}
+			if(i==4){
+				break;
+			}
+		}
+	
+	
+		 if($scope.selectedImg.length){
+				//Loop the Image to 
+				for(var i=0;i<$scope.selectedImg.length;i++){
+					$scope.addSlide($scope.selectedImg[i].package_small_img, $scope.selectedImg[i].package_big_img, $scope.selectedImg[i].description);
+				}
+		}
+	}
+	
+	
+	 //Get the location Package
+	var clickedURL = "";
+	angular.forEach($routeParams, function(key, value) {
+		if(value == "packname"){
+			clickedURL = key;
+		}
+	});
+	
+	
+	
+	
+	if($scope.totalPackages.length) {
+		$scope.setOtherDetails();	
+	}else {
+		packServices.getPackages($scope);
+		
+			//Call Back Method for Package details	
+		$scope.$on('loadPackDetails', function($event, data){
+			//store it in a session variable
+			if(data[0].data != ""){
+				$scope.packages  = data[0].data;			
+				imageServices.getImgDetails($scope);			
+			}else{
+				$scope.isloading=false;
+			}
+		});
+		
+		
+		
+		//Get all the package Thumb Images
+		$scope.$on("getImageDetails", function($event, data){
+			$scope.totalImagePackages = data[0];
+			
+			for(var i=0;i< $scope.packages.length;i++){
+				var dateObj = new Date();
+				$scope.imageDetails = $filter("getByPackageId")($scope.totalImagePackages,$scope.packages[i].id);
+				if($scope.imageDetails.length){
+					$scope.packages[i].first_image = $scope.imageDetails[0].package_thumb_img;
+				}else{
+					$scope.packages[i].first_image =  $scope.noImageFile;
+				}
+			
+				//Add Day items
+				$scope.packages[i].dayString = (parseInt($scope.packages[i].package_duration) - 1) + "Night(s) / " + $scope.packages[i].package_duration + "Day(s)";
+				dateObj = new Date(String($scope.packages[i].package_valid_to).split(" ")[0]);
+				$scope.packages[i].offerValid = "Offer till " + $filter("date")(dateObj, 'MMM d, y');  
+			}
+			
+			
+			//Store it in global variable 
+			sharedEventDispatcher.setTotalImagePackages($scope.totalImagePackages);
+			sharedEventDispatcher.setPackages($scope.packages);
+			$scope.featurePackDetails = $filter("searchObjectItem")($scope.packages, "1" , "isFeatured");
+			packServices.crudCategory({"action":"Get"}, $scope);
+		
+		});
+		
+		$scope.$on('loadCatDetails',function(event, data){
+			$scope.totalCategories  = data;
+			var addAllObj = new Object();
+			addAllObj.cat_name = "ALL"
+			addAllObj.id = 0;
+			$scope.totalCategories.push(addAllObj)
+			sharedEventDispatcher.setCateogry($scope.totalCategories);
+			$scope.isloading=false;
+			 $scope.totalPackages = sharedEventDispatcher.getPackages();
+	 		$scope.selectedID = sharedEventDispatcher.getPackageID();
+	 		$scope.totalImages = sharedEventDispatcher.getTotalImagePackages();
+	 		$scope.totalCateogry = sharedEventDispatcher.getCateogry();
+			$scope.setOtherDetails();
+			
+		});
+	}
+	
+	/**
 	if($scope.selectedID == "" || $scope.selectedID == undefined){
 		$location.path("/");
 		return;
-	}
+	} **/
 	 
-	 $scope.selectedPackage = $filter("getById")($scope.totalPackages, $scope.selectedID);
-	 $scope.categoryObj = $filter("getById")($scope.totalCateogry, $scope.selectedPackage.cat_id);
-	 $scope.selectedImg = $filter("getByPackageId")($scope.totalImages, $scope.selectedID);
-	 $scope.selectedPackage.cat_name = $scope.categoryObj.cat_name;
-	 $scope.headerName =   $scope.categoryObj.cat_name ;
-
-	  packServices.getDayDetails($scope.selectedID, $scope);    
-	  packServices.getHotels($scope);
+	// $scope.selectedPackage = $filter("getById")($scope.totalPackages, $scope.selectedID);
+	
 	
 	
 	//Open other pack
@@ -160,19 +273,7 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 		sharedEventDispatcher.setPackageID(id);
 		$route.reload();
 	}
-	//Get Revelant Package ID 
 	
-	$scope.getSameCatPack = $filter('searchObjectItem')($scope.totalPackages, $scope.selectedPackage.cat_id, 'cat_id')
-	
-	for(var i=0;i<$scope.getSameCatPack.length;i++){
-		if($scope.getSameCatPack[i].id != $scope.selectedID){
-			$scope.sameCatPack.push($scope.getSameCatPack[i]);
-		}
-		if(i==4){
-			break;
-		}
-	}
-
 	
 	
 	//Get all the hotels
@@ -209,17 +310,7 @@ app.controller("packageList", function($scope, $filter, $location, testServices,
 	
 	
 	
-	 $scope.addSlide = function(imgName, big_image, desc) {
-			$scope.slides.push({image: 'cms-admin/com/uploads/' + imgName, big_image:'cms-admin/com/uploads/'+big_image, desc:desc});
-	 };
 	 
-	 if($scope.selectedImg.length){
-			//Loop the Image to 
-			for(var i=0;i<$scope.selectedImg.length;i++){
-					$scope.addSlide($scope.selectedImg[i].package_small_img, $scope.selectedImg[i].package_big_img, $scope.selectedImg[i].description);
-			}
-			
-	}
 		
 		
 	$scope.gotoURL = function(returnURL){
