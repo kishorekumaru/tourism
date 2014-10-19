@@ -1,0 +1,93 @@
+<div class="panel panel-default" style="margin-top:-20px">
+	<div class="panel-heading">
+     	<div class="container"><div class="col-md-6"<h4><b>{{ selectedPackage.package_name  }} </h4>Detailed View </b></div>
+        <div class="col-md-6 text-right"><button type="button" class="btn btn-default" ng-click="goToPackage()"><span class="glyphicon glyphicon-chevron-up"> </span>  Back to Package</button></div>
+        </div>
+    </div>
+    
+    <div class="panel-body">
+    
+     <accordion>
+    	<accordion-group is-open="status.open1" heading="{{ selectedPackage.package_name }} - Photos" ng-click="makeTabVisible(1)">
+
+                <carousel interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img ng-src="{{slide.image}}" style="margin:auto;">
+                        <div class="carousel-caption">
+                            <h4> {{slide.description}} </h4>                     
+                        </div>
+                    </slide>
+                </carousel>
+                        
+    	</accordion-group>
+        
+    <accordion-group is-open="status.open2" heading="{{ selectedPackage.package_name }} - Package Details" ng-click="makeTabVisible(2)">
+        
+     
+                <div class="container" >
+                    <div class="col-md-5 text-left">
+                    <display-tag label-name="Package Code: " label-value="{{ selectedPackage.package_code }}" ></display-tag>
+                    <display-tag label-name="Package Name: " label-value="{{ selectedPackage.package_name }}" ></display-tag>
+                    <display-tag label-name="Currency : " label-value="{{ selectedPackage.package_currency  }}" ></display-tag>
+                    <display-tag label-name="Cost : " label-value="{{ selectedPackage.package_cost | currency:''}}" ></display-tag>
+                    </div>
+                 <div class="col-md-5 text-left"> 
+                  <display-tag label-name="Duration : " label-value="{{ selectedPackage.package_duration }} Days" ></display-tag>
+                    <display-tag label-name="Valid From : " label-value="{{ selectedPackage.package_valid_from | myDateFormat}}" ></display-tag>
+                    <display-tag label-name="Valid From : " label-value="{{ selectedPackage.package_valid_to | myDateFormat }}" ></display-tag>
+                </div>
+            </div>
+             
+    </accordion-group>
+    
+     <accordion-group is-open="status.open3" heading="{{ selectedPackage.package_name }} - General Details" ng-click="makeTabVisible(3)">
+        
+       <div class="container" >
+                    <div class="col-md-5 text-left">
+                    <display-tag label-name="Destination Covered: " label-value="{{ selectedPackage.package_des_covered }}" ></display-tag>
+                    <display-tag label-name="Tour Details: " label-value="{{ selectedPackage.package_tour_details }}" ></display-tag>
+                    <display-tag label-name="Inclusion : " label-value="{{ selectedPackage.package_inclusion }}" ></display-tag>
+                    <display-tag label-name="Exclusion : " label-value="{{ selectedPackage.package_exclusion }}" ></display-tag>
+                    </div>
+                 <div class="col-md-5 text-left"> 
+                  <display-tag label-name="Specific Tour Dates : " label-value="{{ selectedPackage.package_specific_tour_dates }} Days" ></display-tag>
+                    <display-tag label-name="Departure Cities Rates : " label-value="{{ selectedPackage.package_departure_cities_rates }}" ></display-tag>
+                    <display-tag label-name="Terms & Conditions" label-value="{{ selectedPackage.package_terms_cond}}" ></display-tag>
+                </div>
+            </div>
+    </accordion-group>
+    
+     <accordion-group is-open="status.open4" heading="Day Details for {{ selectedPackage.package_name }}" ng-click="makeTabVisible(4)">
+     
+     	<div ng-repeat="days in getSelectedPack | orderBy:day_num">
+        	<div class="col-md-6" style="margin-bottom:10px">
+            	<b>Day: {{ days.day_num  }}</b>
+            	<display-tag label-name="Day Title : " label-value="{{ days.day_title  }}" ></display-tag>
+            	<display-tag label-name="Day Meals : " label-value="{{ days.day_meals  }}" ></display-tag>
+            	<display-tag label-name="Day Description :" label-value="{{ days.day_desc  }}" ></display-tag>
+            </div>
+        </div>
+     
+    </accordion-group>
+    
+     <accordion-group is-open="status.open5" heading="Linked Hotels in {{ selectedPackage.package_name }}" ng-click="makeTabVisible(5)">
+     
+     	<div class="container">
+        	<div class="container text-center" ng-show="isNotLinked" style="color:rgba(229,229,229,1.00)"><h1><b>No Hotels are linked to this package</b></h1></div>
+            
+            <div ng-repeat="hotel in linkedHotels | orderBy:hotel_rating">
+                <div class="col-md-2 alert alert-info" role="alert" style="margin:5px">
+                   
+                    <strong>{{ hotel.hotel_name}}</strong><p>{{ hotel.hotel_address}}</p><div ng-init="x = hotel.hotel_category">Category : <rating ng-model="x" readonly="true" max="5" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'"></rating> </div>
+                </div>
+            </div>
+            
+        </div>
+     
+    </accordion-group>
+  
+  </accordion>
+    </div>
+    
+    
+</div>

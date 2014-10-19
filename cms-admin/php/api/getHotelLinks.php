@@ -5,6 +5,15 @@ if(function_exists($_GET['method'])){
 	$_GET['method']();
 }
 
+function editHotelImgDesc(){
+	$table_name ='hotel_gallery';
+	$param =json_decode(file_get_contents('php://input'));	
+	include_once('../core/class.managedatabase.php');
+	$init = new managedatabase;
+	$data = $init->editData($table_name,$param, $param->id);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
 function getHotelLink(){
 	$tablename="link_hotels";
 	include_once('../core/class.managedatabase.php');
@@ -18,6 +27,8 @@ function getHotelLink(){
 	$data = json_encode($data);
 	echo $_GET['jsoncallback'] . $data ;
 }
+
+
 
 
 function addHotelLink(){
@@ -117,6 +128,15 @@ function getHotelImageDetails(){
 	echo $_GET['jsoncallback'] . $data ;
 }
 
+function getBannerDetails(){
+	$tablename="banner_images";
+	include_once('../core/class.managedatabase.php');
+	$param =json_decode(file_get_contents('php://input'));
+	$init = new managedatabase;
+	$data = $init->getData($tablename);
+	$data = json_encode($data);
+	echo $_GET['jsoncallback'] . $data ;
+}
 
 function deleteHotelImageDetails(){
 	$table_name ='hotel_gallery';

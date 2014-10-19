@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document */
+.table th, .table td { 
+     border-top: none; 
+ }
+ 
+ body{
+ font-size:12px;
+ }
+
+.container{
+padding:2px;
+}
+
+.modalScreen {
+    width: 600px;
+    height: 500px;
+    position: absolute;
+    top: 5%;
+    left: 30%;
+    padding: 10px;
+}
+
+.borderless {
+    border: none;
+	padding:10px;
+}
+
+.getHand{
+display:block;
+cursor:pointer;
+}

@@ -1,0 +1,73 @@
+
+   <div class="container text-center" ng-show="isloading">
+   	<img src="images/loading.gif">
+   </div>
+    <div class="panel panel-default" ng-hide="isloading" style="margin-top:-20px">
+        <div class="panel-heading">   <div class="col-lg-2 text-left text-primary" style="padding-right:2px;margin-right:0px"><h5><b>PACKAGES CATEGORY </b></h5></div>
+<div class="col-lg-3 text-left"><select class="form-control" ng-model="cat_id"  ng-change="selectByCat()"
+                                	 ng-options="cat.id as cat.cat_name for cat in totalCategories">
+                                   <option value=""  selected>ALL Category</option>                            
+                                 </select>
+        </div>
+    		<div class="text-right"> <button type="button" class="btn btn-primary btn-sm" ng-click="addPackage()">
+                  <span class="glyphicon glyphicon-plus-sign"></span> ADD PACKAGE
+                </button></div>
+    </div>
+         <br> 
+         
+         <div ng-hide="isPackage" class="text-center" style="color:rgba(229,229,229,1.00)"><h1><b>You have cleared all the packages, <br>Please contact adminstrator before adding packages.</b></h1></div>
+    <div class="container"  ng-show="isPackage">
+    
+            <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text"  ng-keyup="getChar($event)" class="form-control"></div>
+                            
+        <div class="text-right">
+               <div class="col-md-4" style="margin-top:-20px"><pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div><div  class="col-md-3" > 
+                                  
+                            sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Name</button> | <button type="button" class="btn btn-link" ng-click="sortByCost()">Cost</button> 
+    </div>
+                </div>
+               <p></p>
+            <div class="container center-block"> 
+                <div class="col-lg-10 col-lg-offset-1" style="margin-top:5px">
+                <div class="col-lg-12" ng-repeat="pack in packPage">
+                
+                	<div class='panel panel-info'>
+                      <div class='panel-heading'><a class='btn btn-link' ng-click="showViewPanel( pack.id )"><b> {{ pack.package_name }}</b> : ({{ pack.package_code  }})</a></div>
+                        <div class='panel-body'  style="padding:0px">
+                        
+                         <div class='col-md-2' style="padding:5px">
+                             <div class="thumbnail"><a class='btn btn-link' ng-click="showViewPanel( pack.id )"><img ng-src="com/uploads/{{pack.first_image}}"></a></div>
+                            <div class="text-center"><a class='btn btn-link' ng-click="showViewPanel( pack.id )"><b>{{  pack.package_name }}</b></a></div>
+                           </div>
+                           <div class='col-md-7' style="padding:5px">
+                            
+                            <div>{{ pack.package_currency + ':' + pack.package_cost + ' (' +  pack.package_duration + ' Days) ' }}</div>
+                             <div><b>Destination Covered : </b>{{ pack.package_des_covered}}</div>
+                            <div><b>Valid : </b>{{ pack.package_valid_from | myDateFormat }}  -  {{ pack.package_valid_to | myDateFormat}}</div>
+                            <div><b>Inclusion : </b>{{ pack.package_inclusion }}</div>
+                            <div><b>Exclusion :  </b>{{ pack.package_exclusion }}</div>
+                            <div ><b>Tour Details : </b>{{ pack.package_tour_details }}</div>
+                           </div>
+                           <div class='col-md-3 alert-info' style="padding:margin:0px; height:100%">
+                           <div>
+                           <span class="glyphicon glyphicon-align-justify"></span>
+                           <button type='button' class='btn btn-link' ng-click='showViewPanel( pack.id )'>View in Detail</button></div><div>
+                           <span class="glyphicon glyphicon-pencil"></span>
+                           <button type='button' class='btn btn-link' ng-click='editPackItem( pack.id )'>Edit Package</button></div><div>
+                           <span class="glyphicon glyphicon-magnet"></span>
+                           <button type='button' class='btn btn-link' ng-click='linkHotels(pack.id )'>Link Hotels</button></div><div>   <span class="glyphicon glyphicon-tasks"></span>
+                           <button type='button' class='btn btn-link' ng-click='manageDays( pack.id )'>Manage Days Details</button></div><div>   <span class="glyphicon glyphicon-th-large"></span>
+                           <button type='button' class='btn btn-link' ng-click='manageImage( pack.id )'>Manage Images</button></div> <div>   <span class="glyphicon glyphicon-trash"></span>
+                           <button type='button' class='btn btn-link' ng-click='deletePackage( pack.id )'>Delete Package</button></div>
+                           </div>
+                           </div>
+                           </div>
+                    
+                </div>
+                
+                    
+                   <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
+                </div>
+            </div>  </div></div>
+   

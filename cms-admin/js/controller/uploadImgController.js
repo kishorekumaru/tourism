@@ -1,7 +1,7 @@
 // JavaScript Document
 
-app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filter', 'packServices', '$interval', '$location','$fileUploader', 'imageServices'
-, function($scope, sharedEventDispatcher, $filter, packServices, $interval, $location, $fileUploader, imageServices){
+app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filter', 'packServices', '$interval', '$location','$fileUploader', 'imageServices', '$modal'
+, function($scope, sharedEventDispatcher, $filter, packServices, $interval, $location, $fileUploader, imageServices, $modal){
  
  
  	$scope.packform = {};
@@ -107,10 +107,35 @@ app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filt
 	}
 	
 	
+	$scope.editImage = function(id){
+		var selectedDetails = $filter('getById')($scope.totalImagePackages, id);
+		var editPackImageInstance = $modal.open({
+		templateUrl: 'editPackImageDesc.html',
+		controller: popupPackImageEditControllerIns,
+		resolve: {
+			headerName: function () {
+				return "Edit Image Description";
+			},
+			selectedDetails:function(){
+				return selectedDetails;
+			},	
+			totalDetails:function(){
+				return $scope.totalImagePackages;
+			} 
+			}
+	});
+	
+	
+	
+	editPackImageInstance.result.then(function (userItems) {
+		  imageServices.editPackImgDesc(userItems, $scope);
+	});
+}
+	
 	$scope.$on('onDeleteImageUnlink',function($event, id){
 		imageServices.deleteImgDetails({'id':id}, $scope);  
 	});
-	$scope.$on('onDeleteImageSuccess', function($event){
+	$scope.$on('onImgEditImageSuccess', function($event){
 		$scope.setDetails();
 	});
 	
@@ -207,3 +232,34 @@ app.controller("uploadImgController", ['$scope', 'sharedEventDispatcher', '$filt
 
     
 }]);
+
+var popupPackImageEditControllerIns = function ($scope, $filter, $modalInstance, headerName, selectedDetails, totalDetails) {
+  $scope.headerName = headerName;
+  $scope.pack_img = {};
+  $scope.data = {};
+  $scope.data.isExist = false;
+  
+  var insertDate = new Date();
+  
+  if(selectedDetails != ""){
+	  $scope.pack_img.description = selectedDetails.description;
+	  $scope.pack_img.id = selectedDetails.id;
+	  $scope.pack_img.MODIFIED_DATE = insertDate.toJSON(); 
+	  $scope.pack_img.action = "Edit";
+  }else{   
+  	  $scope.pack_img.action = "Insert";
+	  $scope.pack_img.INSERT_DATE = insertDate.toJSON();
+  }
+  
+  
+
+  
+  $scope.saveChanges = function () {
+	$modalInstance.close($scope.pack_img);
+  };
+
+	
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};

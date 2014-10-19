@@ -22,7 +22,9 @@ testServices, newsServices, packServices, sharedEventDispatcher, imageServices){
 		$scope.packages =[];
 		$scope.isloading=true;
 		$scope.totalCategories = [];
-		$scope.headerName = "TOUR PACKAGES"
+		$scope.headerName = "TOUR PACKAGES";
+		$scope.currentPage = 1;	
+		$scope.itemsPerPage = 12;
 		
 		//Generate the view for Details
 		$scope.generateView = function(){
@@ -71,35 +73,39 @@ testServices, newsServices, packServices, sharedEventDispatcher, imageServices){
 		$scope.$on('loadPackDetails', function($event, data){
 			//store it in a session variable
 			if(data[0].data != ""){
-				$scope.packages  = data[0].data;			
+				$scope.packages  = data[0].data;
+				$scope.totalItems =  $scope.packages.length;
+				$scope.packPage = $scope.packages.slice(0, $scope.itemsPerPage);
+				$scope.currentPage = 1;	
 				imageServices.getImgDetails($scope);			
 			}else{
 				$scope.isloading=false;
 			}
 		});
 		
+		$scope.pageChanged = function(currentPage){
+			var start = (currentPage-1) * $scope.itemsPerPage;
+			var end = start + $scope.itemsPerPage;
+			$scope.packPage = $scope.packages.slice(start,end);
+		};
 		
-			$scope.$on("getImageDetails", function($event, data){
-				$scope.totalImagePackages = data[0];
-					//Store it in global variable 
-					
-				sharedEventDispatcher.setTotalImagePackages($scope.totalImagePackages);
-				sharedEventDispatcher.setPackages($scope.packages);
-				
-				packServices.crudCategory({"action":"Get"}, $scope);
-				
-	});
+		$scope.$on("getImageDetails", function($event, data){
+			$scope.totalImagePackages = data[0];
+			sharedEventDispatcher.setTotalImagePackages($scope.totalImagePackages);
+			sharedEventDispatcher.setPackages($scope.packages);
+			packServices.crudCategory({"action":"Get"}, $scope);					
+		});
 	
-	$scope.$on('loadCatDetails',function(event, data){
+
+		$scope.$on('loadCatDetails',function(event, data){
 			$scope.totalCategories  = data;
 			var addAllObj = new Object();
 			addAllObj.cat_name = "ALL"
-			addAllObj.id = 0;
-			
+			addAllObj.id = 0;			
 			$scope.totalCategories.push(addAllObj);	
 			sharedEventDispatcher.setCateogry($scope.totalCategories);
 			$scope.generateView();		
-	});
+		});
 	
 	
 	
@@ -115,10 +121,14 @@ testServices, newsServices, packServices, sharedEventDispatcher, imageServices){
 		$scope.selectedIndex = $index;
 		
 		if(id != 0){
-			selectedDetails = $filter('searchObjectItem')($scope.packages, id, 'cat_id')
-			$scope.totalPackItems = selectedDetails			
+			selectedDetails = $filter('searchObjectItem')($scope.packages, id, 'cat_id');
+			$scope.totalItems =  selectedDetails.length;
+			$scope.packPage = selectedDetails
+			$scope.currentPage = 1;		
 		}else{
-			$scope.totalPackItems =  $scope.packages;;
+			$scope.packPage =  $scope.packages;
+			$scope.totalItems =  $scope.packages.length;
+			
 			
 		}
 	}

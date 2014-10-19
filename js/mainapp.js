@@ -25,11 +25,11 @@ app.config(function($routeProvider, $locationProvider){
 				controller: "mainViewController", 
 				templateUrl: 'views/mainView.html' 
 			 })		 
-			  .when("/packList", 
+			  .when("/tour_packages", 
 			{	controller: "packageList", 
 				templateUrl: 'views/packagedetails.html' 
 			 })
-		  .when("/hotelList", 
+		  .when("/hotel_packages", 
 			{	controller: "hotelList", 
 				templateUrl: 'views/hoteldetails.html' 
 			 })
@@ -70,7 +70,7 @@ app.config(function($routeProvider, $locationProvider){
 			
 			
 			 .otherwise({ redirectTo:"/"});
-			 
+			
 			
 });
 

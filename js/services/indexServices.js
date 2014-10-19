@@ -152,6 +152,13 @@ app.factory("imageServices", function($http){
 				scope.$emit('getHotelImageDetails', [data.data]);
 		});
 	}
+	
+	imageServicesVar.getBannerDetails = function(scope){
+		    var addDayDetails = $http.post("cms-admin/php/api/getHotelLinks.php?method=getBannerDetails&jsoncallback=");
+			addDayDetails.then(function(data){	
+				scope.$emit('getBannerImageDetails', [data.data]);
+		});
+	}
 	return imageServicesVar;
 });
 

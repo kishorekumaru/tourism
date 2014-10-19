@@ -1,0 +1,136 @@
+<div class="panel panel-default" style="margin-top:-20px">
+
+<div class="panel-heading">  
+    <div class="container">
+    <div class="col-md-5 text-left">
+     <label  class="col-md-5 control-label">Select Package Name:</label><div class="col-md-7"> <select  class="form-control"  ng-model="packform.packages_name" ng-change="getPackValue()" ng-options="pack.id as pack.package_name for pack in totalPackages">
+       <option value="" disabled selected>Select package</option>
+    </select></div>
+    </div>
+    <div class="col-md-3 alert alert-info" role="alert" ng-show="packform.infoDisplay"><i>{{ packform.info }}</i></div>
+<div class="text-right">    <button type="button" class="btn btn-default" ng-click="goToPackage()"><span class="glyphicon glyphicon-chevron-up"> </span> Back to Package </button></div>
+
+    </div>
+</div>
+
+
+
+<div class="panel-body">
+
+ <!-- Container to show the Images -->
+<div class="container"> 
+
+<div class="container">
+    <div ng-repeat="img in imageDetails">
+      
+      <div class="col-md-2" style="margin:5px;padding:5px">
+    	<div class="panel panel-warning">
+         <div class="panel-body">
+         <img ng-src="com/uploads/{{img.package_thumb_img}}"/>
+          </div>
+           <div class="panel-footer panel-warning" style="height:30px">
+           <span class="control-label" style="margin-top:-7px;">{{ img.description }}</span>
+          <button type="button" class="close" ng-click="deleteImage(img.id)" 
+          style="margin-top:-7px;margin-right:-10px">
+          <span aria-hidden="true"><span class="glyphicon glyphicon-trash"></span></span></button>
+          </div>
+         </div>
+      </div>
+      
+      
+    </div>
+</div>
+
+<div class="container text-center" ng-show="isNotLinked" style="color:rgba(229,229,229,1.00)"><h1><b>No Images were found for this package</b></h1></div>
+
+</div>
+
+
+
+<!-- Container to show the Image upload -->
+  <div class="panel panel-info">
+            <div class="panel-heading">
+				<div class="container" style="margin-left:-20px"><div class="col-xs-2 text-right">Upload files </div>
+                  <div class="col-md-4 input-group"> <input ng-file-select type="file" multiple
+                   accept="image/x-png, image/gif, image/jpeg"/></div>	</div>
+               </div>
+               
+               <div class="panel-body">
+                    <p>Queue length: {{ uploader.queue.length }}</p>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th ng-show="uploader.isHTML5" width="50%">Description</th>
+                                <th ng-show="uploader.isHTML5">Size</th>
+                                <th ng-show="uploader.isHTML5">Progress</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in uploader.queue">
+                                <td><strong>{{ item.file.name }}</strong></td>
+                                 <td width="50%"><input type="text" class="form-control" ng-model="item.description" name="description"></td>
+                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                <td ng-show="uploader.isHTML5">
+                                    <div class="progress" style="margin-bottom: 0;">
+                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                </td>
+                                
+                                <td nowrap>
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                        <span class="glyphicon glyphicon-upload"></span> Upload
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                        <span class="glyphicon glyphicon-trash"></span> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="container">
+                        <p>
+                            Queue progress:
+                            <div class="progress" style="">
+                                <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                            </div>
+                        </p>
+                        
+                        </div>
+                        </div>
+                        <div class="panel-footer">
+                        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                            <span class="glyphicon glyphicon-upload"></span> Upload all
+                        </button>
+                        <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                        </button>
+                        <button type="button" class="btn btn-default btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                            <span class="glyphicon glyphicon-trash"></span> Clear all
+                        </button>
+                        </div>
+                    </div>
+
+
+
+
+
+</div> <!-- End of Panel Body -->
+        
+
+
+
+
+</div>

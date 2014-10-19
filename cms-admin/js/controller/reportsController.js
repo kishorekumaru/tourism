@@ -115,8 +115,6 @@ app.controller("testimonialController", function($scope, $modal, $filter,  $loca
 		} 
 	};
 
-
-
 });
 
 
@@ -454,7 +452,7 @@ var popupCntControllerIns = function ($scope, $filter, $modalInstance, headerNam
 
 // Controller for Add Banner Image
 
-app.controller("bannerImgCntrl", function($scope, $fileUploader, $filter, bannerImgServices, imageServices){
+app.controller("bannerImgCntrl", function($scope, $fileUploader, $filter, bannerImgServices, imageServices, $modal){
 
 
 
@@ -507,6 +505,7 @@ app.controller("bannerImgCntrl", function($scope, $fileUploader, $filter, banner
 			sendObject.img_small_url = response.small_img;
 			sendObject.img_tiny_url = response.thumb_img;
 			sendObject.img_desc = item.description;
+			sendObject.sub_description = item.sub_description;
 			sendObject.INSERT_DATE = insertDate.toJSON();
 			sendObject.action = "Insert";
 			bannerImgServices.crudCategory(sendObject,$scope);
@@ -537,6 +536,30 @@ app.controller("bannerImgCntrl", function($scope, $fileUploader, $filter, banner
 		}
 	}
 	
+	$scope.editImage = function(id){
+		var selectedDetails = $filter('getById')($scope.totalImagePackages, id);
+		var editImageInstance = $modal.open({
+		templateUrl: 'editBannerImageDesc.html',
+		controller: popupBannerImageEditControllerIns,
+		resolve: {
+			headerName: function () {
+				return "Edit Image Description";
+			},
+			selectedDetails:function(){
+				return selectedDetails;
+			},	
+			totalDetails:function(){
+				return $scope.totalImagePackages;
+			} 
+			}
+	});
+	
+	
+	
+	editImageInstance.result.then(function (userItems) {
+		 bannerImgServices.crudCategory(userItems, $scope);
+	});
+}
 	
 	$scope.$on('onDeleteImageUnlink',function($event, id){
 		bannerImgServices.crudCategory({'id':id, 'action' : 'Delete'},$scope);
@@ -630,8 +653,40 @@ app.controller("bannerImgCntrl", function($scope, $fileUploader, $filter, banner
 
         uploader.bind('completeall', function (event, items) {
             console.info('Complete all', items);
-			
+			alert("Images are uploaded");
         });
 
 
 });
+
+var popupBannerImageEditControllerIns = function ($scope, $filter, $modalInstance, headerName, selectedDetails, totalDetails) {
+  $scope.headerName = headerName;
+  $scope.banner = {};
+  $scope.data = {};
+  $scope.data.isExist = false;
+  
+  var insertDate = new Date();
+  
+  if(selectedDetails != ""){
+	  $scope.banner.img_desc = selectedDetails.img_desc;
+	  $scope.banner.sub_description = selectedDetails.sub_description;
+	  $scope.banner.id = selectedDetails.id;
+	  $scope.banner.MODIFIED_DATE = insertDate.toJSON(); 
+	  $scope.banner.action = "Edit";
+  }else{   
+  	  $scope.banner.action = "Insert";
+	  $scope.banner.INSERT_DATE = insertDate.toJSON();
+  }
+  
+  
+
+  
+  $scope.saveChanges = function () {
+	$modalInstance.close($scope.banner);
+  };
+
+	
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};

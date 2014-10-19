@@ -29,7 +29,13 @@
          <img ng-src="com/uploads/{{img.package_thumb_img}}"/>
           </div>
            <div class="panel-footer panel-warning" style="height:30px">
-           <span class="control-label" style="margin-top:-7px;">{{ img.description }}</span>
+           <button type="button" class="close" ng-click="editImage(img.id)" 
+         		 style="margin-top:-7px;float:left">
+          		<span aria-hidden="true">
+                	<span class="glyphicon glyphicon-pencil"></span>
+                </span>
+                </button>
+           <span class="control-label text-clip" style="margin-top:-7px;">{{ img.description }}</span>
           <button type="button" class="close" ng-click="deleteImage(img.id)" 
           style="margin-top:-7px;margin-right:-10px">
           <span aria-hidden="true"><span class="glyphicon glyphicon-trash"></span></span></button>
@@ -131,6 +137,26 @@
         
 
 
+<script type="text/ng-template" id="editPackImageDesc.html">
+<div class="modal-header">
+	<button class="close" ng-click="cancel()">&times;</button>
+	<h4>{{ headerName }}</h4>
+</div>
+<div class="modal-body">
+	<form name="userAddForm">
+		<table class="table table-bordered">
+		<tr>
+			<td>Description</td>
+			<td><input type="input" name="description" ng-model="pack_img.description"></td>
+		</tr>
+		</table>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="cancel()">Close</button>
+	<button class="btn btn-primary" ng-click="saveChanges()">Save Changes</button>
+</div>
+</script>
 
 
 </div>

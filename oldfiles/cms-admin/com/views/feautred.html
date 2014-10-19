@@ -1,0 +1,86 @@
+
+<div class="panel panel-default" style="margin-top:-20px">
+
+<div class="panel-heading">
+    <div class="container">
+        <div class="col-md-5 text-left text-primary">
+            <h5><b>Set Featured Package</b></h5><span style="font-size:12px;font-style:italic">Note * Only 4 items can be featured</span>
+        </div>
+    
+        <div class="col-md-3 alert alert-info" role="alert" ng-show="packform.infoDisplay"><i>{{ packform.info }}</i></div>
+            <div class="text-right"><button type="button" class="btn btn-default" 
+              ng-click="goToPackage()"><span class="glyphicon glyphicon-chevron-up"> </span>  Back to Package</button></div>
+      </div>
+</div>
+
+ 
+
+<div class="panel-body">
+<div class="container" style="min-height:200px">
+
+<div class="container text-center" ng-show="isNotLinked" style="color:rgba(229,229,229,1.00)"><h1><b>No packages are set to Featured</b></h1></div>
+
+<div class="container text-center" ng-show="isloading">
+   	<img src="images/loading.gif">
+   </div>
+<div class="container"  ng-hide="isloading">
+    <div ng-repeat="pack in featPack | orderBy:package_name">
+        <div class="col-md-2 alert alert-info" role="alert" style="margin:5px">
+          <button type="button" class="close" ng-click="deleteFeatured(pack.id)">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>{{ pack.package_name}}</strong>
+          <p>{{ pack.package_currency}} : {{ pack.package_cost}}</p>
+          <p>{{ pack.package_des_covered }}</p>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="text-center"><h4>Select Packages from below</h4></div><br/>
+<div class="container">
+    <div class="panel panel-default" style="margin-top:-20px">
+        <div class="panel-heading">  
+         <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text" ng-model="packagename" ng-keyup="getChar($event)" class="form-control"></div>
+                  <div class="text-right">
+                sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Package Name</button> | <button type="button" class="btn btn-link" ng-click="sortByCost()">Cost</button> 
+         </div>          
+        </div>
+        <div class="panel-body">
+               
+           
+                <table class="table table-bordered table-hover">
+                <thead><tr class="active"> 
+                	<th>Select</th>
+                    <th>Package Code</th>
+                	<th>Package Name</th>
+                	<th>Currency</th>
+                	<th class="col-md-3">Destination Covered</th>
+                    </tr>
+                </thead>
+                <form name="packlinkForm">
+                <tr  ng-repeat="pack in packDetailsPage" >
+                	<td><input type="checkbox" ng-model="pack.isFeatured" required></td>
+                    <td>{{ pack.package_code  }}</td>
+                    <td>{{ pack.package_name }}</td>
+                    <td>{{ pack.package_currency}} : {{ pack.package_cost}}</td>
+                    <td>{{ pack.package_des_covered }}</td>
+                    
+                </tr>
+                </table>
+
+                           
+  <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
+          </div>
+          
+          <div class="panel-footer text-right">
+      
+          <button type="submit" class="btn btn-primary" ng-click="setFeatured()"><span class="glyphicon glyphicon-star"> </span> Set Selected Package</button>
+ </form>
+</div>
+          </div>
+
+
+</div>
+</div>
+</div>

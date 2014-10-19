@@ -1,7 +1,7 @@
 // JavaScript Document
 
-app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '$filter', 'packServices', '$interval', '$location','$fileUploader', 'imageHotelServices', 'hotelServices'
-, function($scope, sharedEventDispatcher, $filter, packServices, $interval, $location, $fileUploader, imageHotelServices, hotelServices){
+app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '$filter', 'packServices', '$interval', '$location','$fileUploader', 'imageHotelServices', 'hotelServices', '$modal'
+, function($scope, sharedEventDispatcher, $filter, packServices, $interval, $location, $fileUploader, imageHotelServices, hotelServices, $modal){
  
  
  	$scope.packform = {};
@@ -113,11 +113,36 @@ app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '
 		}
 	}
 	
+$scope.editImage = function(id){
+		var selectedDetails = $filter('getById')($scope.totalImagehotels, id);
+		var editImageInstance = $modal.open({
+		templateUrl: 'editImageDesc.html',
+		controller: popupHotelImageEditControllerIns,
+		resolve: {
+			headerName: function () {
+				return "Edit Image Description";
+			},
+			selectedDetails:function(){
+				return selectedDetails;
+			},	
+			totalDetails:function(){
+				return $scope.totalImagehotels;
+			} 
+			}
+	});
+	
+	
+	
+	editImageInstance.result.then(function (userItems) {
+		  imageHotelServices.editHotelImgDesc(userItems, $scope);
+	});
+}
+	
 	$scope.$on('onDeleteHotelImageUnlink',function($event, id){
 		imageHotelServices.deleteImgDetails({'id':id}, $scope);  
 	});
 	
-	$scope.$on('onDeleteHotelImageSuccess', function($event){
+	$scope.$on('onImgEditImageSuccess', function($event){
 		$scope.setDetails();
 	});
 	
@@ -213,3 +238,36 @@ app.controller("uploadHotelImgController", ['$scope', 'sharedEventDispatcher', '
 
     
 }]);
+
+
+
+var popupHotelImageEditControllerIns = function ($scope, $filter, $modalInstance, headerName, selectedDetails, totalDetails) {
+  $scope.headerName = headerName;
+  $scope.hotel_img = {};
+  $scope.data = {};
+  $scope.data.isExist = false;
+  
+  var insertDate = new Date();
+  
+  if(selectedDetails != ""){
+	  $scope.hotel_img.description = selectedDetails.description;
+	  $scope.hotel_img.id = selectedDetails.id;
+	  $scope.hotel_img.MODIFIED_DATE = insertDate.toJSON(); 
+	  $scope.hotel_img.action = "Edit";
+  }else{   
+  	  $scope.hotel_img.action = "Insert";
+	  $scope.hotel_img.INSERT_DATE = insertDate.toJSON();
+  }
+  
+  
+
+  
+  $scope.saveChanges = function () {
+	$modalInstance.close($scope.hotel_img);
+  };
+
+	
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};

@@ -1,0 +1,81 @@
+<div class="panel panel-default" style="margin-top:-20px">
+	<div class="panel-heading">
+     	<div class="container"><div class="col-md-6"<h4><b>{{ selectedPackage.hotel_name  }} </h4>Detailed View </b></div>
+        <div class="col-md-6 text-right"><button type="button" class="btn btn-default" ng-click="goToPackage()"><span class="glyphicon glyphicon-chevron-up"> </span>  Back to Package</button></div>
+        </div>
+    </div>
+    
+    <div class="panel-body">
+    
+     <accordion>
+    	<accordion-group is-open="status.open1" heading="{{ selectedPackage.hotel_name }} - Photos" ng-click="makeTabVisible(1)">
+
+                <carousel interval="myInterval">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                        <img ng-src="{{slide.image}}" style="margin:auto;">
+                        <div class="carousel-caption">
+                            <h4> {{slide.description}} </h4>                     
+                        </div>
+                    </slide>
+                </carousel>
+                        
+    	</accordion-group>
+        
+    <accordion-group is-open="status.open2" heading="{{ selectedPackage.hotel_name }} - Hotel Details" ng-click="makeTabVisible(2)">
+        
+     
+                <div class="container" >
+                    <div class="col-md-5 text-left">
+                    <display-tag label-name="Package Code: " label-value="{{ selectedPackage.package_code }}" ></display-tag>
+                    <display-tag label-name="Hotel Name: " label-value="{{ selectedPackage.hotel_name }}" ></display-tag>
+                    <display-tag label-name="Cost : " label-value="{{ selectedPackage.hotel_cost }}" ></display-tag>
+                    </div>
+                 <div class="col-md-5 text-left"> 
+                  <display-tag label-name="Duration : " label-value="{{ selectedPackage.hotel_duration }} Days" ></display-tag>
+                    <display-tag label-name="Valid From : " label-value="{{ selectedPackage.package_valid_from | myDateFormat}}" ></display-tag>
+                    <display-tag label-name="Valid From : " label-value="{{ selectedPackage.package_valid_to | myDateFormat }}" ></display-tag>
+                </div>
+            </div>
+             
+    </accordion-group>
+    
+     <accordion-group is-open="status.open3" heading="{{ selectedPackage.hotel_name }} - General Details" ng-click="makeTabVisible(3)">
+        
+       <div class="container" >
+                    <div class="col-md-5 text-left">
+                   
+                    <display-tag label-name="Inclusion : " label-value="{{ selectedPackage.package_inclusion }}" ></display-tag>
+                    <display-tag label-name="Exclusion : " label-value="{{ selectedPackage.package_exclusion }}" ></display-tag>
+                    </div>
+                 <div class="col-md-5 text-left"> 
+                  <display-tag label-name="Overview: " label-value="{{ selectedPackage.hotel_overview }}" ></display-tag>
+                    <display-tag label-name="Features: " label-value="{{ selectedPackage.hotel_facilities }}" ></display-tag>
+                   
+                </div>
+            </div>
+    </accordion-group>
+    
+     <accordion-group is-open="status.open4" heading="{{ selectedPackage.hotel_name }} - Contact Details " ng-click="makeTabVisible(4)">
+     
+     	<div class="container" >
+                    <div class="col-md-5 text-left">
+                   
+                    <display-tag label-name="Address : " label-value="{{ selectedPackage.hotel_address }}" ></display-tag>
+                    <display-tag label-name="Country : " label-value="{{ selectedPackage.hotel_country }}" ></display-tag>
+                    </div>
+                 <div class="col-md-5 text-left"> 
+                 <display-tag label-name="Web URL: " label-value="{{ selectedPackage.hotel_web_url }}" ></display-tag>
+                  <display-tag label-name="Email: " label-value="{{ selectedPackage.hotel_email }}" ></display-tag>
+                    <display-tag label-name="Phone: " label-value="{{ selectedPackage.hotel_phone }}" ></display-tag>
+                   
+                </div>
+     </div>
+    </accordion-group>
+    
+    
+  
+  </accordion>
+    </div>
+    
+    
+</div>

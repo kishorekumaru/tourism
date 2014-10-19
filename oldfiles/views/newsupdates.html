@@ -1,0 +1,24 @@
+<div class="package-holder">
+ <div class="centered-width bannerText">{{ headerName }}</div>
+</div>
+<div class="centered-width text-center" ng-show="isloading">
+   	<img src="cms-admin/images/loading.gif">
+ </div>
+
+<div class="breadcrumb" style="height:50px"> 
+	<div class="centered-width total-reset">
+    <ol class="breadcrumb">
+    <li><a class="showCursor" ng-click="gotoURL('/');">Home</a></li>
+  	<li>{{ headerName }}</li>
+</ol></div>
+</div>
+<div class="centered-width">
+ 
+ <div class="panel panel-default  text-left" ng-repeat="news in newsDetails" style="margin:40px 0">
+  <div class="panel-heading">
+   	<div class="newsTestContent"> <span class="newsTestTitle">{{news.news_title}} </span>- {{ news.INSERT_DATE }}</div>
+  </div>
+  <div class="panel-body">{{ news.news_content}}</div>
+</div>
+       
+</div>

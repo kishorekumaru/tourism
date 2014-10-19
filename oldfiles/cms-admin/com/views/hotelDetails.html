@@ -1,0 +1,76 @@
+<div class="container text-center" ng-show="isHotelloading">
+   	<img src="images/loading.gif">
+   </div>
+   
+    <div class="panel panel-default" ng-hide="isHotelloading" style="margin-top:-20px" ng-controller="hotelController">
+        <div class="panel-heading">  
+        <div class="text-right">
+                <div class="col-lg-3 text-left text-primary"><h5><b>HOTEL DETAILS</b></h5></div><div class="text-right"> <button type="button" class="btn btn-primary btn-sm" ng-click="openWindow()">
+                  <span class="glyphicon glyphicon-plus-sign"></span> ADD HOTEL
+                </button></div>  </div>
+   					 
+  
+    
+    
+    
+   
+   					 
+
+    </div>
+         <br> 
+         <div ng-hide="isHotel" class="text-center" style="color:rgba(229,229,229,1.00)"><h1><b>No Hotel Packages found, <br>Please click ADD button on the top right to create new Hotel</b></h1></div>
+    <div class="container" ng-show="isHotel">
+    
+            <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text" ng-model="hotelname" ng-keyup="getChar($event)" class="form-control"></div>
+                            
+        <div class="text-right">
+                <div class="col-md-4" style="margin-top:-20px"><pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div> <div  class="col-md-3"> sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Name</button> | <button type="button" class="btn btn-link" ng-click="sortByRating()">Cost</button> </div>
+               
+               
+                             
+              
+                </div>
+               <p></p>
+            <div class="container center-block"> 
+                <div class="col-lg-11 col-lg-offset-1" style="margin-top:5px">
+                
+                 <div class="col-xs-12 col-sm-10 col-md-10" ng-repeat="hotel in hotelDetailsPage">
+                
+                <div class='panel panel-info'>
+                      <div class='panel-heading' style="height:50px;">
+                      
+                          <div class="col-xs-6 col-sm-4 col-md-4"><a class='btn btn-link' ng-click="showViewPanel( hotel.id )"><b>{{ hotel.package_code  }}</b></a></div>
+                          <div class="col-xs-6 col-sm-8 col-md-8 text-right">
+                            <button type='button' class='btn btn-primary' ng-click='manageImage(hotel.id)'><span class="glyphicon glyphicon-th-large"></span>&nbsp; Manage Images</button>  
+                                <button type='button' class='btn btn-primary' ng-click='editHotelItem( hotel.id )'><span class="glyphicon glyphicon-pencil"></span></button>
+                               <button type='button' class='btn btn-danger' ng-click='deleteItem(hotel.id)'><span class="glyphicon glyphicon-trash"></span></button>
+                          </div>
+                          
+                      </div>
+                        <div class='panel-body'  style="padding:0px">
+                        
+                         <div class='col-md-2' style="padding:5px">
+                       
+                             <div><a  ng-click="showViewPanel( hotel.id )" class="thumbnail"><img ng-src='com/uploads/{{hotel.first_image}}'></a> </div>
+                               <div class="text-center"><a  ng-click="showViewPanel( hotel.id )"><b>{{   hotel.hotel_name  }}</b></a></div>
+                           </div>
+                           <div class='col-md-10' style="padding:5px">
+                            <div><b>Cost: </b>{{ hotel.hotel_cost }}</div> 
+                             <div><b>Duration: </b>{{ hotel.hotel_duration }}</div> 
+                            <div><b>Address: </b>{{ hotel.hotel_address }}</div>
+                             <div><b>Package Inclusion :  </b>{{hotel.package_inclusion }}</div>
+                            <div><b>Package Exclusion :  </b>{{hotel.package_exclusion }}</div>
+                             <div><b>Overview :  </b>{{hotel.hotel_overview }}</div>
+                           </div>
+                          
+                           </div>
+                           
+                           
+                </div></div>
+                   
+                   
+                </div>
+               
+            </div>  </div></div>
+   

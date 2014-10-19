@@ -1,0 +1,26 @@
+<div class="package-holder">
+ <div class="centered-width bannerText">{{ headerName }}</div>
+</div>
+<div class="centered-width text-center" ng-show="isloading">
+   	<img src="cms-admin/images/loading.gif">
+ </div>
+
+<div class="breadcrumb" style="height:50px"> 
+	<div class="centered-width total-reset">
+    <ol class="breadcrumb">
+    <li><a class="showCursor" ng-click="gotoURL('/');">Home</a></li>
+  	<li>{{ headerName }}</li>
+</ol></div>
+</div>
+<div class="centered-width">
+ 
+ <div class="panel panel-default  text-left" ng-repeat="test in testimonialDetails" style="margin:40px 0">
+  <div class="panel-body">
+   	<div class="newsTestContent"> {{ test.client_content}}</div>
+  </div>
+  <div class="panel-footer"><div class="text-right"> - <span class="newsTestTitle"> {{ test.client_name }},  </span>  &nbsp;{{test.client_title}}</div></div>
+</div>
+            	
+            	
+            
+</div>

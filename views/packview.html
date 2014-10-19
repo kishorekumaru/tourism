@@ -4,17 +4,17 @@
 </div>
 
 <div class="breadcrumb" style="height:50px"> 
-	<div class="centered-width total-reset">
+  <div class="centered-width total-reset">
     <ol class="breadcrumb">
     <li><a class="showCursor" ng-click="gotoURL('/');">Home</a></li>
-	<li><a class="showCursor" ng-click="gotoURL('/packList');">Tour Packages</a></li>
-  	<li>{{ selectedPackage.package_name }}</li>
+  <li><a class="showCursor" ng-click="gotoURL('/tour_packages');">Tour Packages</a></li>
+    <li>{{ selectedPackage.package_name }}</li>
 </ol></div>
 </div>
 
 <div class="centered-width total-reset">
-<div class="row" style="margin:10px 0">
-    <div class="col-sm-4">
+<div class="row" style="margin:10px 0; height:260px;">
+    <div class="col-sm-4 paddingleft-zero">
      <carousel interval="myInterval">
             <slide ng-repeat="slide in slides" active="slide.active">
                 <a class="showCursor" ng-click="openWindow(slide.big_image)"> <img ng-src="{{slide.image}}" style="margin:auto;"></a>
@@ -24,19 +24,19 @@
             </slide>
     </carousel>
     </div>
-    <div class="col-sm-6">
-    	<div class="titleText">{{ selectedPackage.package_name  }}</div>
-        <div class="dealTitle">{{ selectedPackage.package_currency }} : {{ selectedPackage.package_cost | currency : ''}}
-        <span style="font-size:10px">*per person </span><br>
+    <div class="col-sm-8">
+      <div class="packdetailtitleText ">{{ selectedPackage.package_name  }}</div>
+        <div class="packTitle">Rs: {{ selectedPackage.package_cost | currency : ''}}
+        <span style="font-size:10px">/2adults </span><br>
                         <i style="font-weight:normal">({{ selectedPackage.offerValid }})</i>
                      <br>
                     <span class="content-title">{{ selectedPackage.package_des_covered }} </span> </div>
-         <div style="margin:20px 0px; width:250px"> <input type="button" class="btn-primary submitbtn" value="Inquire" ng-click="inquireNow()"  ></button></div> 
+         <div style="margin:20px 0px; width:250px"> <input type="button" class="btn-primary submitbtn" value="Inquire Now" ng-click="inquireNow()"  ></button></div> 
                     
       
-	</div>
+  </div>
  
-	</div>
+  </div>
 
  
 <tabset class="marginTop margin-bottom">
@@ -52,7 +52,7 @@
           <div class='form-group'><label  class='col-sm-3 control-label'></label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.offerValid }}</label></div></div>
           <div class='form-group'><label  class='col-sm-3 control-label'>Destinations Covered : </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_des_covered }}</label></div></div>
           
-			
+      
    
           </div>
          
@@ -61,30 +61,29 @@
     
        <tab heading="General Information" >
            <div class="row" style="margin:4px;">
-            <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
+            <div class="alert-info content-title" style="padding:10px">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
         </div>
-    	<div class="row marginTop" style="padding:10px">
+      <div class="row marginTop" style="padding:10px">
           <div class='form-group'><label  class='col-sm-3 control-label'>Destination Covered: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_des_covered }}</label></div></div>
-           <div class='form-group'><label  class='col-sm-3 control-label'>Tour Details: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_tour_details }}</label></div></div>
-            <div class='form-group'><label  class='col-sm-3 control-label'>Inclusion: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_inclusion }}</label></div></div>
-             <div class='form-group'><label  class='col-sm-3 control-label'>Exclusion: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_exclusion }}</label></div></div>
+           <div class='form-group col-sm-12 paddingleft-zero'><label  class='col-sm-3 control-label'>Tour Details: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_tour_details }}</label></div></div>
+            <div class='form-group col-sm-12 paddingleft-zero'><label  class='col-sm-3 control-label'>Inclusion: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_inclusion }}</label></div></div>
+             <div class='form-group col-sm-12 paddingleft-zero'><label  class='col-sm-3 control-label'>Exclusion: </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_exclusion }}</label></div></div>
             
-			
+      
    
           </div>
     </tab>
     
     <tab heading="Day Details" >
         <div class="row" style="margin:4px;">
-            <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
+            <div class="alert-info content-title" style="padding:10px">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
         </div>
-        <div class="col-sm-6" ng-repeat="days in selectedDayPack | orderBy:day_num" style="padding:10px">
-        	
-            	<b>Day: {{ days.day_num  }}</b><br>
-            	 <p><label class="content-title">Day Title : </label> <label class="content-text"> {{ days.day_title  }}</label> <br>
-            	 <label class="content-title">Meals : </label> <label class="content-text"> {{ days.day_meals  }}</label> <br> 
-             	 <label class="content-title">Day Description : </label> <label class="content-text"> {{ days.day_desc  }}</label> <br> 
-         		</p>
+        <div class="col-sm-12" ng-repeat="days in selectedDayPack | orderBy:day_num" style="padding:10px">          
+              <b>Day: {{ days.day_num  }}</b><br>
+               <p><label class="content-title">Day Title : </label> <label class="content-text"> {{ days.day_title  }}</label> <br>
+               <label class="content-title">Meals : </label> <label class="content-text"> {{ days.day_meals  }}</label> <br> 
+               <label class="content-title">Day Description : </label> <label class="content-text"> {{ days.day_desc  }}</label> <br> 
+            </p>
         </div>
         
     </tab>
@@ -93,13 +92,13 @@
     
     <tab heading="Terms" >
            <div class="row" style="margin:4px;">
-            <div class="alert-info content-title" style="padding:10px;">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
+            <div class="alert-info content-title" style="padding:10px">{{ selectedPackage.cat_name  }} Cateogrized package - {{ selectedPackage.package_name }}</div>
         </div>
-    	<div class="row marginTop" style="padding:10px">
-        <div class='form-group'><label  class='col-sm-3 control-label'>Specific Tour Dates :  </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_specific_tour_dates }}</label></div></div>
-        <div class='form-group'><label  class='col-sm-3 control-label'>Departure Cities Rates :  </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_departure_cities_rates }}</label></div></div>
-        <div class='form-group'><label  class='col-sm-3 control-label'>Terms & Conditions :  </label><div class=''><label  class='col-sm-8 control-label' style='font-weight:normal'>{{ selectedPackage.package_terms_cond }}</label></div></div>
-					
+      <div class="row marginTop" style="padding:10px">
+        <div class='form-group col-sm-12 paddingleft-zero'><label  class='col-sm-2 control-label'>Specific Tour Dates :  </label><div class=''><label  class='col-sm-9 control-label' style='font-weight:normal'>{{ selectedPackage.package_specific_tour_dates }}</label></div></div>
+        <div class='form-group col-sm-12 paddingleft-zero'><label  class='col-sm-2 control-label'>Departure Cities Rates :  </label><div class=''><label  class='col-sm-9 control-label' style='font-weight:normal'>{{ selectedPackage.package_departure_cities_rates }}</label></div></div>
+        <div class='form-group col-sm-12 paddingleft-zero'><label  class='col-sm-2 control-label'>Terms & Conditions :  </label><div class=''><label  class='col-sm-9 control-label' style='font-weight:normal'>{{ selectedPackage.package_terms_cond }}</label></div></div>
+          
    
           </div>
     </tab>
@@ -113,11 +112,11 @@
 
 <script type="text/ng-template" id="InquireTemplate.html">
 
-	
-	
+  
+  
 <div class="panel panel-primary" style="margin:0">
 <div class="panel-heading">
-    	<span class="contact-heading" style="color:#FFF">Inquire about {{ package.package_name }}</span> <br>
+      <span class="contact-heading" style="color:#FFF">Inquire about {{ package.package_name }}</span> <br>
         <span class="contact-text" style="color:#FFF">We’d love to reach you</span>
 </div>
 
@@ -159,16 +158,16 @@
 
 
     </div>
-	
+  
 </script>
 
 
 <script type="text/ng-template" id="ImageTemplate.html">
-	
-	
-	
-	<div >
-	 <carousel interval="myInterval">
+  
+  
+  
+  <div >
+   <carousel interval="myInterval">
             <slide ng-repeat="slide in slides" active="slide.active">
                <img ng-src="{{slide.big_image}}" style="margin:auto;">
                 <div class="carousel-caption">
@@ -176,22 +175,22 @@
                 </div>
             </slide>
     </carousel>
-	
-	
-	</div>
-	
+  
+  
+  </div>
+  
 </script>
-<div class="container" >
+<div class="container-fluid paddingBottom2x" style="background:#f6f6f6;">
  <div class="centered-width total-reset marginTop" >
-       		<div class="newsTestTitle marginTop"> Similar Category Packages </div>
-            <div ng-repeat="catpack in sameCatPack" class="col-sm-4">
-           		<div><a class='btn btn-link' ng-click="openPackView( catpack.id )" style="padding:0;">
-                    	<img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{catpack.first_image}}" ></a></div>
+          <div class="content-title marginTop"> Similar Category Packages </div>
+            <div ng-repeat="catpack in sameCatPack" class="col-sm-2 paddingleft-zero paddingTop">
+              <div><a class='btn btn-link' ng-click="openPackView(catpack.id)" style="padding:0;">
+                      <img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{catpack.first_image}}" ></a></div>
                     <div class="featuredContent" style="padding:1px">
                        <h4 class="featuredTitle showCursor" ng-click="packView(catpack.id)"> {{ catpack.package_name }}</h4>
                         <br>
-                        <a class="showCursor" ng-click="packView(catpack.id)">more details >> </a>
-                 	</div>
+                        <a class="showCursor" ng-click="openPackView(catpack.id)">more details >> </a>
+                  </div>
             </div>
             
 </div>

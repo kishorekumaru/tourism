@@ -1,0 +1,83 @@
+<div class="container text-center" ng-show="isCatloading">
+   	<img src="images/loading.gif">
+   </div>
+   
+    <div class="panel panel-default" ng-hide="isCatloading" style="margin-top:-20px" ng-controller="catController">
+        <div class="panel-heading">  
+        <div  class="text-right">
+                <div class="col-lg-3 text-left text-primary"><h5><b>CATEGORY DETAILS</b></h5></div><div class="text-right"> <button type="button" class="btn btn-primary btn-sm" ng-click="openWindow()">
+                  <span class="glyphicon glyphicon-plus-sign"></span> ADD NEW
+                </button></div> </div>
+
+   					 <script type="text/ng-template" id="catContent.html">
+            	<div class="modal-header">
+                	<button class="close" ng-click="cancel()">&times;</button>
+                    <h4> {{ headerName }} </h4>
+                </div>
+                
+                
+                <div class="modal-body">
+				
+						<div class="alert alert-danger" role="alert" ng-model="data.errorMsg" 
+						ng-show="data.isExist"><i>The typed Category is already exist!! Please type an other name</i></div>
+                	<form name="userAddForm">
+                    	<table class="table table-bordered">
+                        <tr>
+                        	<td>Add Category</td>
+                    		<td><input type="input" ng-keyup="getChar($event)" name="cat_name" ng-model="cat.cat_name"></td>
+                         </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                	<button class="btn btn-default" ng-click="cancel()">Close</button>
+                    <button class="btn btn-primary" ng-click="saveChanges()">Save Changes</button>
+                </div>
+            </script>
+    
+    
+    
+   
+   					 
+
+    </div>
+         <br> 
+          <div ng-hide="isCategory" class="text-center" style="color:rgba(229,229,229,1.00)"><h1><b>No Cateogry found, <br>Please click ADD button on the top right to create new Cateogry</b></h1></div>
+    <div class="container" ng-show="isCategory" >
+    
+            <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text" ng-model="catname" ng-keyup="getChar($event)" class="form-control"></div>
+                            
+        <div class="text-right">
+                <div class="col-md-4" style="margin-top:-20px"><pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div> <div  class="col-md-3"> sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">Name</button></div>
+               
+               
+                             
+              
+                </div>
+               <p></p>
+            <div class="container center-block"> 
+                <div class="col-lg-11" style="margin-top:5px">
+                
+                <table class="table table-bordered table-hover">
+                <thead>
+                	<tr><th>SNo</th><th>Category Name</th><th>Actions</th></tr>
+                 </thead>
+                 <tbody>
+                 	<tr ng-repeat="cat in catDetailsPage">
+                    	<td>{{   $index + 1  }}</td>
+                        <td>{{   cat.cat_name  }}</td>
+                        <td>
+                        <button type='button' class='btn btn-primary' ng-click='editHotelItem( cat.id )'><span class="glyphicon glyphicon-pencil"></span></button>
+                           <button type='button' class='btn btn-danger' ng-click='deleteItem(cat.id)'><span class="glyphicon glyphicon-trash"></span></button>
+                           </td> 
+                    </tr>
+                   
+                 </tbody>
+                 </table>
+                 
+               
+                   
+                   <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
+                </div>
+            </div>  </div></div>

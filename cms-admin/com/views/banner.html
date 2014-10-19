@@ -22,8 +22,15 @@
          <div class="panel-body">
          <img ng-src="com/uploads/{{img.img_tiny_url}}"/>
           </div>
-           <div class="panel-footer panel-warning" style="height:30px">
-           <span class="control-label" style="margin-top:-7px;">{{ img.img_desc }}</span>
+           <div class="panel-footer panel-warning" style="height:50px">
+           <button type="button" class="close" ng-click="editImage(img.id)" 
+         		 style="margin-top:-7px;float:left">
+          		<span aria-hidden="true">
+                	<span class="glyphicon glyphicon-pencil"></span>
+                </span>
+                </button>
+           <span class="control-label text-clip" style="margin-top:-7px;margin-left:2px;">{{ img.img_desc }}</span>
+            <span class="control-label text-clip" style="margin-top:-7px;margin-left:20px;">{{ img.sub_description }}</span>
           <button type="button" class="close" ng-click="deleteImage(img.id)" 
           style="margin-top:-7px;margin-right:-10px">
           <span aria-hidden="true"><span class="glyphicon glyphicon-trash"></span></span></button>
@@ -56,7 +63,8 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th ng-show="uploader.isHTML5" width="50%">Description</th>
+                                <th ng-show="uploader.isHTML5" width="25%">Pack Name</th>
+                                <th ng-show="uploader.isHTML5" width="25%">Days Title</th>
                                 <th ng-show="uploader.isHTML5">Size</th>
                                 <th ng-show="uploader.isHTML5">Progress</th>
                                 <th>Status</th>
@@ -66,7 +74,8 @@
                         <tbody>
                             <tr ng-repeat="item in uploader.queue">
                                 <td><strong>{{ item.file.name }}</strong></td>
-                                 <td width="50%"><input type="text" class="form-control" ng-model="item.description" name="description"></td>
+                                 <td width="25%"><input type="text" class="form-control" ng-model="item.description" name="description"></td>
+                                  <td width="25%"><input type="text" class="form-control" ng-model="item.sub_description" name="sub_description"></td>
                                 <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
                                 <td ng-show="uploader.isHTML5">
                                     <div class="progress" style="margin-bottom: 0;">
@@ -123,6 +132,30 @@
 
 </div> <!-- End of Panel Body -->
         
+<script type="text/ng-template" id="editBannerImageDesc.html">
+<div class="modal-header">
+	<button class="close" ng-click="cancel()">&times;</button>
+	<h4>{{ headerName }}</h4>
+</div>
+<div class="modal-body">
+	<form name="userAddForm">
+		<table class="table table-bordered">
+		<tr>
+			<td>Pack Name</td>
+			<td><input type="input" name="description" ng-model="banner.img_desc"></td>
+		</tr>
+		<tr>
+			<td>Days Title</td>
+			<td><input type="input" name="sub_description" ng-model="banner.sub_description"></td>
+		</tr>
+		</table>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="cancel()">Close</button>
+	<button class="btn btn-primary" ng-click="saveChanges()">Save Changes</button>
+</div>
+</script>
 
 
 

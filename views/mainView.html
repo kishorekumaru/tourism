@@ -1,116 +1,176 @@
 <!-- Banner -->
-<div class="banner-holder">
-	<img src="images/banner.jpg">
-</div>
-<div class="container title-text titleText text-center marginTop">
-	Our Services
+
+<div id="slider">
+    <a class="control_pre fa fa-arrow-left"> </a>
+    <a class="control_next fa fa-arrow-right"></a>
+    <div id="banner-container" class="banner-container">
+        <div id="banner_holder" class="banner-holder"  ng-repeat="img in bannerDetails" style="background-image:url('cms-admin/com/uploads/{{ img.img_url}} ')">
+         
+            <div id="banner_item bg_tint" class="content">
+                <h2 class="bannerText">{{ img.img_desc}} </h2>
+                <h4 class="bannerText">{{ img.sub_description}} </h4>
+            </div>
+           
+        </div> 
+    </div>
 </div>
 
+
+
 <!-- END OF BANNER -->
-<div class="graphic-holder centered">
-	<div class="centered-width total-reset">
-    	<div class="flight-block">
-        	<div class="block-img"><img src="images/flight.png"></div>
-        	<div class="block-img extra-top-padding">FLIGHTS </div>
-        </div>
-        <div class="hotel-block"> 
-        	<div class="block-img extra-top-padding"><img src="images/hotel.png "></div>
-        	<div class="block-img extra-top-padding">HOTELS </div>
-        </div>
-        <div class="tour-block"> 
-            <div class="block-img" style="padding-top:20px"><img src="images/tour.png"></div>
-        	<div class="block-img extra-top-padding">TOURS </div>
-        </div>	
+<div class="graphic-holder centered paddingTop">
+<!--div class="title-text titleText text-center">
+    Our Services
+
+    <div class="centered-width total-reset"><img src="images/services-list.jpg"  alt="Services we offer">
+    </div>-->
         
-        <div class="travel-block"> 
-        	<div class="block-img "><img src="images/travel.png"></div>
-        	<div class="block-img extra-top-padding">TRAVEL DEALS </div>
-         </div>
-    </div>
-    <div class="centered-width total-reset">
-    	<div class="fligt-line"> </div>
-        <div class="hotel-line"> </div>
-        <div class="tour-line"> </div>
-        <div class="travel-line"> </div>
-    </div>
     
-    <!-- create an empty space -->
-    <div class="centered-width extra-top-padding-2x"></div>
+    
+    <!-- create an empty space >
+    <div class="centered-width extra-top-padding-2x"></div-->
     
     <!-- Our Services Holder -->
     <div class="container user-font">
-    <div class="centered-width total-reset" style="min-height:500px;">
-    	<div class="side-bar" >
-        	<div class="side-menu" style="background-color:#fcd404; padding-top:10px;">
-        		<h4>Why Glaceir Holidays ? </h4>
-                <div class="side-menu-content"> <img src="images/hand-icon.png"> <span class="spacer"></span>Competing Price </div>
-                <div class="side-empty-line"></div>
-                <div class="side-menu-content"> <img src="images/wide.png"> <span class="spacer"></span> Wide Range of deals </div>
-                <div class="side-empty-line"></div>                
-                <div class="side-menu-content"> <img src="images/star.png"> <span class="spacer"></span> Best in class service </div>
-                <div class="side-empty-line"></div>                
-                <div class="side-menu-content"> <img src="images/man.png"> <span class="spacer"></span> Experienced Guides</div>
-                <div class="side-empty-line"></div>               
-                <div class="side-menu-content"> <img src="images/season.png"> <span class="spacer"></span> Sesonal Offers</div>
-                
-            </div>
-            <div>
-            	<div class="row text-left planTitle marginTop" style="padding-left:20px">  PLAN YOUR TRIP NOW </div>
-               
-            </div>
-        </div>
-        <div class="main-bar text-left">
-        	<span class="titleText">Our Travel Deals </span> 
-           <div class="row">
-            	<div class="col-md-6" ng-repeat="fpack in featurePackDetails">              
-                	<div class="col-md-6" style="padding:2px">
-                    		<div ><a class='btn btn-link' ng-click="openPackView(fpack.id,fpack.package_url)">
+    <div class="centered-width total-reset marginBottom" >
+        
+        <div class="main-bar text-left col-md-8">
+            <h3>Our Featured Deals </h3> 
+           <div class="row center paddingBottom"  style="margin:0 auto">
+                <div class="col-md-3" ng-repeat="fpack in featurePackDetails" style="width:25%; padding:0 10px;">              
+                    <div class="container-fluid" style="padding:0px">
+                            <div ><a class='btn-link' ng-click="openPackView(fpack.id,fpack.package_url)">
                             
                             <img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{fpack.first_image}}"></a></div>
                             </div>
-                    <div class="col-md-6 featuredContent" style="padding:2px">
-                        <p><h4 class="featuredTitle"> {{ fpack.package_name }}</h4></p>
+                    <div class="container-fluid featuredContent" style="padding:0px">
+                        <h4 class="featuredTitle"> {{ fpack.package_name }}</h4>
                         <p> {{ fpack.dayString }} <br>
-                        <span class="featuredCurrency">{{ fpack.package_currency }} : {{ fpack.package_cost | currency : ''}} </span> 
-                        	<span style="font-size:10px">*per person </span><br>
-                        <i style="font-weight:normal">({{ fpack.offerValid }})</i></p>
+                        <span class="featuredCurrency" style="font-weight:bold">{{ fpack.package_currency }} Rs. {{ fpack.package_cost | currency : ''}} </span> 
+                            <span style="font-size:12px">*2adults </span><br>
+                        <!--i style="font-weight:normal">({{ fpack.offerValid }})</i>--></p>
                         <a ng-click="openPackView(fpack.id,fpack.package_url)"  class="showCursor">more details >> </a>
                     </div>
                 </div>
+                
+                
+                
             </div>
-            
+            <div class="row center paddingTop  paddingBottom2x" style="margin:0 auto">
+                <div class="col-md-3" ng-repeat="fpack in featureHotelDetails" style="width:25%; padding:0 10px;">              
+                    <div class="container-fluid" style="padding:0px">
+                            <div ><a class='btn-link' ng-click="openHotelView(fpack.id,fpack.hotel_url)">
+                            
+                                <img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{fpack.first_image}}" ></a></div>
+                            </div>
+                    <div class="container-fluid featuredContent" style="padding:0px">
+                        <h4 class="featuredTitle"> {{ fpack.hotel_name }}</h4>
+                        <p> {{ fpack.dayString }} <br>
+                        <span class="featuredCurrency" style="font-weight:bold">{{ fpack.hotel_cost }} </span> 
+                            <span style="font-size:12px">*2adults </span><br>
+                        <!--i style="font-weight:normal">({{ fpack.offerValid }})</i>--></p>
+                        <a ng-click="openHotelView(fpack.id,fpack.hotel_url)"  class="showCursor">more details >> </a>
+                    </div>
+                </div>
+            </div>
+            <h4  class="titleText">Welcome to Galcier Holidays</h4>
+                <div class="newsTestContent  margin-bottom col-md-12" style="padding-left:0px !important;"> The whole life is a journey in itself, and we all travel places in pursuit of a better life and more knowledge. Realizing this basic truth of the life, The Glacier Holidays has emerged as one of the leading Tour & Travel Companies in the world of tourism. Ever since our inception in the year 2010 at Bangalore in Karnataka, we have worked with the motive of planning the best vacations for you so that the resulting memories acquire a special place in your heart. we have achieved expertise in understanding the needs of the traveler and working on them. <br /><br />
+
+Our team has a great understanding of the possible needs of the traveler and the entire planning is done according to that. With time, we have mastered the art of molding our services as per the travelers’ requirement. We believe in providing memories as well as creating a few of them with the clients so as to improve and grow on the way. The idea is to be there for you all the time and all we wish to tell you is that you can pack your bags and leave the rest to us!</div>
+
         </div>
+        
+        
+        <div class="newsTestContent margin-bottom main-bar-right text-left" ><h3>Our Services</h3> <img src="images/services-list.png"  alt="Services we offer">
+        <h3>Plan your trip now!</h3> 
+        <form name="contactForm"  class="form-horizontal marginTop"  role="form">
+        
+        <div class="form-group">
+            <div class="col-sm-12">
+            <input type="input" class="form-control" ng-model="contactDetails.contact_name"  placeholder="Your Name" required>
+            </div>
+        </div>
+ 
+        <div class="form-group">
+            <div class="col-sm-12">
+            <input type="email" class="form-control"  ng-model="contactDetails.contact_email" placeholder="Email" required>
+            </div>
+        </div>
+ 
+ 
+        <div class="form-group">
+            <div class="col-sm-12">
+            <input type="input" class="form-control"  ng-model="contactDetails.contact_phone" placeholder="Phone Number" required>
+            </div>
+        </div>
+ 
+ 
+        <div class="form-group">
+            <div class="col-sm-12">
+            <input type="input" class="form-control" ng-model="contactDetails.contact_subject"  placeholder="Subject" required>
+            </div>
+        </div>
+ 
+ 
+        <div class="form-group">
+            <div class="col-sm-12">
+            <textarea class="form-control" ng-model="contactDetails.contact_message"  placeholder="Message" required></textarea>
+            </div>
+        </div>
+        
+        <input type="submit" class="col-sm-12 submitbtn" value="SEND" ng-click="saveChanges()">
+                          
+        </form> 
+            </div>
+    </div>
+    <div class="margin-bottom user-font centered-width paddingBottom2x" >
+     <div class="text-left">
+                 
+
+
+             </div>
+     </div>
     </div>
     </div>
     </div>
     <!-- End of Service holder -->
+     
     
-    <div class="container margin-bottom user-font" >
-   		
-        <div class="col-md-5">
-        	<div class="row text-left">
-            	<h4  class="titleText">Our Clients say...</h4>
+    <div class="margin-bottom marginTop user-font centered-width" >
+        
+        <div class="testimonials">
+            <div class="text-left">
+                <h4  class="titleText">Our Clients say...</h4>
             </div>
-            <div class=" text-left" ng-repeat="test in testimonialDetails" style="padding:5px">
-            	<div class="newsTestContent"> {{ test.client_content}}</div>
-            	<div class="text-right"> - <span class="newsTestTitle"> {{ test.client_name }}, </span> {{test.client_title}}</div>
-            </div>
-            <div class="row text-right">
-            	<a class="showCursor"  ng-click="gotoURL('/testimonial')";> view all testimonials >> </a>
+           
+            <div class="client-container">
+                <div class="text-left clientlist" ng-repeat="test in testimonialDetails" >
+                    <div class="newsTestContent  margin-bottom"> {{ test.client_content}}</div>
+                    <div class="text-left"> - <span class="newsTestTitle"> {{ test.client_name }}, </span> {{test.client_title}}</div> 
+                </div>
+             </div>
+             
+            <div class="text-right">
+                <a class="showCursor"  ng-click="gotoURL('/testimonial')";> view all testimonials >> </a>
             </div>
         </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-5">
-        	<div class="text-left">
-            	<h4  class="titleText">News & Update</h4>
+       
+        <div class="news">
+            <div class="text-left">
+                <h4  class="titleText">News & Update</h4>
             </div>
-            <div class="text-left" ng-repeat="news in newsDetails" style="padding:5px">
-            <div > <span class="newsTestTitle">{{news.news_title}} </span>- {{ news.INSERT_DATE }}</div>
-            	<div class="newsTestContent"> {{ news.news_content}}</div>
-            	
+            
+          <div class="newsUpdate-container">
+                <div class="text-left newslist" ng-repeat="news in newsDetails" >
+                 <div>
+                    <span class="newsTestTitle">{{news.news_title}} </span> - {{ news.INSERT_DATE }}
+                </div>
+                <div class="newsTestContent"> {{ news.news_content}}</div>             
+                </div>
             </div>
-            <div class="row text-right">
-            	<a class="showCursor"  ng-click="gotoURL('/news')";> view all news & updates >> </a>
+            
+            <div class="text-right">
+                <a class="showCursor"  ng-click="gotoURL('/news')";> view all news & updates >> </a>
             </div>
         </div>
         

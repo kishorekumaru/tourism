@@ -1,0 +1,170 @@
+<div class="container text-center" ng-show="isloading">
+   	<img src="images/loading.gif">
+   </div>
+   <div ng-hide="isloading">
+<div class="container text-right" style="position:absolute;"><button type="button" class="btn btn-default" ng-click="cancelEdit()"><span class="glyphicon glyphicon-chevron-up"> </span>  Back to Hotel Package</button></div>
+  <tabset >
+    <tab heading="Add Package Info" disabled="tabset.isfirstTab" active="tabset.firstActive">
+    <div class="col-lg-8 col-lg-offset-2"  >
+    <div class='panel panel-info' style="margin-top:20px;"><div class='panel-heading'>Add Hotel Package - STEP 1</div>
+    <div class="panel-body">
+    <form name="firstForm"  class="form-horizontal" role="form">
+   					 <div class="form-group">
+                            <label  class="col-sm-2 control-label">Hotel name</label>
+                            <div class="col-sm-10">
+                               <input type="input"  class="form-control" name="hotel_name" ng-model="hotel.hotel_name" required>
+                            </div>
+                          </div>
+                    	
+                           <div class="form-group">
+                            <label  class="col-sm-2 control-label">Cost</label>
+                            <div class="col-sm-10">
+                            	
+                             <input type="number" min="1" max="100000000" ng-value="3" value="3" name="hotel_cost"
+                              class="form-control" ng-model="hotel.hotel_cost"  
+                              placeholder="Cost in Rupees" required> 
+                            </div>
+                          </div> 
+                          
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Duration</label>
+                            <div class="col-sm-10">
+                            	
+                             <input type="number" min="1" max="100" ng-value="3" value="3" name="hotel_duration"
+                              class="form-control" ng-model="hotel.hotel_duration"  
+                              placeholder="Duration in Days (Number)" required> 
+                            </div>
+                          </div> 
+                          
+                           
+                         
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Valid From</label>
+                            <div class="col-sm-5">
+                            
+                              <input class="form-control" ng-model="hotel.package_valid_from" ui-date required>
+                            </div>
+                          </div>    
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Valid To</label>
+                            <div class="col-sm-5">
+                            	<input class="form-control" ng-model="hotel.package_valid_to" ui-date required>
+                             
+                            </div>
+                          </div>                        
+					
+                          
+                        
+                   
+                    </div>
+                      <div class="modal-footer">
+                       
+                       <button class="btn btn-info"  ng-show="isEdit"  ng-click="cancelEdit()">
+                   Cancel Edit</button>     
+                      <button class="btn btn-primary"  ng-disabled="firstForm.$invalid"  ng-click="saveContinue()">Save &amp; Continue</button> </form>
+                </div>
+                    </div></div>
+               </tab>
+    <tab heading="Additional Details" disabled="tabset.isSecondTab" active="tabset.secondActive">
+    
+     <div class="col-lg-8 col-lg-offset-2"  >
+    <div class='panel panel-info' style="margin-top:20px;"><div class='panel-heading'>Add Packages - STEP 2</div>
+    <div class="panel-body">
+    <form name="secondForm"  class="form-horizontal" role="form">
+                    	<div class="form-group">
+                            <label  class="col-sm-2 control-label">Overview</label>
+                            <div class="col-sm-10">
+                              <textarea ng-model="hotel.hotel_overview"  class="form-control" name="hotel_overview"  rows="3" cols="70"></textarea>
+                            </div>
+                          </div>
+                          
+                         <div class="form-group">
+                        	 <label  class="col-sm-2 control-label">Facilities</label>
+                    		<div class="col-sm-10">
+                            <textarea type="input" name="hotel_facilities"  class="form-control" ng-model="hotel.hotel_facilities"  rows="3" cols="70"></textarea>
+                          </div>
+                          </div>
+
+						<div class="form-group">
+                            <label  class="col-sm-2 control-label">Inclusion</label>
+                            <div class="col-sm-10">
+                              <textArea type="input" class="form-control" ng-model="hotel.package_inclusion" > </textArea>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Exclusion</label>
+                            <div class="col-sm-10">
+                             <textArea type="input" class="form-control" ng-model="hotel.package_exclusion" > </textArea>
+                            </div>
+                          </div> 
+                                              
+                          
+                        
+                   
+                    </div>
+                      <div class="modal-footer">
+                     <button class="btn btn-default" ng-click="back1()">BACK</button>  
+                     <button class="btn btn-primary"  ng-disabled="secondForm.$invalid"  ng-click="save2Continue()">Save &amp; Continue</button> </form>
+                </div>
+                    </div></div>
+    
+    
+    </tab>
+    <tab heading="Contact Information" disabled="tabset.isThirdTab" active="tabset.thirdActive">
+<div class="col-lg-8 col-lg-offset-2"  >
+    <div class='panel panel-info' style="margin-top:20px;"><div class='panel-heading'>Add Packages - STEP 3</div>
+    <div class="panel-body">
+    <form name="thirdForm"  class="form-horizontal" role="form">
+                    	
+                          
+                         <div class="form-group">
+                            <label  class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                             <textarea ng-model="hotel.hotel_address"  class="form-control" name="hotel_address"  rows="3" cols="70"></textarea>
+                            </div>
+                          </div>
+
+						<div class="form-group">
+                            <label  class="col-sm-2 control-label">Country</label>
+                            <div class="col-sm-10">
+                             <select class="form-control"  ng-model="hotel.hotel_country" name="hotel_country"  
+                            		 ng-options="con.name as con.name for con in totalCountries" required>
+                               <option value="" disabled selected>Select Country</option>                            
+                             </select>
+
+                            </div>
+                          </div>
+                                <div class="form-group">
+                            <label  class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                             <input type="input" class="form-control" ng-model="hotel.hotel_email" name="hotel_email" >
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Phone</label>
+                            <div class="col-sm-10">
+                             <input type="input"  class="form-control" ng-model="hotel.hotel_phone" name="hotel_phone" >
+                            </div>
+                          </div>
+
+						<div class="form-group">
+                            <label  class="col-sm-2 control-label">Website URL</label>
+                            <div class="col-sm-10">
+                             <input type="input"  class="form-control" name="hotel_web_url" ng-model="hotel.hotel_web_url">
+                            </div>
+                          </div>              
+                          
+                        
+                   
+               
+                      <div class="modal-footer">
+                    <button class="btn btn-default" ng-click="back2()">BACK</button>
+                     <button class="btn btn-primary"  ng-disabled="thirdForm.$invalid"  ng-click="saveSubmit()">Submit</button> </form>
+                </div>
+                    </div></div></div></tab>
+    </tabset>
+</div>

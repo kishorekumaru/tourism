@@ -1,0 +1,221 @@
+<!doctype html>
+<html  ng-app="glacierHolidays">
+<head> <title>Glacier Holidays </title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=content-width, initial-scale=1.0">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="http://www.glacierholidays.in/cms-admin/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://www.glacierholidays.in/css/font-awesome/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://www.glacierholidays.in/css/style.css">
+ <script src="https://maps.googleapis.com/maps/api/js"></script>
+</head>
+<base href="/" />
+<body class="user-font">
+
+
+<!-- LOGO DIV -->
+<div class="centered-width marginTop topBanner-tex">
+<div class="col-md-2 margin-bottom"><img src="images/logo.png"></div>
+<div class="col-md-10 text-right marginTop margin-bottom">
+
+    <div>
+    <i class="fa fa-envelope iconColor"></i> <span class=" fontbold">reservations@glacierholidays.in </span> <span class="spacer"></span>
+    
+        <i class="fa fa-facebook-square iconColor iconBig"></i>
+                 <i class="fa fa-twitter-square iconColor iconBig"></i>
+                 <i class="fa  fa-google-plus-square iconColor iconBig"></i>
+        </div> 
+    
+</div>
+</div>
+
+<!-- END OF LOGO DIV-->
+
+
+<!-- MENU DIV -->
+<div class="menuBackground centered marginTop" ng-controller="headerController" >
+	<div class="menu-nav">
+    	<ul class="centered-width">
+        	<li ng-class="{activeMenu:isActive('/')}"><a ng-click="loadFiles('/')" href="">HOME</a></li>
+            <li ng-class="{activeMenu:isActive('/tour_packages')}" >
+            	<a class="sub1" ng-click="loadFiles('/tour_packages')" href="">TOURS </a>
+                <ul class="sub1">
+           			<li> <a ng-click="loadFiles('/tour_packages')" href="">TOUR PACKAGES</a></li>
+            		<li> <a ng-click="loadFiles('/hotel_packages')" href="">HOTEL PACKAGES</a></li>
+            	</ul>
+            </li>
+            <!--li ng-class="{activeMenu:isActive('/services')}"><a ng-click="loadFiles('/services')" href="">SERVICES</a></li>
+            <li ng-class="{activeMenu:isActive('/destinations')}"><a ng-click="loadFiles('/destinations')" href="">DESTINATIONS</a></li -->
+            <li ng-class="{activeMenu:isActive('/hotelList')}"><a ng-click="loadFiles('/hotel_packages')" class="menu-border-right" href="">HOTELS</a>
+            <li ng-class="{activeMenu:isActive('/testimonial')}"><a ng-click="loadFiles('/testimonial')" class="menu-border-right" href="">TESTIMONIAL</a>
+            <li ng-class="{activeMenu:isActive('/newsupdates')}"><a ng-click="loadFiles('/news')" class="menu-border-right" href="">NEWS</a>
+            <li ng-class="{activeMenu:isActive('/contactus')}"><a ng-click="loadFiles('/contactus')" class="menu-border-right" href="">CONTACT US</a></li>
+        </ul>
+    </div>
+<div class="splash">
+<img src="images/slpash.png"></div>
+</div>
+<!-- END OF MENU DIV -->
+
+<div ng-view="" class="user-font"></div>
+
+<hr class="footer-hr">
+ 
+ <!-- START OF OUR DEAL FOOTER -->
+   <div class="container-fluid user-font footer-bg">
+			<div class="row centered-width footer">
+                        
+            	<div class="col-sm-6 text-left ourdealHeight  verticalLine">
+                        <div class="dealTitle marginTop"> Our Services </div>
+                        	
+                            	<ul>
+                                    <li> Cruise Holidays </li>
+                                    <li> Domestic Flights </li>
+                                    <li> Domestic Hotels </li>
+                                    <li> Foreign Exchange </li>
+                                   <li> Holidays in India </li>
+                            </ul>
+                            
+                            <ul >
+                                        <li> International Flights</li>
+                                        <li> International Holidays </li>
+                                        <li> International Hotels </li>
+                                        <li>Travel Insurance </li>
+                                       <li> Visa and Passport </li>
+                                </ul>
+                                
+                                <ul>
+                                    <li> Flight Tickets </li>
+                                    <li>Hotel Reservation</li>
+                                    <li>Student Tours</li>
+                                    <li>Industrial Visit</li>
+                                 <li>Corporate Incentive Trips</li>
+                            </ul>
+                                
+                      		
+                       </div>  
+                        
+                
+                <div class="col-sm-3 text-left ourdealHeight verticalLine " >
+               
+               		<div class="dealTitle marginTop"> Our Domestic Holiday Deals </div>
+                     
+                        	<ul>
+                                    <li> Beach Holidays </li>
+                                    <li> Hill Station Holidays </li>
+                                    <li> Pilgrimage Holidays </li>
+                                    <li>Romantic Holidays</li>
+                                 
+                            </ul>
+                        
+                </div>
+                
+                <div class="col-sm-3 text-left ourdealHeight verticalLine ">
+               
+               	<div class="dealTitle marginTop">Our International Holiday Deals </div>
+                    
+                        	<ul>
+                                    <li> Africa Holiday Packages </li>
+                                    <li>America Holiday Packages</li>
+                                    <li>Asia Holiday Packages</li>
+                                    <li>Australia Holiday Packages</li>
+                                 	<li>Europe Holiday Packages</li>
+                            </ul>
+                        
+                </div>
+                
+                
+                
+    </div>
+ 
+ <!-- END OF OURDEAL FOOTER -->
+ 
+ 
+    <hr class="footer-hr">
+    <div class="container-fluid paddingTop paddingBottom  footer-bg">
+    <div class="row footer">
+    	
+    	<div class="col-md-4 text-left">
+                 <div>Follow Us on 
+                 <i class="fa fa-facebook-square iconColor iconBig"></i>
+                 <i class="fa fa-twitter-square iconColor iconBig"></i>
+                 <i class="fa  fa-google-plus-square iconColor iconBig"></i>
+                
+                
+            </div> 
+        </div>
+        
+        <div class="col-md-8 text-right">
+        <div ><i class="fa fa-envelope iconColor"></i> reservations@glacierholidays.in <br>
+        <i class="fa fa-mobile-phone iconColor"></i>  +91 9585552426 / 9489772426 <i class="fa  fa-phone-square iconColor"></i> +91-4259-224426</div>
+           	<div class="col-lg-1"></div>
+    </div></div>	</div>
+    <hr class="footer-hr">
+   
+<footer class="container-fluid paddingTop paddingBottom footer-bg">
+<div class="row footer">
+	<div class="col-sm-6 text-left">
+    	<a ng-click="loadFiles('/')" href=""> Home </a> |
+    	<a ng-click="loadFiles('/tour_packages')" href=""> Tour Packages </a> |
+    	<a ng-click="loadFiles('/hotel_packages')" href=""> Hotel Packages </a> |
+    	<a ng-click="loadFiles('/testimonial')"> Testimonials </a> | 
+    	<a ng-click="loadFiles('/news')"> News</a> |
+    	<a ng-click="loadFiles('/contactus')"> Contact Us </a>                                         
+    </div>
+	<div class="col-sm-6 text-right" > ©2014  The Glacier Holidays </div>
+	</div>
+</footer>
+
+
+
+<!-- Include all JavaScript lib -->
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+
+<script src="http://www.glacierholidays.in/cms-admin/js/bootstrap.js"></script>
+<script src="http://www.glacierholidays.in/cms-admin/js/angular.js"></script>
+<script src="http://www.glacierholidays.in/cms-admin/js/angular-resource.min.js"></script>
+<script src="http://www.glacierholidays.in/cms-admin/js/angular-route.min.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+
+
+<script src="http://www.glacierholidays.in/js/mainapp.js"></script>
+<script src="http://www.glacierholidays.in/cms-admin/js/filters/appFilters.js"></script>
+
+
+<!-- Include Directives -->
+<script src="http://www.glacierholidays.in/cms-admin/js/directive/appDirective.js"></script>
+<!-- Include Controllers -->
+<script src="http://www.glacierholidays.in/js/controllers/index.js"></script>
+<script src="http://www.glacierholidays.in/js/controllers/packageController.js"></script>
+<script src="http://www.glacierholidays.in/js/controllers/hotelController.js"></script>
+<script src="http://www.glacierholidays.in/js/controllers/viewControls.js"></script>
+
+<!-- Include Admin Services -->
+<script src="http://www.glacierholidays.in/js/services/indexServices.js"></script>
+
+ <script src="https://maps.googleapis.com/maps/api/js"></script>
+
+<script>
+	var myLatlng;
+      function initialize() {
+      
+		myLatlng =  new google.maps.LatLng(10.665822, 77.006157);
+        map_options = {
+          center: myLatlng,
+          zoom: 12,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+		
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+	   <!--News ticker script-->
+
+
+
+</script>
+
+</body>
+</html>

@@ -24,7 +24,7 @@
         <div class="main-bar text-left" style="min-height:300px">
         	<span class="titleText">Our Travel Packages </span> 
            <div class="col-sm-12" style="clear:both">
-            	<div class="col-sm-4 marginTop margin-bottom" ng-repeat="fpack in totalPackItems">              
+            	<div class="col-sm-4 marginTop margin-bottom" ng-repeat="fpack in packPage">              
                 	<div><a class='btn btn-link' ng-click="openPackView( fpack.id, fpack.package_url )" style="padding:0;">
                     	<img class="feaImgStyle" ng-src="cms-admin/com/uploads/{{fpack.first_image}}" ></a></div>
                     <div class="featuredContent" style="padding:1px">
@@ -39,5 +39,6 @@
             </div>
             
         </div>
+        <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
     </div>
   </div>

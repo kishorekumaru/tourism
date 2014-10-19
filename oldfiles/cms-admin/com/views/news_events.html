@@ -1,0 +1,92 @@
+<div class="container text-center" ng-show="isCatloading">
+   	<img src="images/loading.gif">
+   </div>
+   
+    <div class="panel panel-default" ng-hide="isCatloading" style="margin-top:-20px" >
+        <div class="panel-heading">  
+        <div  class="text-right">
+                <div class="col-lg-3 text-left text-primary"><h5><b>NEWS & EVENTS</b></h5></div><div class="text-right"> <button type="button" class="btn btn-primary btn-sm" ng-click="openWindow()">
+                  <span class="glyphicon glyphicon-plus-sign"></span> ADD NEW
+                </button></div> </div>
+
+   					 <script type="text/ng-template" id="newsContent.html">
+            	<div class="modal-header">
+                	<button class="close" ng-click="cancel()">&times;</button>
+                    <h4> {{ headerName }} </h4>
+                </div>
+                
+                
+                <div class="modal-body">
+				
+						<div class="alert alert-danger" role="alert" ng-model="data.errorMsg" 
+						ng-show="data.isExist"><i>The typed Category is already exist!! Please type an other name</i></div>
+                	<form name="userAddForm">
+                    	<table class="table table-bordered">
+                        <tr>
+                        	<td>Title</td>
+                    		<td><input type="input" name="news_title" ng-model="news.news_title"></td>
+						</tr>
+						<tr>
+                        	<td>Content</td>
+							<td><textarea name="news_content" ng-model="news.news_content" rows="5" cols="80"></textarea></td>
+                         </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                	<button class="btn btn-default" ng-click="cancel()">Close</button>
+                    <button class="btn btn-primary" ng-click="saveChanges()">Save Changes</button>
+                </div>
+            </script>
+    
+    
+    
+   
+   					 
+
+    </div>
+         <br> 
+    <div class="container" >
+    
+            <div class="col-lg-1 text-left"  style="margin-top:5px">
+            	Search:  </div> <div class="col-lg-3 text-left"> <input type="text" ng-model="newsname" ng-keyup="getChar($event)" class="form-control"></div>
+                            
+        <div class="text-right">
+                <div class="col-md-4" style="margin-top:-20px"><pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div> <div  class="col-md-3"> sort by: <button type="button" class="btn btn-link" ng-click="sortByName()">News Title</button></div>
+               
+               
+                             
+              
+                </div>
+               <p></p>
+            <div class="container center-block"> 
+                <div class="col-lg-11" style="margin-top:5px">
+                
+                <table class="table table-bordered table-hover">
+                <thead>
+                	<tr>
+                    	<th>SNo</th>
+                        <th>News Title</th>
+                        <th>News Content</th>
+                   		 <th>Actions</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                 	<tr ng-repeat="news in detailsPage">
+                    	<td>{{   $index + 1  }}</td>
+                        <td>{{   news.news_title  }}</td>
+                        <td>{{   news.news_content  }}</td>
+                       <td>
+                        <button type='button' class='btn btn-primary' ng-click='editItem( news.id )'><span class="glyphicon glyphicon-pencil"></span></button>
+                           <button type='button' class='btn btn-danger' ng-click='deleteItem(news.id)'><span class="glyphicon glyphicon-trash"></span></button>
+                           </td> 
+                    </tr>
+                   
+                 </tbody>
+                 </table>
+                 
+               
+                   
+                   <div class="text-right"> <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged(currentPage)"></pagination></div>
+                </div>
+            </div>  </div></div>

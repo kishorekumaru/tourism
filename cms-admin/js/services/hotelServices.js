@@ -159,7 +159,7 @@ app.factory("imageHotelServices", function($http){
 		    var deletePack = $http.post("php/api/getHotelLinks.php?method=deleteHotelImageDetails&jsoncallback=", idValue);
 			deletePack.then(function(data){	
 				if(String(data.data).trim() == "1" || String(data.data).trim() == ""){			
-					scope.$emit('onDeleteHotelImageSuccess');
+					scope.$emit('onImgEditImageSuccess');
 				}
 			});
 		}
@@ -177,6 +177,15 @@ app.factory("imageHotelServices", function($http){
 				scope.$emit('onDeleteHotelImageUnlink', id);
 		});
 	}
+	
+	imageServicesVar.editHotelImgDesc = function(featuredObj, scope){
+		    var editFeatLink = $http.post("php/api/getHotelLinks.php?method=editHotelImgDesc&jsoncallback=", featuredObj);
+			editFeatLink.then(function(data){							
+					scope.$emit('onImgEditImageSuccess');
+				
+			});
+		}
+	
 
 	return imageServicesVar
 });

@@ -6,6 +6,17 @@ if(function_exists($_GET['method'])){
 }
 
 
+
+function editPackImgDesc(){
+	$table_name ='package_gallery';
+	$param =json_decode(file_get_contents('php://input'));	
+	include_once('../core/class.managedatabase.php');
+	$init = new managedatabase;
+	$data = $init->editData($table_name,$param, $param->id);
+	echo $_GET['jsoncallback'] . $data ;
+}
+
+
 /** Function for set Featured Details **/
 function setFeatured(){
 	$table_name ='packagemaster';

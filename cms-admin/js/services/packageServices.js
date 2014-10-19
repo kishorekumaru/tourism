@@ -126,7 +126,7 @@ app.factory("imageServices", function($http){
 		    var deletePack = $http.post("php/api/getPackages.php?method=deleteImageDetails&jsoncallback=", idValue);
 			deletePack.then(function(data){	
 				if(String(data.data).trim() == "1"){			
-					scope.$emit('onDeleteImageSuccess');
+					scope.$emit('onImgEditImageSuccess');
 				}
 			});
 		}
@@ -145,6 +145,14 @@ app.factory("imageServices", function($http){
 				scope.$emit('onDeleteImageUnlink', id);
 		});
 	}
+	
+	imageServicesVar.editPackImgDesc = function(featuredObj, scope){
+		    var editFeatLink = $http.post("php/api/getPackages.php?method=editPackImgDesc&jsoncallback=", featuredObj);
+			editFeatLink.then(function(data){							
+					scope.$emit('onImgEditImageSuccess');
+				
+			});
+		}
 
 	return imageServicesVar
 });

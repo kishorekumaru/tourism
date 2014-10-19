@@ -1,0 +1,164 @@
+<div ng-controller="addPackageController" >
+<div class="container text-center" ng-show="isloading">
+   	<img src="images/loading.gif">
+   </div>
+<div class="container text-right"  style="position:absolute;"><button type="button" class="btn btn-default" ng-click="cancelEdit()"><span class="glyphicon glyphicon-chevron-up"> </span>  Back to Package</button></div>
+  <tabset ng-hide="isloading">
+    <tab heading="Add Package Info" disabled="tabset.isfirstTab" active="tabset.firstActive">
+    <div class="col-lg-8 col-lg-offset-2"  >
+    <div class='panel panel-info' style="margin-top:20px;"><div class='panel-heading'>Add Packages - STEP 1</div>
+    <div class="panel-body">
+    <form name="firstForm"  class="form-horizontal" role="form">
+   					 <div class="form-group">
+                            <label  class="col-sm-2 control-label">Package Category</label>
+                            <div class="col-sm-10">
+                                    <select class="form-control"  ng-model="pack.cat_id"  
+                                	 ng-options="cat.id as cat.cat_name for cat in totalCategories">
+                                   <option value="" disabled selected>Select Category</option>                            
+                                 </select>
+                            </div>
+                          </div>
+                    	<div class="form-group">
+                            <label  class="col-sm-2 control-label">Package Name</label>
+                            <div class="col-sm-10">
+                              <input type="input" class="form-control" ng-model="pack.package_name" placeholder="Package Name" required>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Cost</label>
+                            <div class="col-sm-10">
+                              <input type="number" min="1" max="1000000" ng-value="3" value="3" class="form-control" ng-model="pack.package_cost"  placeholder="Cost in Number" required>
+                            </div>
+                          </div>
+
+						<div class="form-group">
+                            <label  class="col-sm-2 control-label">Currency</label>
+                            <div class="col-sm-10">
+                             <select class="form-control"  ng-model="pack.package_currency"  
+                             ng-options="cur.code as cur.name for cur in totalCurrencies">
+                               <option value="" disabled selected>Select Currency Code</option>                            
+                             </select>
+                            
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Duration</label>
+                            <div class="col-sm-10">
+                            	
+                             <input type="number" min="1" max="100" ng-value="3" value="3" class="form-control" ng-model="pack.package_duration"  placeholder="Duration in Days" required> 
+                            </div>
+                          </div> 
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Valid From</label>
+                            <div class="col-sm-5">
+                            
+                              <input class="form-control" ng-model="pack.package_valid_from" ui-date required>
+                            </div>
+                          </div>    
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Valid To</label>
+                            <div class="col-sm-5">
+                            	<input class="form-control" ng-model="pack.package_valid_to" ui-date required>
+                             
+                            </div>
+                          </div>                        
+                          
+                        
+                   
+                    </div>
+                      <div class="modal-footer">
+                       
+                       <button class="btn btn-info"  ng-show="isEdit"  ng-click="cancelEdit()">
+                   Cancel Edit</button>     
+                      <button class="btn btn-primary"  ng-disabled="firstForm.$invalid"  ng-click="saveContinue()">Save &amp; Continue</button> </form>
+                </div>
+                    </div></div>
+               </tab>
+    <tab heading="Add Desintation" disabled="tabset.isSecondTab" active="tabset.secondActive">
+    
+     <div class="col-lg-8 col-lg-offset-2"  >
+    <div class='panel panel-info' style="margin-top:20px;"><div class='panel-heading'>Add Packages - STEP 2</div>
+    <div class="panel-body">
+    <form name="secondForm"  class="form-horizontal" role="form">
+                    	<div class="form-group">
+                            <label  class="col-sm-2 control-label">Destination Covered</label>
+                            <div class="col-sm-10">
+                              <textArea type="input" class="form-control" ng-model="pack.package_des_covered" > </textArea>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Tour Details</label>
+                            <div class="col-sm-10">
+                             <textArea type="input" class="form-control" ng-model="pack.package_tour_details" > </textArea>
+                            </div>
+                          </div>
+
+						<div class="form-group">
+                            <label  class="col-sm-2 control-label">Inclusion</label>
+                            <div class="col-sm-10">
+                              <textArea type="input" class="form-control" ng-model="pack.package_inclusion" > </textArea>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Exclusion</label>
+                            <div class="col-sm-10">
+                             <textArea type="input" class="form-control" ng-model="pack.package_exclusion" > </textArea>
+                            </div>
+                          </div> 
+                                              
+                          
+                        
+                   
+                    </div>
+                      <div class="modal-footer">
+                     <button class="btn btn-default" ng-click="back1()">BACK</button>  
+                     <button class="btn btn-primary"  ng-disabled="secondForm.$invalid"  ng-click="save2Continue()">Save &amp; Continue</button> </form>
+                </div>
+                    </div></div>
+    
+    
+    </tab>
+    <tab heading="Validation Information" disabled="tabset.isThirdTab" active="tabset.thirdActive">
+<div class="col-lg-8 col-lg-offset-2"  >
+    <div class='panel panel-info' style="margin-top:20px;"><div class='panel-heading'>Add Packages - STEP 3</div>
+    <div class="panel-body">
+    <form name="thirdForm"  class="form-horizontal" role="form">
+                    	<div class="form-group">
+                            <label  class="col-sm-2 control-label">Specific Tour Dates</label>
+                            <div class="col-sm-10">
+                              <textArea type="input" class="form-control" ng-model="pack.package_specific_tour_dates" > </textArea>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Departure Cities</label>
+                            <div class="col-sm-10">
+                             <textArea type="input" class="form-control" ng-model="pack.package_departure_cities_rates	" > </textArea>
+                            </div>
+                          </div>
+
+						<div class="form-group">
+                            <label  class="col-sm-2 control-label">Terms &amp; Conditions</label>
+                            <div class="col-sm-10">
+                              <textArea type="input" class="form-control" ng-model="pack.package_terms_cond" > </textArea>
+                            </div>
+                          </div>
+                          
+                         
+                                              
+                          
+                        
+                   
+               
+                      <div class="modal-footer">
+                    <button class="btn btn-default" ng-click="back2()">BACK</button>
+                     <button class="btn btn-primary"  ng-disabled="thirdForm.$invalid"  ng-click="saveSubmit()">Submit</button> </form>
+                </div>
+                    </div></div></div></tab>
+    </tabset>
+</div>

@@ -6,66 +6,91 @@
 
 <div class="centered-width user-font marginTop">
 <div class="row">
-	<div class="col-lg-4">
-    	<span class="contact-heading"> Any questions, feedback or suggestions? </span><br>
+    <div class="col-lg-6">
+        <span class="contact-heading"> Any questions, feedback? </span><br>
         <span class="contact-text">We’d love to hear from you</span>
        <div class="marginTop"> 
         <form name="contactForm"  class="form-horizontal"  role="form">
-        
         <div class="form-group">
-            <div class="col-sm-10">
-            <input type="input" class="form-control" ng-model="contactDetails.contact_name"  placeholder="Your Name" required>
+            <div class="col-sm-11">
+            <input type="input" class="form-control" ng-model="contactDetails.contact_person"  placeholder="Contact Person *" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-11">
+            <input type="input" class="form-control" ng-model="contactDetails.contact_name"  placeholder="Your Name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-11">
+            <textarea class="form-control" ng-model="contactDetails.contact_address"  placeholder="Address *" required></textarea>
             </div>
         </div>
  
         <div class="form-group">
-            <div class="col-sm-10">
-            <input type="email" class="form-control"  ng-model="contactDetails.contact_email" placeholder="Email" required>
-            </div>
-        </div>
- 
- 
-        <div class="form-group">
-            <div class="col-sm-10">
-            <input type="input" class="form-control"  ng-model="contactDetails.contact_phone" placeholder="Phone Number" required>
-            </div>
-        </div>
- 
- 
-        <div class="form-group">
-            <div class="col-sm-10">
-            <input type="input" class="form-control" ng-model="contactDetails.contact_subject"  placeholder="Subject" required>
+            <div class="col-sm-11">
+            <input type="email" class="form-control"  ng-model="contactDetails.contact_email" placeholder="Email *" required>
             </div>
         </div>
  
  
         <div class="form-group">
-            <div class="col-sm-10">
-            <textarea class="form-control" ng-model="contactDetails.contact_message"  placeholder="Message" required></textarea>
+            <div class="col-sm-11">
+            <input type="input" class="form-control"  ng-model="contactDetails.contact_phone" placeholder="Phone Number" >
             </div>
         </div>
         
-        <input type="submit" class="col-sm-10 submitbtn" value="SEND" ng-click="saveChanges()">
+         <div class="form-group">
+            <div class="col-sm-11">
+            <input type="input" class="form-control"  ng-model="contactDetails.contact_mobile" placeholder="Mobile Number *" required>
+            </div>
+        </div>
+ 
+        <div class="form-group">
+            <div class="col-sm-11">
+            <input type="input" class="form-control" ng-model="contactDetails.contact_subject"  placeholder="Subject *" required>
+            </div>
+        </div>
+ 
+ 
+        <div class="form-group">
+            <div class="col-sm-11">
+            <textarea class="form-control" ng-model="contactDetails.contact_message"  placeholder="Message *" required></textarea>
+            </div>
+        </div>
+        
+        <input type="submit" class="col-sm-11 submitbtn" value="SEND" ng-click="saveChanges()">
                           
         </form>
         </div>
     </div>
-	<div class="col-lg-8">
+    <div class="col-lg-6">
 
         <div class="row">
-    	<div class="col-sm-2"></div>
-        <div class="col-sm-6"><span class="contact-heading">Get in touch with us</span>
-             <div id="map_canvas" class="marginTop margin-bottom">
-              </div>
+        <!--div class="col-sm-2"></div>-->
+        <div class="col-sm-11"><span class="contact-heading">Get in touch with us</span>
+             
+             <div class="col-lg-12 paddingleft-zero marginTop"><p class="contact-add"><i class="fa fa-envelope iconColor"></i> reservations@glacierholidays.in<br>
+               <i class="fa fa-mobile-phone iconColor"></i>+91 9585552426 / 9489772426 <br>
+               <i class="fa  fa-phone-square iconColor"></i>+91-4259-224426</p></div>
+               
               <div class="contact-addHead margin-bottom marginTop">Pollachi</div>
               <p class="contact-add">
-              1st Floor, L.G Complex, <br> No 1/17, Ramasamy Street, <br> 
-Venkatesacolony, Pollachi - 642001, <br> Coimbatore(Dt),Tamilnadu
+              1st Floor, L.G Complex, No 1/17, Ramasamy Street, <br> 
+Venkatesacolony, Pollachi - 642001, Coimbatore(Dt),Tamilnadu
               </p>
+              <div id="map_canvas" class="marginTop margin-bottom">
+              </div>
+              <div class="col-lg-12 paddingleft-zero marginTop" ><i class="fa fa-facebook-square iconColor iconLarge"></i>
+                 <i class="fa fa-twitter-square iconColor iconLarge"></i>
+                 <i class="fa  fa-google-plus-square iconColor iconLarge"></i> </div>
+              
+              
               </div>
             </div>
         </div>
-    	
+        
     </div>
 </div>
 </div>
@@ -74,11 +99,18 @@ Venkatesacolony, Pollachi - 642001, <br> Coimbatore(Dt),Tamilnadu
 
 
  <script>
- 		var map_canvas = document.getElementById('map_canvas');
+       
+        var myLatlng =  new google.maps.LatLng(10.665822, 77.006157);
+        var map_options = {
+          center: myLatlng,
+          zoom: 12,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map_canvas = document.getElementById('map_canvas');
         var map = new google.maps.Map(map_canvas, map_options)
-		var marker = new google.maps.Marker({
-					position: myLatlng,
-					map: map,
-					title:"Glacier Holidays"
-				});
+        var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title:"Glacier Holidays"
+                });
  </script>
